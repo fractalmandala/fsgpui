@@ -1,0 +1,12 @@
+[package]
+name = "fsgui-gpui-demo"
+version = "0.1.0"
+edition = "2021"
+
+[[bin]]
+name = "fsgui-gpui-demo"
+path = "src/main.rs"
+
+[dependencies]
+gpui = { path = "../../../apps/fracoder/crates/gpui" }
+gpui_platform = { path = "../../../apps/fracoder/crates/gpui_platform" }

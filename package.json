@@ -1,0 +1,49 @@
+{
+  "name": "@fractaldesign/fsgpui",
+  "version": "0.1.0",
+  "description": "Typed, zero-drift design tokens, style definitions, and component recipes targeting GPUI (Rust) and Web.",
+  "type": "module",
+  "license": "MIT",
+  "types": "./dist/index.d.ts",
+  "main": "./dist/index.js",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./gpui": {
+      "types": "./dist/gpui/index.d.ts",
+      "default": "./dist/gpui/index.js"
+    },
+    "./web": {
+      "types": "./dist/web/index.d.ts",
+      "default": "./dist/web/index.js"
+    },
+    "./check": {
+      "types": "./dist/check/index.d.ts",
+      "default": "./dist/check/index.js"
+    },
+    "./types": {
+      "types": "./dist/types.d.ts",
+      "default": "./dist/types.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "test": "node --test tests/index.test.js",
+    "typecheck": "tsc --noEmit",
+    "demo:generate": "node examples/gpui_demo/generate.js",
+    "demo:check": "cargo check --manifest-path ../../apps/fracoder/Cargo.toml -p gpui --example fsgui_demo",
+    "demo:run": "cargo run --manifest-path ../../apps/fracoder/Cargo.toml -p gpui --example fsgui_demo",
+    "demo": "npm run demo:generate && npm run demo:run",
+    "prepublishOnly": "npm run typecheck && npm run build"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "typescript": "^5.6.0"
+  }
+}
