@@ -12,11 +12,11 @@ export const VARIANTS = [
 ] as const;
 export type Variant = (typeof VARIANTS)[number];
 
-export const SIZES = ['xs', 'sm', 'md', 'bs', 'lg', 'xl', '2xl'] as const;
+export const SIZES = ['sm', 'md', 'bs', 'lg', 'xl'] as const;
 export type Size = (typeof SIZES)[number];
 
 export const SHAPES = ['square', 'min', 'modern', 'curved', 'round'] as const;
-export type Shape = (typeof SHAPES)[number];
+export type Shape = (typeof SHAPES)[number] | 'bs' | 'lg' | 'none' | 'xs' | 'sm' | 'md' | 'full';
 
 export const INTENTS = ['info', 'success', 'warning', 'danger'] as const;
 export type Intent = (typeof INTENTS)[number];
@@ -56,20 +56,52 @@ export const SPACES = [
 	'xs',
 	'sm',
 	'md',
+	'bs',
 	'lg',
 	'xl',
-	'2xl'
+	'2xl',
+	'3xl'
 ] as const;
 export type Space = (typeof SPACES)[number];
 
 export const SPEEDS = ['fast', 'normal', 'slow'] as const;
 export type Speed = (typeof SPEEDS)[number];
 
-export const SHADOWS = ['none', 'sm', 'bs', 'lg', 'xl', '2xl'] as const;
+export const SHADOWS = ['sm', 'bs', 'lg', 'xl', '2xl'] as const;
 export type Shadow = (typeof SHADOWS)[number];
 
-export const PADS = ['none', 'xs', 'sm', 'md', 'bs', 'lg', 'xl'] as const;
+export const PADS = ['sm', 'md', 'bs', 'lg', 'xl'] as const;
 export type Pad = (typeof PADS)[number];
+
+// The `data-*` aliases the public API has always shipped under.
+export type DataVariant = Variant;
+export type DataSize = Size;
+export type DataShape = Shape;
+export type DataPad = Pad;
+
+// The axes are class-qualified: an element opts into an axis by carrying the
+// matching class from `_10_propped.sass`, and the preset runtime then writes
+// the `data-*` value onto it. The element itself is not the qualifier.
+export const VARIANT_TARGETS = '.el-variants';
+export const SHAPE_TARGETS = '.el-shape';
+export const SIZE_TARGETS = '.el-size';
+export const PAD_TARGETS = '.el-pad';
+
+export const presetApplication = [
+	VARIANT_TARGETS,
+	SHAPE_TARGETS,
+	SIZE_TARGETS,
+	PAD_TARGETS
+] as const;
+
+export interface CanonicalProps {
+	variant?: Variant;
+	size?: Size;
+	shape?: Shape;
+	pad?: Pad;
+	intent?: Intent;
+	class?: string;
+}
 
 // The intentional escape hatch for deliberate non-system values
 export type CustomValue = `${string} !custom`;
@@ -149,11 +181,11 @@ export interface StyleDeclaration {
 	width?: WithCustom<Space | 'full' | 'auto' | 'screen'>;
 	maxWidth?: WithCustom<Space | 'full' | 'prose' | 'screen'>;
 	minWidth?: WithCustom<Space | 'full' | '0'>;
-	height?: WithCustom<Space | 'full' | 'auto' | 'screen' | 'header' | 'footer'>;
+	height?: WithCustom<Space | Size | 'full' | 'auto' | 'screen' | 'header' | 'footer' | 'sidebar' | '2xl'>;
 	maxHeight?: WithCustom<Space | 'full' | 'screen'>;
 	minHeight?: WithCustom<Space | 'full' | '0'>;
 
-	// Spacing
+	// Spacing (Longform and fractalstyler 17-family shorthands)
 	padding?: WithCustom<Space>;
 	paddingX?: WithCustom<Space>;
 	paddingY?: WithCustom<Space>;
@@ -161,6 +193,13 @@ export interface StyleDeclaration {
 	paddingRight?: WithCustom<Space>;
 	paddingBottom?: WithCustom<Space>;
 	paddingLeft?: WithCustom<Space>;
+	pad?: WithCustom<Space>;
+	px?: WithCustom<Space>;
+	py?: WithCustom<Space>;
+	pt?: WithCustom<Space>;
+	pr?: WithCustom<Space>;
+	pb?: WithCustom<Space>;
+	pl?: WithCustom<Space>;
 
 	margin?: WithCustom<Space | 'auto'>;
 	marginX?: WithCustom<Space | 'auto'>;
@@ -169,20 +208,36 @@ export interface StyleDeclaration {
 	marginRight?: WithCustom<Space | 'auto'>;
 	marginBottom?: WithCustom<Space | 'auto'>;
 	marginLeft?: WithCustom<Space | 'auto'>;
+	mar?: WithCustom<Space | 'auto'>;
+	mx?: WithCustom<Space | 'auto'>;
+	my?: WithCustom<Space | 'auto'>;
+	mt?: WithCustom<Space | 'auto'>;
+	mr?: WithCustom<Space | 'auto'>;
+	mb?: WithCustom<Space | 'auto'>;
+	ml?: WithCustom<Space | 'auto'>;
+
+	rgap?: WithCustom<Space>;
+	cgap?: WithCustom<Space>;
 
 	// Colors & Surfaces
 	backgroundColor?: WithCustom<ColorToken>;
+	bg?: WithCustom<ColorToken>;
 	color?: WithCustom<ColorToken>;
 
-	// Borders & Shapes
+	// Borders & Shapes (including partition-law lines)
 	borderRadius?: WithCustom<Shape>;
 	borderColor?: WithCustom<ColorToken>;
 	borderWidth?: WithCustom<'0' | '1' | '2' | '4'> | number;
+	border?: WithCustom<'none' | 'default' | 'sub' | 'str'> | boolean;
+	bt?: WithCustom<'none' | 'default' | 'sub' | 'str'> | boolean;
+	br?: WithCustom<'none' | 'default' | 'sub' | 'str'> | boolean;
+	bb?: WithCustom<'none' | 'default' | 'sub' | 'str'> | boolean;
+	bl?: WithCustom<'none' | 'default' | 'sub' | 'str'> | boolean;
 
 	// Typography
-	fontSize?: WithCustom<Size>;
+	fontSize?: WithCustom<Size | 'xs' | 'sm' | 'md' | 'bs' | 'lg' | 'xl' | '2xl' | '3xl' | '4xl' | '5xl'>;
 	fontWeight?: WithCustom<'normal' | 'medium' | 'semibold' | 'bold'> | number;
-	lineHeight?: WithCustom<Size | 'none' | 'normal' | 'tight'>;
+	lineHeight?: WithCustom<Size | 'none' | 'normal' | 'tight' | 'snug' | 'relaxed' | '1.1' | '1.2' | '1.3' | '1.4' | '1.5' | '1.6'>;
 
 	// Effects & Animations
 	shadow?: WithCustom<Shadow>;

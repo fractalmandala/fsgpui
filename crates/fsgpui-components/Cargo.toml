@@ -1,0 +1,13 @@
+[package]
+name = "fsgpui-components"
+description = "Canonical Fractal Design System native GPUI component collection"
+version = "0.1.0"
+edition = "2024"
+license = "MIT OR Apache-2.0"
+
+[dependencies]
+gpui = { workspace = true }
+fsgpui-theme = { workspace = true }
+unicode-segmentation = "1.12"
+smallvec = "1.13"
+anyhow = "1.0"

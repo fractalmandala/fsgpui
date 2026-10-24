@@ -1,0 +1,19 @@
+[package]
+name = "fsgpui-mdeditor"
+description = "WYSIWYG rich text and Markdown editor built on GPUI for fsgpui"
+version = "0.1.0"
+edition = "2024"
+license = "MIT OR Apache-2.0"
+
+[dependencies]
+fsgpui-doc = { workspace = true }
+fsgpui-theme = { workspace = true }
+fsgpui-components = { workspace = true }
+gpui = { workspace = true }
+unicode-segmentation = "1.12"
+unicode-bidi = "0.3"
+image = { version = "0.25", default-features = false, features = ["png", "jpeg", "gif", "webp", "bmp"] }
+tracing = "0.1"
+
+[dev-dependencies]
+pretty_assertions = "1.4"

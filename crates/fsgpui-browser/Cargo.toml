@@ -1,0 +1,16 @@
+[package]
+name = "fsgpui-browser"
+version = "0.1.0"
+edition = "2024"
+description = "Native GPUI web browser surface hosting macOS WKWebView and Windows WebView2 via wry (fsgpui)"
+license = "MIT OR Apache-2.0"
+
+[lib]
+path = "src/lib.rs"
+
+[dependencies]
+gpui = { workspace = true }
+raw-window-handle = "0.6"
+url = "2.5"
+anyhow = "1.0"
+wry = { version = "0.57", features = ["devtools"] }

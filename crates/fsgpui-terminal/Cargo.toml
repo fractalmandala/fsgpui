@@ -1,0 +1,17 @@
+[package]
+name = "fsgpui-terminal"
+version = "0.1.0"
+edition = "2024"
+description = "GPU-accelerated terminal emulator surface built on GPUI and portable-pty (fsgpui)"
+license = "MIT OR Apache-2.0"
+
+[lib]
+path = "src/lib.rs"
+
+[dependencies]
+gpui = { workspace = true }
+portable-pty = "0.9"
+vte = "0.15"
+crossbeam-channel = "0.5"
+parking_lot = "0.12"
+anyhow = "1.0"

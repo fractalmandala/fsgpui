@@ -53,31 +53,52 @@ export const defaultColors: Record<ColorToken, string> = {
 	transparent: 'transparent'
 };
 
-// Spacing in pixels
+// Spacing in pixels (aligned to fractalstyler 8-step canonical scale: unit-space = 4px)
 export const defaultSpacing: Record<Space, number> = {
 	none: 0,
 	'3xs': 2,
 	'2xs': 4,
-	xs: 6,
+	xs: 4,
 	sm: 8,
 	md: 12,
-	lg: 16,
-	xl: 24,
-	'2xl': 32
+	bs: 16,
+	lg: 24,
+	xl: 32,
+	'2xl': 48,
+	'3xl': 64
 };
 
-// Corner radii in pixels (Strictly follows Fractal rule: max 4px, 8px)
+// Corner radii in pixels (Strictly follows Fractal rule: max 4px, 8px, with 16px/32px for large containers)
 export const defaultShapes: Record<Shape, number> = {
 	square: 0,
+	none: 0,
 	min: 2,
+	xs: 2,
 	modern: 4,
+	sm: 4,
 	curved: 8,
-	round: 9999
+	md: 8,
+	bs: 16,
+	lg: 32,
+	round: 9999,
+	full: 9999
+};
+
+// Heights in pixels (element height ladder & shell metrics)
+export const defaultHeights: Record<string, number> = {
+	sm: 20,
+	md: 24,
+	bs: 28,
+	lg: 32,
+	xl: 40,
+	'2xl': 48,
+	header: 48,
+	footer: 32,
+	sidebar: 260
 };
 
 // Shadows
 export const defaultShadows: Record<Shadow, string> = {
-	none: 'none',
 	sm: '0 1px 2px 0 rgba(0, 0, 0, 0.35)',
 	bs: '0 2px 4px -1px rgba(0, 0, 0, 0.45), 0 1px 2px -1px rgba(0, 0, 0, 0.35)',
 	lg: '0 6px 12px -2px rgba(0, 0, 0, 0.55), 0 3px 6px -2px rgba(0, 0, 0, 0.45)',
@@ -87,13 +108,25 @@ export const defaultShadows: Record<Shadow, string> = {
 
 // Typography scale (font size and line height in px)
 export const defaultTypography: Record<Size, { fontSize: number; lineHeight: number }> = {
-	xs: { fontSize: 11, lineHeight: 14 },
 	sm: { fontSize: 12, lineHeight: 16 },
 	md: { fontSize: 13, lineHeight: 18 },
 	bs: { fontSize: 14, lineHeight: 20 },
 	lg: { fontSize: 16, lineHeight: 22 },
-	xl: { fontSize: 18, lineHeight: 24 },
-	'2xl': { fontSize: 22, lineHeight: 28 }
+	xl: { fontSize: 20, lineHeight: 26 }
+};
+
+// Complete Typography Scale (xs through 5xl)
+export const defaultFullTypography: Record<string, { fontSize: number; lineHeight: number }> = {
+	xs: { fontSize: 11, lineHeight: 16 },
+	sm: { fontSize: 12, lineHeight: 16 },
+	md: { fontSize: 13, lineHeight: 18 },
+	bs: { fontSize: 14, lineHeight: 20 },
+	lg: { fontSize: 16, lineHeight: 22 },
+	xl: { fontSize: 20, lineHeight: 26 },
+	'2xl': { fontSize: 24, lineHeight: 30 },
+	'3xl': { fontSize: 30, lineHeight: 36 },
+	'4xl': { fontSize: 36, lineHeight: 42 },
+	'5xl': { fontSize: 48, lineHeight: 56 }
 };
 
 // Speeds in ms

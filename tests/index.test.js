@@ -128,7 +128,7 @@ test('5. recipe variant engine merges base and variant choices', () => {
 	const defBtn = button();
 	assert.equal(defBtn.gpui().backgroundColor, '#3b82f6');
 	assert.equal(defBtn.gpui().borderRadius, 4);
-	assert.deepEqual(defBtn.gpui().padding, [6, 12, 6, 12]);
+	assert.deepEqual(defBtn.gpui().padding, [4, 12, 4, 12]);
 
 	// Override variant to ghost and size to sm
 	const ghostBtn = button({ variant: 'ghost', size: 'sm' });
@@ -149,4 +149,82 @@ test('6. validateStyle reports exact allowed tokens', () => {
 	assert.equal(result.errors.length, 1);
 	assert.equal(result.errors[0].property, 'gap');
 	assert.ok(result.errors[0].message.includes('Value must be one of'));
+});
+
+test('7. canonical tokens and attributes adhere to fractalstyler specification', async () => {
+	const {
+		VARIANTS,
+		SIZES,
+		SHAPES,
+		INTENTS,
+		PADS,
+		VARIANT_TARGETS,
+		SHAPE_TARGETS,
+		SIZE_TARGETS,
+		PAD_TARGETS,
+		canonicalAttrs
+	} = await import('../dist/index.js');
+
+	// Verify exact canonical sets
+	assert.deepEqual([...VARIANTS], ['primary', 'secondary', 'themed', 'outline', 'ghost', 'link', 'icon']);
+	assert.deepEqual([...SIZES], ['sm', 'md', 'bs', 'lg', 'xl']);
+	assert.deepEqual([...SHAPES], ['square', 'min', 'modern', 'curved', 'round']);
+	assert.deepEqual([...INTENTS], ['info', 'success', 'warning', 'danger']);
+	assert.deepEqual([...PADS], ['sm', 'md', 'bs', 'lg', 'xl']);
+
+	// Verify target class selectors
+	assert.equal(VARIANT_TARGETS, '.el-variants');
+	assert.equal(SHAPE_TARGETS, '.el-shape');
+	assert.equal(SIZE_TARGETS, '.el-size');
+	assert.equal(PAD_TARGETS, '.el-pad');
+
+	// Verify canonicalAttrs helper produces accurate class and data attributes
+	const attrs = canonicalAttrs({
+		class: 'custom-btn',
+		variant: 'primary',
+		size: 'bs',
+		shape: 'modern',
+		pad: 'md',
+		intent: 'success'
+	});
+
+	assert.equal(attrs.class, 'custom-btn el-variants el-shape el-size el-pad');
+	assert.equal(attrs['data-variant'], 'primary');
+	assert.equal(attrs['data-size'], 'bs');
+	assert.equal(attrs['data-shape'], 'modern');
+	assert.equal(attrs['data-pad'], 'md');
+	assert.equal(attrs['data-intent'], 'success');
+});
+
+test('8. 17 space families, partition-law borders, and Rust FsElementExt', () => {
+	const { style, toRust } = defineConfig();
+
+	const pane = style({
+		px: 'bs',
+		py: 'sm',
+		pt: 'xs',
+		mr: 'md',
+		rgap: 'sm',
+		cgap: 'xs',
+		bb: 'sub',
+		br: 'str',
+		bg: 'bgSurface'
+	});
+
+	const gpuiOut = pane.gpui();
+	assert.ok(gpuiOut.rustSnippet?.includes('.px(gpui::px(16.0))'));
+	assert.ok(gpuiOut.rustSnippet?.includes('.py(gpui::px(8.0))'));
+	assert.ok(gpuiOut.rustSnippet?.includes('.pt(gpui::px(4.0))'));
+	assert.ok(gpuiOut.rustSnippet?.includes('.mr(gpui::px(12.0))'));
+	assert.ok(gpuiOut.rustSnippet?.includes('.border_b_1()'));
+	assert.ok(gpuiOut.rustSnippet?.includes('.border_r_1()'));
+
+	const rustCode = toRust();
+	assert.ok(rustCode.includes('pub trait FsElementExt: Styled + Sized'), 'includes FsElementExt trait');
+	assert.ok(rustCode.includes('fn bt_sub(self, theme: &FsTheme)'), 'includes bt_sub partition method');
+	assert.ok(rustCode.includes('fn bb_sub(self, theme: &FsTheme)'), 'includes bb_sub partition method');
+	assert.ok(rustCode.includes('fn lh_relaxed(self) -> Self'), 'includes lh_relaxed shorthand');
+	assert.ok(rustCode.includes('pub const TEXT_BS: gpui::Pixels = gpui::px(14.0)'), 'includes desktop baseline text size');
+	assert.ok(rustCode.includes('pub const HEADER_HEIGHT: gpui::Pixels = gpui::px(48.0)'), 'includes standard header height');
+	assert.ok(rustCode.includes('pub const SIDEBAR_WIDTH: gpui::Pixels = gpui::px(260.0)'), 'includes standard sidebar width');
 });

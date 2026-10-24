@@ -1,0 +1,20 @@
+[package]
+name = "fsgpui-doc"
+description = "Document model and Markdown/HTML/PDF exporters for fsgpui"
+version = "0.1.0"
+edition = "2024"
+license = "MIT OR Apache-2.0"
+
+[dependencies]
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+base64 = "0.23"
+pulldown-cmark = "0.13"
+unicode-bidi = "0.3"
+krilla = "0.8"
+harfrust = "0.14"
+thiserror = "2.0"
+uuid = { version = "1.10", features = ["v7"] }
+
+[dev-dependencies]
+pretty_assertions = "1.4"

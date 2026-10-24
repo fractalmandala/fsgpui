@@ -5,9 +5,31 @@ import type {
 	ResolvedTheme,
 	StyleDeclaration,
 	VariantOptionMap,
-	VariantSelections
+	VariantSelections,
+	CanonicalProps
 } from './types.js';
 import { createStyleHelper } from './style.js';
+
+export function canonicalAttrs(props: CanonicalProps = {}) {
+	const classes = [
+		props.class,
+		props.variant !== undefined ? 'el-variants' : undefined,
+		props.shape !== undefined ? 'el-shape' : undefined,
+		props.size !== undefined ? 'el-size' : undefined,
+		props.pad !== undefined ? 'el-pad' : undefined
+	]
+		.filter(Boolean)
+		.join(' ');
+
+	return {
+		class: classes,
+		'data-variant': props.variant,
+		'data-size': props.size,
+		'data-shape': props.shape,
+		'data-pad': props.pad,
+		'data-intent': props.intent
+	};
+}
 
 export function createRecipeHelper(theme: ResolvedTheme, options: { strict?: boolean } = {}) {
 	const style = createStyleHelper(theme, options);

@@ -1,0 +1,28 @@
+# Canonical Fractal GPUI Framework (fsgpui) - Standalone Workspace
+# Built on Zed's published gpui crate with zero app dependencies.
+
+[workspace]
+resolver = "2"
+members = [
+    "crates/fsgpui-theme",
+    "crates/fsgpui-components",
+    "crates/fsgpui-doc",
+    "crates/fsgpui-mdeditor",
+    "crates/fsgpui-mermaid",
+    "crates/fsgpui-browser",
+    "crates/fsgpui-terminal",
+    "crates/fsgpui-diff",
+    "examples/gpui_demo",
+]
+
+[workspace.package]
+version = "0.1.0"
+edition = "2024"
+license = "MIT OR Apache-2.0"
+publish = false
+
+[workspace.dependencies]
+gpui = { version = "0.2.2", default-features = false, features = ["font-kit"] }
+fsgpui-theme = { path = "crates/fsgpui-theme" }
+fsgpui-components = { path = "crates/fsgpui-components" }
+fsgpui-doc = { path = "crates/fsgpui-doc" }

@@ -1,0 +1,53 @@
+# dependencies
+node_modules
+
+
+# test:coverage working copy of svelte's sample suite
+test/.samples-tmp
+
+# compiled on demand by examples/liquid-glass-ffi/glass.ts
+examples/liquid-glass-ffi/.glass-shim.dylib
+
+# starter/ is installed in place only by hand; `npm run consume` works on a copy
+starter/package-lock.json
+starter/bun.lock
+
+# output
+out
+dist
+
+# the JS and declarations scripts/publish.ts emits for the tarball, and the scaffolder's copy of starter/
+lib
+packages/create-gpuix-fractalsvelte/template
+packages/create-gpuix-fractalsvelte/LICENSE
+*.tgz
+
+# code coverage
+coverage
+*.lcov
+
+# logs
+logs
+_.log
+report.[0-9]_.[0-9]_.[0-9]_.[0-9]_.json
+
+# dotenv environment variable files
+.env
+.env.development.local
+.env.test.local
+.env.production.local
+.env.local
+
+# caches
+.eslintcache
+.cache
+*.tsbuildinfo
+
+# IntelliJ based IDEs
+.idea
+
+# Finder (MacOS) folder config
+.DS_Store
+
+# the custom-renderer svelte build, see CLAUDE.md
+!vendor/*.tgz

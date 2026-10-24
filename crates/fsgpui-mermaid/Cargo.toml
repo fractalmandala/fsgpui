@@ -1,0 +1,26 @@
+[package]
+name = "fsgpui-mermaid"
+version = "0.1.0"
+edition = "2024"
+description = "Native Mermaid diagram → SVG rendering for GPUI (fsgpui)"
+license = "GPL-3.0-only"
+
+[lib]
+path = "src/lib.rs"
+
+[dependencies]
+anyhow = "1.0"
+gpui = { workspace = true }
+merman = { version = "=0.8.0-alpha.5", default-features = false, features = [
+    "layout-cytoscape",
+    "svg",
+] }
+merman-core = "=0.8.0-alpha.5"
+merman-render = "=0.8.0-alpha.5"
+quick-xml = "0.41"
+serde_json = "1.0"
+
+[dev-dependencies]
+usvg = "=0.46.0"
+resvg = "=0.46.0"
+tiny-skia = "=0.11.4"

@@ -1,7 +1,7 @@
 {
   "name": "@fractaldesign/fsgpui",
   "version": "0.1.0",
-  "description": "Typed, zero-drift design tokens, style definitions, and component recipes targeting GPUI (Rust) and Web.",
+  "description": "A project to marry GPUI and Svelte, in scaffoldable and templatized ways that bring ease of styling and development.",
   "type": "module",
   "license": "MIT",
   "types": "./dist/index.d.ts",
@@ -37,8 +37,8 @@
     "test": "node --test tests/index.test.js",
     "typecheck": "tsc --noEmit",
     "demo:generate": "node examples/gpui_demo/generate.js",
-    "demo:check": "cargo check --manifest-path ../../apps/fracoder/Cargo.toml -p gpui --example fsgui_demo",
-    "demo:run": "cargo run --manifest-path ../../apps/fracoder/Cargo.toml -p gpui --example fsgui_demo",
+    "demo:check": "cargo check -p fsgui-gpui-demo",
+    "demo:run": "cargo run -p fsgui-gpui-demo",
     "demo": "npm run demo:generate && npm run demo:run",
     "prepublishOnly": "npm run typecheck && npm run build"
   },

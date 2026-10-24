@@ -8,7 +8,7 @@ use gpui::{
     App, Bounds, Context, IntoElement, Render, SharedString, Window, WindowBounds, WindowOptions,
     div, prelude::*, px, size,
 };
-use gpui_platform::application;
+
 
 pub struct FsguiDemoApp {
     theme: FsTheme,
@@ -272,7 +272,7 @@ impl Render for FsguiDemoApp {
 }
 
 fn main() {
-    application().run(|cx: &mut App| {
+    gpui::Application::new().run(|cx: &mut App| {
         let bounds = Bounds::centered(None, size(px(640.0), px(440.0)), cx);
         cx.open_window(
             WindowOptions {

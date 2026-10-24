@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FSGPUI & Fractalstyler Interactive Token Workbench</title>
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+  <style>
+    /* Exact Tokens from packages/fractalstyler/src/lib/styles/_00_tokens.sass */
+    :root, html.dark {
+      color-scheme: dark;
+      --bg: #121214;
+      --bg-surface: #1C1C20;
+      --bg-panel: #1E1E22;
+      --bg-sunken: #27272C;
+      --bg-raised: #36363D;
+      --bg-extra: #161618;
+      --bg-input: #27272C;
+      --bg-button: #32323A;
+
+      --text-primary: #F4F4F6;
+      --text-secondary: #9D9DA8;
+      --text-muted: #63636E;
+      --text-inverse: #121214;
+
+      --state-surface: #27272C;
+      --state-hover: #33333C;
+      --state-selected: #3E3E4A;
+
+      --border: #2E2E36;
+      --border-subtle: #222228;
+      --border-strong: #44444E;
+
+      /* EXACT Fractalstyler Token Names (NO 'brand' rename) */
+      --theme-color: #22c55e;
+      --theme-color-alt: #00df89;
+      --theme-color-sub: #10b981;
+
+      --accent-orange: #FF7A00;
+      --accent-green: #22C55E;
+      --success: #22C55E;
+      --warning: #FFD000;
+      --danger: #EF4444;
+      --info: #60A5FA;
+
+      --ring: rgba(255, 208, 0, 0.45);
+
+      /* Spacing Scale (unit-space = 4px) */
+      --unit-space: 0.25rem;
+      --space-xs: var(--unit-space);             /* 4px */
+      --space-sm: calc(var(--unit-space) * 2);   /* 8px */
+      --space-md: calc(var(--unit-space) * 3);   /* 12px */
+      --space-bs: calc(var(--unit-space) * 4);   /* 16px */
+      --space-lg: calc(var(--unit-space) * 6);   /* 24px */
+      --space-xl: calc(var(--unit-space) * 8);   /* 32px */
+      --space-2xl: calc(var(--unit-space) * 12); /* 48px */
+      --space-3xl: calc(var(--unit-space) * 16); /* 64px */
+
+      /* Radius Scale */
+      --radius-xs: 2px;
+      --radius-sm: 4px;
+      --radius-md: 8px;
+      --radius-bs: 16px;
+      --radius-lg: 32px;
+      --radius-full: 9999px;
+
+      /* Heights */
+      --height-sm: 20px;
+      --height-md: 24px;
+      --height-bs: 28px;
+      --height-lg: 32px;
+      --height-xl: 40px;
+
+      /* Typography Scale */
+      --text-xs: 0.67rem;   /* ~11px */
+      --text-sm: 0.75rem;   /* 12px */
+      --text-md: 0.875rem;  /* 14px */
+      --text-bs: 1rem;      /* 16px */
+      --text-lg: 1.25rem;   /* 20px */
+      --text-xl: 1.5rem;    /* 24px */
+      --text-2xl: 1.95rem;  /* 31px */
+      --text-3xl: 2.44rem;  /* 39px */
+    }
+
+    html.light {
+      color-scheme: light;
+      --bg: #FFFFFF;
+      --bg-surface: #F4F3EE;
+      --bg-panel: #F5F4EF;
+      --bg-sunken: #F6F6F6;
+      --bg-raised: #FCFDFD;
+      --bg-extra: #F5F7F9;
+      --bg-input: #F4F3EE;
+      --bg-button: #6f6f6e;
+
+      --text-primary: #1c1c1d;
+      --text-secondary: #808182;
+      --text-muted: #aaacaf;
+      --text-inverse: #FFFFFF;
+
+      --state-surface: #F4F4F6;
+      --state-hover: #E4E5E8;
+      --state-selected: #7c7c7a;
+
+      --border: #E5E7EB;
+      --border-subtle: #F0F1F3;
+      --border-strong: #D1D5DB;
+
+      --theme-color: #22c55e;
+      --theme-color-alt: #00df89;
+      --theme-color-sub: #10b981;
+
+      --ring: rgba(255, 208, 0, 0.4);
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text-primary);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      font-size: var(--text-bs);
+      line-height: 1.5;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* Scrollbar to be strictly 4px */
+    ::-webkit-scrollbar { width: 4px; height: 4px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: var(--radius-xs); }
+    ::-webkit-scrollbar-thumb:hover { background: var(--border-strong); }
+
+    /* Partition Dividers: 3 Sets from _08_visuals.sass */
+    .bt-sub { border-top: 1px solid var(--border-subtle) !important; }
+    .br-sub { border-right: 1px solid var(--border-subtle) !important; }
+    .bb-sub { border-bottom: 1px solid var(--border-subtle) !important; }
+    .bl-sub { border-left: 1px solid var(--border-subtle) !important; }
+    .border-sub { border: 1px solid var(--border-subtle) !important; }
+
+    .bt { border-top: 1px solid var(--border) !important; }
+    .br { border-right: 1px solid var(--border) !important; }
+    .bb { border-bottom: 1px solid var(--border) !important; }
+    .bl { border-left: 1px solid var(--border) !important; }
+    .border-std { border: 1px solid var(--border) !important; }
+
+    .bt-str { border-top: 1px solid var(--border-strong) !important; }
+    .br-str { border-right: 1px solid var(--border-strong) !important; }
+    .bb-str { border-bottom: 1px solid var(--border-strong) !important; }
+    .bl-str { border-left: 1px solid var(--border-strong) !important; }
+    .border-str { border: 1px solid var(--border-strong) !important; }
+
+    /* Containers */
+    .row { display: flex; flex-direction: row; }
+    .box { display: flex; flex-direction: column; }
+
+    /* Gaps */
+    .gap-xs { gap: var(--space-xs); }
+    .gap-sm { gap: var(--space-sm); }
+    .gap-md { gap: var(--space-md); }
+    .gap-bs { gap: var(--space-bs); }
+    .gap-lg { gap: var(--space-lg); }
+    .gap-xl { gap: var(--space-xl); }
+    .gap-2xl { gap: var(--space-2xl); }
+    .gap-3xl { gap: var(--space-3xl); }
+
+    /* Visual Highlighting for Bounding Box */
+    .border-fixture-box {
+      background-color: var(--bg-surface);
+      position: relative;
+    }
+  </style>
+</head>
+<body class="p-8">
+
+  <!-- Header -->
+  <header class="row ycenter xbetween pb-6 mb-8 bb-sub">
+    <div class="box">
+      <div class="row ycenter gap-sm">
+        <h1 class="text-xl font-bold tracking-tight text-[var(--text-primary)]">FSGPUI Visual Token Workbench</h1>
+        <span class="px-2 py-0.5 text-xs font-mono rounded-[var(--radius-xs)] bg-[var(--bg-raised)] border-sub text-[var(--theme-color)] font-medium">1:1 Fractalstyler Specification</span>
+      </div>
+      <p class="text-sm text-[var(--text-secondary)] mt-1">
+        Visual testing fixtures rendering each border, layout coordinate, and composable variant independently.
+      </p>
+    </div>
+
+    <!-- Theme Switcher -->
+    <div class="row ycenter gap-xs p-1 rounded-[var(--radius-sm)] bg-[var(--bg-surface)] border-sub">
+      <button onclick="setTheme('dark')" id="btn-dark" class="px-3 py-1 rounded-[var(--radius-xs)] text-sm font-medium bg-[var(--theme-color)] text-[var(--text-inverse)]">Dark</button>
+      <button onclick="setTheme('light')" id="btn-light" class="px-3 py-1 rounded-[var(--radius-xs)] text-sm font-medium text-[var(--text-secondary)] hover:text-[var(--text-primary)]">Light</button>
+    </div>
+  </header>
+
+  <!-- ====================================================================== -->
+  <!-- FIXTURE 1: EXPLICIT VISUAL ISOLATION OF THE 14 PARTITION METHODS -->
+  <!-- ====================================================================== -->
+  <section class="box gap-md mb-12">
+    <div class="box">
+      <h2 class="text-lg font-bold text-[var(--text-primary)]">1. Explicit Visual Isolation: 14 FsElementExt Partition Methods</h2>
+      <p class="text-sm text-[var(--text-secondary)]">
+        Every partition method rendered in its own isolated visual fixture so you can see exactly which edge paints, in which color, at 1px hairline thickness.
+      </p>
+    </div>
+
+    <!-- The 14 Isolated Fixtures Grid (5 rows: Top, Right, Bottom, Left, Box) -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-md">
+
+      <!-- Column 1: *_sub (border_subtle) -->
+      <div class="box gap-sm p-4 rounded-[var(--radius-sm)] bg-[var(--bg-surface)] border-sub">
+        <div class="row ycenter xbetween pb-2 bb-sub">
+          <span class="text-xs font-bold text-[var(--theme-color)]">Set 1: *_sub (Subtle)</span>
+          <span class="text-xs font-mono text-[var(--text-muted)]">theme.border_subtle</span>
+        </div>
+        
+        <!-- bt_sub -->
+        <div class="box gap-xs">
+          <span class="text-xs font-mono text-[var(--text-secondary)]">.bt-sub / bt_sub()</span>
+          <div class="h-12 border-fixture-box bt-sub flex items-center justify-center text-xs text-[var(--text-muted)]">
+            ↑ Top Edge Hairline Only
+          </div>
+        </div>
+
+        <!-- br_sub -->
+        <div class="box gap-xs">
+          <span class="text-xs font-mono text-[var(--text-secondary)]">.br-sub / br_sub()</span>
+          <div class="h-12 border-fixture-box br-sub flex items-center justify-end pr-3 text-xs text-[var(--text-muted)]">
+            Right Edge Only →
+          </div>
+        </div>
+
+        <!-- bb_sub -->
+        <div class="box gap-xs">
+          <span class="text-xs font-mono text-[var(--text-secondary)]">.bb-sub / bb_sub()</span>
+          <div class="h-12 border-fixture-box bb-sub flex items-center justify-center text-xs text-[var(--text-muted)]">
+            ↓ Bottom Edge Hairline Only
+          </div>
+        </div>
+
+        <!-- bl_sub -->
+        <div class="box gap-xs">
+          <span class="text-xs font-mono text-[var(--text-secondary)]">.bl-sub / bl_sub()</span>
+          <div class="h-12 border-fixture-box bl-sub flex items-center justify-start pl-3 text-xs text-[var(--text-muted)]">
+            ← Left Edge Only
+          </div>
+        </div>
+
+        <!-- border_sub -->
+        <div class="box gap-xs">
+          <span class="text-xs font-mono text-[var(--text-secondary)]">.border-sub / border_sub()</span>
+          <div class="h-12 border-fixture-box border-sub flex items-center justify-center text-xs text-[var(--text-muted)]">
+            [ Full Box Hairline Subtle ]
+          </div>
+        </div>
+      </div>
+
+      <!-- Column 2: * (border) -->
+      <div class="box gap-sm p-4 rounded-[var(--radius-sm)] bg-[var(--bg-surface)] border-std">
+        <div class="row ycenter xbetween pb-2 bb">
+          <span class="text-xs font-bold text-[var(--text-primary)]">Set 2: * (Standard)</span>
+          <span class="text-xs font-mono text-[var(--text-muted)]">theme.border</span>
+        </div>
+        
+        <!-- bt -->
+        <div class="box gap-xs">
+          <span class="text-xs font-mono text-[var(--text-secondary)]">.bt / bt()</span>
+          <div class="h-12 border-fixture-box bt flex items-center justify-center text-xs text-[var(--text-primary)]">
+            ↑ Top Edge Hairline Only
+          </div>
+        </div>
+
+        <!-- br -->
+        <div class="box gap-xs">
+          <span class="text-xs font-mono text-[var(--text-secondary)]">.br / br()</span>
+          <div class="h-12 border-fixture-box br flex items-center justify-end pr-3 text-xs text-[var(--text-primary)]">
+            Right Edge Only →
+          </div>
+        </div>
+
+        <!-- bb -->
+        <div class="box gap-xs">
+          <span class="text-xs font-mono text-[var(--text-secondary)]">.bb / bb()</span>
+          <div class="h-12 border-fixture-box bb flex items-center justify-center text-xs text-[var(--text-primary)]">
+            ↓ Bottom Edge Hairline Only
+          </div>
+        </div>
+
+        <!-- bl -->
+        <div class="box gap-xs">
+          <span class="text-xs font-mono text-[var(--text-secondary)]">.bl / bl()</span>
+          <div class="h-12 border-fixture-box bl flex items-center justify-start pl-3 text-xs text-[var(--text-primary)]">
+            ← Left Edge Only
+          </div>
+        </div>
+
+        <!-- border -->
+        <div class="box gap-xs">
+          <span class="text-xs font-mono text-[var(--text-secondary)]">.border / border()</span>
+          <div class="h-12 border-fixture-box border-std flex items-center justify-center text-xs text-[var(--text-primary)]">
+            [ Full Box Hairline Standard ]
+          </div>
+        </div>
+      </div>
+
+      <!-- Column 3: *_str (border_strong) -->
+      <div class="box gap-sm p-4 rounded-[var(--radius-sm)] bg-[var(--bg-surface)] border-str">
+        <div class="row ycenter xbetween pb-2 bb-str">
+          <span class="text-xs font-bold text-[var(--text-primary)]">Set 3: *_str (Strong)</span>
+          <span class="text-xs font-mono text-[var(--text-muted)]">theme.border_strong</span>
+        </div>
+        
+        <!-- bt_str -->
+        <div class="box gap-xs">
+          <span class="text-xs font-mono text-[var(--text-secondary)]">.bt-str / bt_str()</span>
+          <div class="h-12 border-fixture-box bt-str flex items-center justify-center text-xs text-[var(--text-primary)] font-medium">
+            ↑ Top Edge Hairline Only
+          </div>
+        </div>
+
+        <!-- br_str -->
+        <div class="box gap-xs">
+          <span class="text-xs font-mono text-[var(--text-secondary)]">.br-str / br_str()</span>
+          <div class="h-12 border-fixture-box br-str flex items-center justify-end pr-3 text-xs text-[var(--text-primary)] font-medium">
+            Right Edge Only →
+          </div>
+        </div>
+
+        <!-- bb_str -->
+        <div class="box gap-xs">
+          <span class="text-xs font-mono text-[var(--text-secondary)]">.bb-str / bb_str()</span>
+          <div class="h-12 border-fixture-box bb-str flex items-center justify-center text-xs text-[var(--text-primary)] font-medium">
+            ↓ Bottom Edge Hairline Only
+          </div>
+        </div>
+
+        <!-- bl_str -->
+        <div class="box gap-xs">
+          <span class="text-xs font-mono text-[var(--text-secondary)]">.bl-str / bl_str()</span>
+          <div class="h-12 border-fixture-box bl-str flex items-center justify-start pl-3 text-xs text-[var(--text-primary)] font-medium">
+            ← Left Edge Only
+          </div>
+        </div>
+
+        <!-- border_str -->
+        <div class="box gap-xs">
+          <span class="text-xs font-mono text-[var(--text-secondary)]">.border-str / border_str()</span>
+          <div class="h-12 border-fixture-box border-str flex items-center justify-center text-xs text-[var(--text-primary)] font-medium">
+            [ Full Box Hairline Strong ]
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ====================================================================== -->
+  <!-- FIXTURE 2: INTERACTIVE FLEXBOX DEMONSTRATION (.row vs .box) -->
+  <!-- ====================================================================== -->
+  <section class="box gap-md mb-12">
+    <div class="box">
+      <h2 class="text-lg font-bold text-[var(--text-primary)]">2. Interactive Flexbox Sandbox: <code>.row</code> & <code>.box</code> with Physical Axes</h2>
+      <p class="text-sm text-[var(--text-secondary)]">
+        Click any alignment button below to watch how children physically position themselves along the physical X and Y axes in both horizontal <code>.row</code> and vertical <code>.box</code> simultaneously.
+      </p>
+    </div>
+
+    <!-- Alignment Sandbox Controller Controls -->
+    <div class="box gap-sm p-4 rounded-[var(--radius-sm)] bg-[var(--bg-surface)] border-sub">
+      <!-- X-Alignment Controls -->
+      <div class="row ycenter flex-wrap gap-xs">
+        <span class="text-xs font-bold text-[var(--text-secondary)] w-32">X Axis (Horizontal):</span>
+        <button onclick="setAlignX('xleft', this)" class="btn-align-x px-2.5 py-1 text-xs font-mono border rounded-[var(--radius-xs)] bg-[var(--theme-color)] text-[var(--text-inverse)] font-medium">.xleft (start)</button>
+        <button onclick="setAlignX('xcenter', this)" class="btn-align-x px-2.5 py-1 text-xs font-mono border rounded-[var(--radius-xs)] bg-[var(--bg-panel)] text-[var(--text-secondary)]">.xcenter</button>
+        <button onclick="setAlignX('xright', this)" class="btn-align-x px-2.5 py-1 text-xs font-mono border rounded-[var(--radius-xs)] bg-[var(--bg-panel)] text-[var(--text-secondary)]">.xright (end)</button>
+        <button onclick="setAlignX('xbetween', this)" class="btn-align-x px-2.5 py-1 text-xs font-mono border rounded-[var(--radius-xs)] bg-[var(--bg-panel)] text-[var(--text-secondary)]">.xbetween</button>
+      </div>
+
+      <!-- Y-Alignment Controls -->
+      <div class="row ycenter flex-wrap gap-xs pt-1">
+        <span class="text-xs font-bold text-[var(--text-secondary)] w-32">Y Axis (Vertical):</span>
+        <button onclick="setAlignY('ycenter', this)" class="btn-align-y px-2.5 py-1 text-xs font-mono border rounded-[var(--radius-xs)] bg-[var(--theme-color)] text-[var(--text-inverse)] font-medium">.ycenter (center)</button>
+        <button onclick="setAlignY('ytop', this)" class="btn-align-y px-2.5 py-1 text-xs font-mono border rounded-[var(--radius-xs)] bg-[var(--bg-panel)] text-[var(--text-secondary)]">.ytop (start)</button>
+        <button onclick="setAlignY('ybot', this)" class="btn-align-y px-2.5 py-1 text-xs font-mono border rounded-[var(--radius-xs)] bg-[var(--bg-panel)] text-[var(--text-secondary)]">.ybot (end)</button>
+        <button onclick="setAlignY('ybetween', this)" class="btn-align-y px-2.5 py-1 text-xs font-mono border rounded-[var(--radius-xs)] bg-[var(--bg-panel)] text-[var(--text-secondary)]">.ybetween</button>
+      </div>
+
+      <!-- Gap Step Controls -->
+      <div class="row ycenter flex-wrap gap-xs pt-1">
+        <span class="text-xs font-bold text-[var(--text-secondary)] w-32">Gap Scale ($steps):</span>
+        <button onclick="setGap('xs', 4, this)" class="btn-gap px-2 py-1 text-xs font-mono border rounded-[var(--radius-xs)] bg-[var(--bg-panel)] text-[var(--text-secondary)]">xs (4px)</button>
+        <button onclick="setGap('sm', 8, this)" class="btn-gap px-2 py-1 text-xs font-mono border rounded-[var(--radius-xs)] bg-[var(--theme-color)] text-[var(--text-inverse)] font-medium">sm (8px)</button>
+        <button onclick="setGap('md', 12, this)" class="btn-gap px-2 py-1 text-xs font-mono border rounded-[var(--radius-xs)] bg-[var(--bg-panel)] text-[var(--text-secondary)]">md (12px)</button>
+        <button onclick="setGap('bs', 16, this)" class="btn-gap px-2 py-1 text-xs font-mono border rounded-[var(--radius-xs)] bg-[var(--bg-panel)] text-[var(--text-secondary)]">bs (16px)</button>
+        <button onclick="setGap('lg', 24, this)" class="btn-gap px-2 py-1 text-xs font-mono border rounded-[var(--radius-xs)] bg-[var(--bg-panel)] text-[var(--text-secondary)]">lg (24px)</button>
+        <button onclick="setGap('xl', 32, this)" class="btn-gap px-2 py-1 text-xs font-mono border rounded-[var(--radius-xs)] bg-[var(--bg-panel)] text-[var(--text-secondary)]">xl (32px)</button>
+      </div>
+    </div>
+
+    <!-- Live Dual Viewports: Horizontal .row vs Vertical .box -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-md">
+      <!-- Viewport A: .row (Horizontal flow) -->
+      <div class="box gap-xs p-4 rounded-[var(--radius-sm)] bg-[var(--bg-surface)] border-sub">
+        <div class="row ycenter xbetween pb-2 bb-sub">
+          <span class="text-xs font-bold text-[var(--text-primary)]">Viewport A: <code>.row</code> (Horizontal Flex)</span>
+          <span id="label-row-classes" class="text-xs font-mono text-[var(--theme-color)]">.row.xleft.ycenter.gap-sm</span>
+        </div>
+        <div id="sandbox-row" class="h-44 p-4 rounded-[var(--radius-xs)] bg-[var(--bg-panel)] border row" style="justify-content: flex-start; align-items: center; gap: 8px;">
+          <div class="p-3 bg-[var(--bg-raised)] border-sub rounded-[var(--radius-xs)] text-xs font-mono">Child 1</div>
+          <div class="p-3 bg-[var(--bg-raised)] border-sub rounded-[var(--radius-xs)] text-xs font-mono">Child 2</div>
+          <div class="p-3 bg-[var(--bg-raised)] border-sub rounded-[var(--radius-xs)] text-xs font-mono">Child 3</div>
+        </div>
+      </div>
+
+      <!-- Viewport B: .box (Vertical flow) -->
+      <div class="box gap-xs p-4 rounded-[var(--radius-sm)] bg-[var(--bg-surface)] border-sub">
+        <div class="row ycenter xbetween pb-2 bb-sub">
+          <span class="text-xs font-bold text-[var(--text-primary)]">Viewport B: <code>.box</code> (Vertical Flex)</span>
+          <span id="label-box-classes" class="text-xs font-mono text-[var(--theme-color)]">.box.xleft.ycenter.gap-sm</span>
+        </div>
+        <div id="sandbox-box" class="h-44 p-4 rounded-[var(--radius-xs)] bg-[var(--bg-panel)] border box" style="align-items: flex-start; justify-content: center; gap: 8px;">
+          <div class="p-2 bg-[var(--bg-raised)] border-sub rounded-[var(--radius-xs)] text-xs font-mono">Child 1</div>
+          <div class="p-2 bg-[var(--bg-raised)] border-sub rounded-[var(--radius-xs)] text-xs font-mono">Child 2</div>
+          <div class="p-2 bg-[var(--bg-raised)] border-sub rounded-[var(--radius-xs)] text-xs font-mono">Child 3</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================================================================== -->
+  <!-- FIXTURE 3: DECOUPLED BUTTON SIZING VS. INNER TYPOGRAPHY COMPOSABILITY -->
+  <!-- ====================================================================== -->
+  <section class="box gap-md mb-12">
+    <div class="box">
+      <h2 class="text-lg font-bold text-[var(--text-primary)]">3. Decoupled Button Geometry (`SIZES`) vs. Inner Typography (`text-*`)</h2>
+      <p class="text-sm text-[var(--text-secondary)]">
+        Demonstrating composability: button sizing controls height and padding, while inner typography is 100% independent. You can place <code>text-xs</code>, <code>text-sm</code>, <code>text-md</code>, or <code>text-bs</code> inside ANY button size.
+      </p>
+    </div>
+
+    <!-- Live Composable Matrix Sandbox -->
+    <div class="box gap-sm p-4 rounded-[var(--radius-sm)] bg-[var(--bg-surface)] border-sub">
+      <div class="row ycenter xbetween flex-wrap gap-xs">
+        <!-- Control 1: Button Geometry Size Axis -->
+        <div class="row ycenter gap-xs">
+          <span class="text-xs font-bold text-[var(--text-secondary)]">Button Geometry (`data-size`):</span>
+          <button onclick="setButtonGeometry(20, 8, 'sm', this)" class="btn-b-size px-2.5 py-1 text-xs font-mono border rounded-[var(--radius-xs)] bg-[var(--bg-panel)] text-[var(--text-secondary)]">sm (20px)</button>
+          <button onclick="setButtonGeometry(24, 10, 'md', this)" class="btn-b-size px-2.5 py-1 text-xs font-mono border rounded-[var(--radius-xs)] bg-[var(--bg-panel)] text-[var(--text-secondary)]">md (24px)</button>
+          <button onclick="setButtonGeometry(28, 12, 'bs', this)" class="btn-b-size px-2.5 py-1 text-xs font-mono border rounded-[var(--radius-xs)] bg-[var(--theme-color)] text-[var(--text-inverse)] font-medium">bs (28px)</button>
+          <button onclick="setButtonGeometry(32, 16, 'lg', this)" class="btn-b-size px-2.5 py-1 text-xs font-mono border rounded-[var(--radius-xs)] bg-[var(--bg-panel)] text-[var(--text-secondary)]">lg (32px)</button>
+          <button onclick="setButtonGeometry(40, 20, 'xl', this)" class="btn-b-size px-2.5 py-1 text-xs font-mono border rounded-[var(--radius-xs)] bg-[var(--bg-panel)] text-[var(--text-secondary)]">xl (40px)</button>
+        </div>
+
+        <!-- Control 2: Independent Inner Typography -->
+        <div class="row ycenter gap-xs">
+          <span class="text-xs font-bold text-[var(--text-secondary)]">Inner Text Size (`text-*`):</span>
+          <button onclick="setButtonText('0.67rem', 'text-xs (11px)', this)" class="btn-b-font px-2 py-1 text-xs font-mono border rounded-[var(--radius-xs)] bg-[var(--bg-panel)] text-[var(--text-secondary)]">.text-xs</button>
+          <button onclick="setButtonText('0.75rem', 'text-sm (12px)', this)" class="btn-b-font px-2 py-1 text-xs font-mono border rounded-[var(--radius-xs)] bg-[var(--theme-color)] text-[var(--text-inverse)] font-medium">.text-sm</button>
+          <button onclick="setButtonText('0.875rem', 'text-md (14px)', this)" class="btn-b-font px-2 py-1 text-xs font-mono border rounded-[var(--radius-xs)] bg-[var(--bg-panel)] text-[var(--text-secondary)]">.text-md</button>
+          <button onclick="setButtonText('1rem', 'text-bs (16px)', this)" class="btn-b-font px-2 py-1 text-xs font-mono border rounded-[var(--radius-xs)] bg-[var(--bg-panel)] text-[var(--text-secondary)]">.text-bs</button>
+        </div>
+      </div>
+
+      <!-- Live Composed Render Line -->
+      <div class="row ycenter gap-md p-4 bg-[var(--bg-panel)] border rounded-[var(--radius-xs)] mt-2">
+        <button id="composable-btn-primary" style="height: 28px; padding: 0 12px; font-size: 0.75rem;" class="row ycenter xcenter font-medium bg-[var(--theme-color)] text-[var(--text-inverse)] rounded-[var(--radius-sm)]">
+          <span id="composable-btn-label">Primary Button (.text-sm inside data-size="bs")</span>
+        </button>
+        <button id="composable-btn-secondary" style="height: 28px; padding: 0 12px; font-size: 0.75rem;" class="row ycenter xcenter font-medium bg-[var(--bg-raised)] border-sub text-[var(--text-primary)] rounded-[var(--radius-sm)]">
+          Secondary
+        </button>
+        <button id="composable-btn-outline" style="height: 28px; padding: 0 12px; font-size: 0.75rem;" class="row ycenter xcenter font-medium border text-[var(--text-primary)] rounded-[var(--radius-sm)]">
+          Outline
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================================================================== -->
+  <!-- FIXTURE 4: EXACT CANONICAL COLOR TOKENS (theme-color) -->
+  <!-- ====================================================================== -->
+  <section class="box gap-md mb-12">
+    <div class="box">
+      <h2 class="text-lg font-bold text-[var(--text-primary)]">4. Exact Color Tokens from <code>_00_tokens.sass</code></h2>
+      <p class="text-sm text-[var(--text-secondary)]">
+        Using strictly <code>--theme-color</code>, <code>--theme-color-alt</code>, and <code>--theme-color-sub</code> (zero arbitrary 'brand' rename).
+      </p>
+    </div>
+
+    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-sm">
+      <div class="box gap-xs p-3 rounded-[var(--radius-sm)] bg-[var(--bg-surface)] border-sub">
+        <div class="h-8 rounded-[var(--radius-xs)] bg-[var(--theme-color)]"></div>
+        <span class="text-xs font-mono font-bold text-[var(--text-primary)]">--theme-color</span>
+        <span class="text-[11px] font-mono text-[var(--text-muted)]">#22c55e (Emerald)</span>
+      </div>
+      <div class="box gap-xs p-3 rounded-[var(--radius-sm)] bg-[var(--bg-surface)] border-sub">
+        <div class="h-8 rounded-[var(--radius-xs)] bg-[var(--theme-color-alt)]"></div>
+        <span class="text-xs font-mono font-bold text-[var(--text-primary)]">--theme-color-alt</span>
+        <span class="text-[11px] font-mono text-[var(--text-muted)]">#00df89</span>
+      </div>
+      <div class="box gap-xs p-3 rounded-[var(--radius-sm)] bg-[var(--bg-surface)] border-sub">
+        <div class="h-8 rounded-[var(--radius-xs)] bg-[var(--theme-color-sub)]"></div>
+        <span class="text-xs font-mono font-bold text-[var(--text-primary)]">--theme-color-sub</span>
+        <span class="text-[11px] font-mono text-[var(--text-muted)]">#10b981</span>
+      </div>
+      <div class="box gap-xs p-3 rounded-[var(--radius-sm)] bg-[var(--bg-surface)] border-sub">
+        <div class="h-8 rounded-[var(--radius-xs)] bg-[var(--border)] border"></div>
+        <span class="text-xs font-mono font-bold text-[var(--text-primary)]">--border</span>
+        <span class="text-[11px] font-mono text-[var(--text-muted)]">#2E2E36</span>
+      </div>
+      <div class="box gap-xs p-3 rounded-[var(--radius-sm)] bg-[var(--bg-surface)] border-sub">
+        <div class="h-8 rounded-[var(--radius-xs)] bg-[var(--border-subtle)] border"></div>
+        <span class="text-xs font-mono font-bold text-[var(--text-primary)]">--border-subtle</span>
+        <span class="text-[11px] font-mono text-[var(--text-muted)]">#222228</span>
+      </div>
+      <div class="box gap-xs p-3 rounded-[var(--radius-sm)] bg-[var(--bg-surface)] border-sub">
+        <div class="h-8 rounded-[var(--radius-xs)] bg-[var(--border-strong)] border"></div>
+        <span class="text-xs font-mono font-bold text-[var(--text-primary)]">--border-strong</span>
+        <span class="text-[11px] font-mono text-[var(--text-muted)]">#44444E</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="row ycenter xbetween pt-6 bt-sub text-xs text-[var(--text-muted)]">
+    <div>
+      <span>Framework: </span>
+      <span class="text-[var(--text-secondary)] font-medium">@fractaldesign/fsgpui</span>
+      <span class="mx-2">•</span>
+      <span>Token Source: </span>
+      <span class="text-[var(--text-secondary)] font-medium">@fractaldesign/fractalstyler</span>
+    </div>
+    <div class="text-[var(--theme-color)] font-medium">
+      ✓ Verified Zero-Drift Visual Specification
+    </div>
+  </footer>
+
+  <script>
+    function setTheme(mode) {
+      if (mode === 'light') {
+        document.documentElement.classList.remove('dark');
+        document.documentElement.classList.add('light');
+        document.getElementById('btn-light').className = "px-3 py-1 rounded-[var(--radius-xs)] text-sm font-medium bg-[var(--theme-color)] text-[var(--text-inverse)]";
+        document.getElementById('btn-dark').className = "px-3 py-1 rounded-[var(--radius-xs)] text-sm font-medium text-[var(--text-secondary)] hover:text-[var(--text-primary)]";
+      } else {
+        document.documentElement.classList.remove('light');
+        document.documentElement.classList.add('dark');
+        document.getElementById('btn-dark').className = "px-3 py-1 rounded-[var(--radius-xs)] text-sm font-medium bg-[var(--theme-color)] text-[var(--text-inverse)]";
+        document.getElementById('btn-light').className = "px-3 py-1 rounded-[var(--radius-xs)] text-sm font-medium text-[var(--text-secondary)] hover:text-[var(--text-primary)]";
+      }
+    }
+
+    // Physical X Alignment
+    let currentAlignX = 'xleft';
+    let currentAlignY = 'ycenter';
+    let currentGapVal = 8;
+    let currentGapName = 'sm';
+
+    function setAlignX(axis, btnEl) {
+      currentAlignX = axis;
+      document.querySelectorAll('.btn-align-x').forEach(b => {
+        b.className = "btn-align-x px-2.5 py-1 text-xs font-mono border rounded-[var(--radius-xs)] bg-[var(--bg-panel)] text-[var(--text-secondary)]";
+      });
+      btnEl.className = "btn-align-x px-2.5 py-1 text-xs font-mono border rounded-[var(--radius-xs)] bg-[var(--theme-color)] text-[var(--text-inverse)] font-medium";
+
+      updateSandbox();
+    }
+
+    function setAlignY(axis, btnEl) {
+      currentAlignY = axis;
+      document.querySelectorAll('.btn-align-y').forEach(b => {
+        b.className = "btn-align-y px-2.5 py-1 text-xs font-mono border rounded-[var(--radius-xs)] bg-[var(--bg-panel)] text-[var(--text-secondary)]";
+      });
+      btnEl.className = "btn-align-y px-2.5 py-1 text-xs font-mono border rounded-[var(--radius-xs)] bg-[var(--theme-color)] text-[var(--text-inverse)] font-medium";
+
+      updateSandbox();
+    }
+
+    function setGap(step, pxVal, btnEl) {
+      currentGapName = step;
+      currentGapVal = pxVal;
+      document.querySelectorAll('.btn-gap').forEach(b => {
+        b.className = "btn-gap px-2 py-1 text-xs font-mono border rounded-[var(--radius-xs)] bg-[var(--bg-panel)] text-[var(--text-secondary)]";
+      });
+      btnEl.className = "btn-gap px-2 py-1 text-xs font-mono border rounded-[var(--radius-xs)] bg-[var(--theme-color)] text-[var(--text-inverse)] font-medium";
+
+      updateSandbox();
+    }
+
+    function updateSandbox() {
+      const rowBox = document.getElementById('sandbox-row');
+      const colBox = document.getElementById('sandbox-box');
+
+      // Map physical X to justify-content on row, align-items on box
+      let rowJustify = 'flex-start';
+      let boxAlign = 'flex-start';
+      if (currentAlignX === 'xcenter') { rowJustify = 'center'; boxAlign = 'center'; }
+      else if (currentAlignX === 'xright') { rowJustify = 'flex-end'; boxAlign = 'flex-end'; }
+      else if (currentAlignX === 'xbetween') { rowJustify = 'space-between'; boxAlign = 'stretch'; }
+
+      // Map physical Y to align-items on row, justify-content on box
+      let rowAlign = 'center';
+      let boxJustify = 'center';
+      if (currentAlignY === 'ytop') { rowAlign = 'flex-start'; boxJustify = 'flex-start'; }
+      else if (currentAlignY === 'ybot') { rowAlign = 'flex-end'; boxJustify = 'flex-end'; }
+      else if (currentAlignY === 'ybetween') { rowAlign = 'stretch'; boxJustify = 'space-between'; }
+
+      rowBox.style.justifyContent = rowJustify;
+      rowBox.style.alignItems = rowAlign;
+      rowBox.style.gap = `${currentGapVal}px`;
+
+      colBox.style.alignItems = boxAlign;
+      colBox.style.justifyContent = boxJustify;
+      colBox.style.gap = `${currentGapVal}px`;
+
+      document.getElementById('label-row-classes').innerText = `.row.${currentAlignX}.${currentAlignY}.gap-${currentGapName}`;
+      document.getElementById('label-box-classes').innerText = `.box.${currentAlignX}.${currentAlignY}.gap-${currentGapName}`;
+    }
+
+    // Button Geometry & Text Decoupling
+    let bHeight = 28;
+    let bPadX = 12;
+    let bSizeName = 'bs';
+    let bFontRem = '0.75rem';
+    let bFontName = 'text-sm (12px)';
+
+    function setButtonGeometry(h, padX, name, btnEl) {
+      bHeight = h;
+      bPadX = padX;
+      bSizeName = name;
+      document.querySelectorAll('.btn-b-size').forEach(b => {
+        b.className = "btn-b-size px-2.5 py-1 text-xs font-mono border rounded-[var(--radius-xs)] bg-[var(--bg-panel)] text-[var(--text-secondary)]";
+      });
+      btnEl.className = "btn-b-size px-2.5 py-1 text-xs font-mono border rounded-[var(--radius-xs)] bg-[var(--theme-color)] text-[var(--text-inverse)] font-medium";
+
+      updateComposableButton();
+    }
+
+    function setButtonText(remVal, name, btnEl) {
+      bFontRem = remVal;
+      bFontName = name;
+      document.querySelectorAll('.btn-b-font').forEach(b => {
+        b.className = "btn-b-font px-2 py-1 text-xs font-mono border rounded-[var(--radius-xs)] bg-[var(--bg-panel)] text-[var(--text-secondary)]";
+      });
+      btnEl.className = "btn-b-font px-2 py-1 text-xs font-mono border rounded-[var(--radius-xs)] bg-[var(--theme-color)] text-[var(--text-inverse)] font-medium";
+
+      updateComposableButton();
+    }
+
+    function updateComposableButton() {
+      const targets = [
+        document.getElementById('composable-btn-primary'),
+        document.getElementById('composable-btn-secondary'),
+        document.getElementById('composable-btn-outline')
+      ];
+
+      targets.forEach(btn => {
+        btn.style.height = `${bHeight}px`;
+        btn.style.padding = `0 ${bPadX}px`;
+        btn.style.fontSize = bFontRem;
+      });
+
+      document.getElementById('composable-btn-label').innerText = `Primary Button (${bFontName} inside data-size="${bSizeName}")`;
+    }
+  </script>
+</body>
+</html>

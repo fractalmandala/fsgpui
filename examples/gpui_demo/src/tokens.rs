@@ -3,7 +3,7 @@
 
 #![allow(unused_imports, dead_code)]
 
-use gpui::{self, Pixels, Rgba, px};
+use gpui::{self, Pixels, Rgba, px, Styled};
 
 /// Complete Fractal Design System theme for GPUI
 #[derive(Debug, Clone)]
@@ -85,27 +85,293 @@ impl Default for FsTheme {
     }
 }
 
-// Spacing Scale
+impl FsTheme {
+    /// Return the default dark theme
+    pub fn new() -> Self {
+        Self::default()
+    }
+
+    /// Dark theme instance
+    pub fn dark() -> Self {
+        Self::default()
+    }
+
+    /// Light theme instance with canonical Fractal light tokens
+    pub fn light() -> Self {
+        Self {
+            bg: gpui::rgba(0xffffffff),
+            bg_surface: gpui::rgba(0xf4f3eeff),
+            bg_panel: gpui::rgba(0xf5f4efff),
+            bg_sunken: gpui::rgba(0xf6f6f6ff),
+            bg_raised: gpui::rgba(0xfcfdfdff),
+            bg_input: gpui::rgba(0xf4f3eeff),
+            bg_button: gpui::rgba(0x6f6f6eff),
+            state_surface: gpui::rgba(0xf4f4f6ff),
+            state_hover: gpui::rgba(0xe4e5e8ff),
+            state_selected: gpui::rgba(0x7c7c7aff),
+            text_primary: gpui::rgba(0x1c1c1dff),
+            text_secondary: gpui::rgba(0x808182ff),
+            text_muted: gpui::rgba(0xaaacafff),
+            text_inverse: gpui::rgba(0xffffffff),
+            border: gpui::rgba(0xe5e7ebff),
+            border_subtle: gpui::rgba(0xf0f1f3ff),
+            border_strong: gpui::rgba(0xd1d5dbff),
+            ring: gpui::rgba(0xffd00066),
+            brand: gpui::rgba(0x22c55eff),
+            brand_alt: gpui::rgba(0x00df89ff),
+            brand_sub: gpui::rgba(0x10b981ff),
+            success: gpui::rgba(0x10b981ff),
+            success_bg: gpui::rgba(0xd1fae5ff),
+            success_text: gpui::rgba(0x065f46ff),
+            warning: gpui::rgba(0xffd000ff),
+            warning_bg: gpui::rgba(0xfef3c7ff),
+            warning_text: gpui::rgba(0x92400eff),
+            danger: gpui::rgba(0xef4444ff),
+            danger_bg: gpui::rgba(0xfee2e2ff),
+            danger_text: gpui::rgba(0x991b1bff),
+            info: gpui::rgba(0x3b82f6ff),
+            info_bg: gpui::rgba(0xdbeafeff),
+            info_text: gpui::rgba(0x1e40afff),
+            transparent: gpui::rgba(0x00000000),
+        }
+    }
+}
+
+// Spacing Scale (8-step canonical + fine-grain)
 pub const SPACE_NONE: gpui::Pixels = gpui::px(0.0);
 pub const SPACE_3XS: gpui::Pixels = gpui::px(2.0);
 pub const SPACE_2XS: gpui::Pixels = gpui::px(4.0);
-pub const SPACE_XS: gpui::Pixels = gpui::px(6.0);
+pub const SPACE_XS: gpui::Pixels = gpui::px(4.0);
 pub const SPACE_SM: gpui::Pixels = gpui::px(8.0);
 pub const SPACE_MD: gpui::Pixels = gpui::px(12.0);
-pub const SPACE_LG: gpui::Pixels = gpui::px(16.0);
-pub const SPACE_XL: gpui::Pixels = gpui::px(24.0);
-pub const SPACE_2XL: gpui::Pixels = gpui::px(32.0);
+pub const SPACE_BS: gpui::Pixels = gpui::px(16.0);
+pub const SPACE_LG: gpui::Pixels = gpui::px(24.0);
+pub const SPACE_XL: gpui::Pixels = gpui::px(32.0);
+pub const SPACE_2XL: gpui::Pixels = gpui::px(48.0);
+pub const SPACE_3XL: gpui::Pixels = gpui::px(64.0);
 
 // Corner Radii (Shapes)
 pub const RADIUS_SQUARE: gpui::Pixels = gpui::px(0.0);
+pub const RADIUS_NONE: gpui::Pixels = gpui::px(0.0);
 pub const RADIUS_MIN: gpui::Pixels = gpui::px(2.0);
+pub const RADIUS_XS: gpui::Pixels = gpui::px(2.0);
 pub const RADIUS_MODERN: gpui::Pixels = gpui::px(4.0);
+pub const RADIUS_SM: gpui::Pixels = gpui::px(4.0);
 pub const RADIUS_CURVED: gpui::Pixels = gpui::px(8.0);
+pub const RADIUS_MD: gpui::Pixels = gpui::px(8.0);
+pub const RADIUS_BS: gpui::Pixels = gpui::px(16.0);
+pub const RADIUS_LG: gpui::Pixels = gpui::px(32.0);
 pub const RADIUS_ROUND: gpui::Pixels = gpui::px(9999.0);
+pub const RADIUS_FULL: gpui::Pixels = gpui::px(9999.0);
 
-impl FsTheme {
-    /// Return the default theme instance
-    pub fn new() -> Self {
-        Self::default()
+// Component Height Ladder
+pub const HEIGHT_SM: gpui::Pixels = gpui::px(20.0);
+pub const HEIGHT_MD: gpui::Pixels = gpui::px(24.0);
+pub const HEIGHT_BS: gpui::Pixels = gpui::px(28.0);
+pub const HEIGHT_LG: gpui::Pixels = gpui::px(32.0);
+pub const HEIGHT_XL: gpui::Pixels = gpui::px(40.0);
+pub const HEIGHT_2XL: gpui::Pixels = gpui::px(48.0);
+
+// App Shell Standard Metrics
+pub const HEADER_HEIGHT: gpui::Pixels = gpui::px(48.0);
+pub const FOOTER_HEIGHT: gpui::Pixels = gpui::px(32.0);
+pub const SIDEBAR_WIDTH: gpui::Pixels = gpui::px(260.0);
+pub const AGENT_PANEL_WIDTH: gpui::Pixels = gpui::px(320.0);
+
+// Typography Scale (Desktop Baseline Pixels)
+pub const TEXT_XS: gpui::Pixels = gpui::px(11.0);
+pub const TEXT_SM: gpui::Pixels = gpui::px(12.0);
+pub const TEXT_MD: gpui::Pixels = gpui::px(13.0);
+pub const TEXT_BS: gpui::Pixels = gpui::px(14.0);
+pub const TEXT_LG: gpui::Pixels = gpui::px(16.0);
+pub const TEXT_XL: gpui::Pixels = gpui::px(20.0);
+pub const TEXT_2XL: gpui::Pixels = gpui::px(24.0);
+pub const TEXT_3XL: gpui::Pixels = gpui::px(30.0);
+pub const TEXT_4XL: gpui::Pixels = gpui::px(36.0);
+pub const TEXT_5XL: gpui::Pixels = gpui::px(48.0);
+
+// Line Heights
+pub const LH_TIGHT: gpui::Pixels = gpui::px(16.0);
+pub const LH_SNUG: gpui::Pixels = gpui::px(18.0);
+pub const LH_NORMAL: gpui::Pixels = gpui::px(20.0);
+pub const LH_RELAXED: gpui::Pixels = gpui::px(22.0);
+
+/// Partition-Law Borders & Typography Extension Trait
+pub trait FsElementExt: Styled + Sized {
+    // 1px Hairline Partition Borders
+    fn border_sub(self, theme: &FsTheme) -> Self {
+        self.border_1().border_color(theme.border_subtle)
+    }
+    fn border_str(self, theme: &FsTheme) -> Self {
+        self.border_1().border_color(theme.border_strong)
+    }
+    fn bt(self, theme: &FsTheme) -> Self {
+        self.border_t_1().border_color(theme.border)
+    }
+    fn br(self, theme: &FsTheme) -> Self {
+        self.border_r_1().border_color(theme.border)
+    }
+    fn bb(self, theme: &FsTheme) -> Self {
+        self.border_b_1().border_color(theme.border)
+    }
+    fn bl(self, theme: &FsTheme) -> Self {
+        self.border_l_1().border_color(theme.border)
+    }
+    fn bt_sub(self, theme: &FsTheme) -> Self {
+        self.border_t_1().border_color(theme.border_subtle)
+    }
+    fn br_sub(self, theme: &FsTheme) -> Self {
+        self.border_r_1().border_color(theme.border_subtle)
+    }
+    fn bb_sub(self, theme: &FsTheme) -> Self {
+        self.border_b_1().border_color(theme.border_subtle)
+    }
+    fn bl_sub(self, theme: &FsTheme) -> Self {
+        self.border_l_1().border_color(theme.border_subtle)
+    }
+    fn bt_str(self, theme: &FsTheme) -> Self {
+        self.border_t_1().border_color(theme.border_strong)
+    }
+    fn br_str(self, theme: &FsTheme) -> Self {
+        self.border_r_1().border_color(theme.border_strong)
+    }
+    fn bb_str(self, theme: &FsTheme) -> Self {
+        self.border_b_1().border_color(theme.border_strong)
+    }
+    fn bl_str(self, theme: &FsTheme) -> Self {
+        self.border_l_1().border_color(theme.border_strong)
+    }
+
+    // Line Height Shorthands
+    fn lh_tight(self) -> Self { self.line_height(LH_TIGHT) }
+    fn lh_snug(self) -> Self { self.line_height(LH_SNUG) }
+    fn lh_normal(self) -> Self { self.line_height(LH_NORMAL) }
+    fn lh_relaxed(self) -> Self { self.line_height(LH_RELAXED) }
+
+    // Semantic Ink Shorthands
+    fn text_primary(self, theme: &FsTheme) -> Self { self.text_color(theme.text_primary) }
+    fn text_secondary(self, theme: &FsTheme) -> Self { self.text_color(theme.text_secondary) }
+    fn text_muted(self, theme: &FsTheme) -> Self { self.text_color(theme.text_muted) }
+    fn text_brand(self, theme: &FsTheme) -> Self { self.text_color(theme.brand) }
+}
+
+impl<T: Styled> FsElementExt for T {}
+
+/// Canonical Fractal Variants (matching `_10_propped.sass` and `fractalstyler`)
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Default)]
+pub enum FsVariant {
+    Primary,
+    #[default]
+    Secondary,
+    Themed,
+    Outline,
+    Ghost,
+    Link,
+    Icon,
+}
+
+/// Canonical Fractal Sizes (`sm | md | bs | lg | xl`)
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Default)]
+pub enum FsSize {
+    Sm,
+    Md,
+    #[default]
+    Bs,
+    Lg,
+    Xl,
+}
+
+impl FsSize {
+    pub fn font_size(&self) -> gpui::Pixels {
+        match self {
+            Self::Sm => gpui::px(12.0),
+            Self::Md => gpui::px(13.0),
+            Self::Bs => gpui::px(14.0),
+            Self::Lg => gpui::px(16.0),
+            Self::Xl => gpui::px(20.0),
+        }
+    }
+
+    pub fn line_height(&self) -> gpui::Pixels {
+        match self {
+            Self::Sm => gpui::px(16.0),
+            Self::Md => gpui::px(18.0),
+            Self::Bs => gpui::px(20.0),
+            Self::Lg => gpui::px(22.0),
+            Self::Xl => gpui::px(26.0),
+        }
+    }
+
+    pub fn padding_y(&self) -> gpui::Pixels {
+        match self {
+            Self::Sm => gpui::px(4.0),
+            Self::Md => gpui::px(6.0),
+            Self::Bs => gpui::px(8.0),
+            Self::Lg => gpui::px(10.0),
+            Self::Xl => gpui::px(12.0),
+        }
+    }
+
+    pub fn padding_x(&self) -> gpui::Pixels {
+        match self {
+            Self::Sm => gpui::px(8.0),
+            Self::Md => gpui::px(10.0),
+            Self::Bs => gpui::px(12.0),
+            Self::Lg => gpui::px(16.0),
+            Self::Xl => gpui::px(20.0),
+        }
+    }
+}
+
+/// Canonical Fractal Shapes (`square | min | modern | curved | round`)
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Default)]
+pub enum FsShape {
+    Square,
+    Min,
+    #[default]
+    Modern,
+    Curved,
+    Round,
+}
+
+impl FsShape {
+    pub fn radius(&self) -> gpui::Pixels {
+        match self {
+            Self::Square => RADIUS_SQUARE,
+            Self::Min => RADIUS_MIN,
+            Self::Modern => RADIUS_MODERN,
+            Self::Curved => RADIUS_CURVED,
+            Self::Round => RADIUS_ROUND,
+        }
+    }
+}
+
+/// Canonical Fractal Semantic Intents (`info | success | warning | danger`)
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Default)]
+pub enum FsIntent {
+    #[default]
+    Info,
+    Success,
+    Warning,
+    Danger,
+}
+
+impl FsIntent {
+    pub fn color(&self, theme: &FsTheme) -> gpui::Rgba {
+        match self {
+            Self::Info => theme.info_text,
+            Self::Success => theme.success_text,
+            Self::Warning => theme.warning_text,
+            Self::Danger => theme.danger_text,
+        }
+    }
+
+    pub fn bg_color(&self, theme: &FsTheme) -> gpui::Rgba {
+        match self {
+            Self::Info => theme.info_bg,
+            Self::Success => theme.success_bg,
+            Self::Warning => theme.warning_bg,
+            Self::Danger => theme.danger_bg,
+        }
     }
 }

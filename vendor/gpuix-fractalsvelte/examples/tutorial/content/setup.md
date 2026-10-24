@@ -1,0 +1,14 @@
+Everything installs from npm — `@gpuix/native` ships prebuilt, so there is no Rust toolchain to set up. Two things make the setup unusual.
+
+**The runtime flags are mandatory, so a bin adds them.** `svelte` resolves through package *conditions*: without `--conditions custom-renderer --conditions development` Node picks Svelte's server build, which has no `mount()`, and the app dies before a window opens. `--import gpuix-fractalsvelte/register` installs the loader that compiles `.svelte` files on the fly through Node's `module.registerHooks`; your own `.ts` files need nothing, since Node strips their types itself. `npx gpuix-fractalsvelte app.ts` is those flags spelled out for you.
+
+**Bun uses a different hook.** Bun has no `registerHooks`, so it takes the same compiler as a `--preload` (or a `bunfig.toml` preload) instead of `--import`; `gpuix-fractalsvelte --bun app.ts` does that. Every script in this repo has a `bun:` twin, and the bin picks the runtime from whoever ran it, so `npm run tutorial` and `bun run tutorial` both work.
+
+Requirements: **Node ≥ 24** or **Bun ≥ 1.4**. Svelte has to be the custom-renderer build, and the package brings its own: each release bundles the exact build it was tested against and the loaders point every `svelte` import at it, so you never install Svelte yourself.
+
+A successful start prints two lines:
+
+```
+[gpuix-fractalsvelte] created native window
+[gpuix-fractalsvelte] mount complete
+```

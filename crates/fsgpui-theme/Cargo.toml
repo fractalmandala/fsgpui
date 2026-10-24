@@ -1,0 +1,9 @@
+[package]
+name = "fsgpui-theme"
+description = "Canonical Fractal Design System tokens and GPUI element styling extensions"
+version = "0.1.0"
+edition = "2024"
+license = "MIT OR Apache-2.0"
+
+[dependencies]
+gpui = { workspace = true }
