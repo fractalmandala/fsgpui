@@ -1,0 +1,124 @@
+# =====================================================================
+# ezgpui example — Cydonia-style agent workspace
+# Source of the layout: cases/cydonia.md (ACP agent workspace;
+# sidebar / board / article / table / menubar view layer; runtime-
+# toggleable features: sessions, boards, tables).
+#
+# Layers exercised:
+#   L0 static   — div, text, style
+#   L1 components — icon, button, list, palette
+#   L2 layout   — split
+#   L3 bindings — on_click / view (app-registered Rust surfaces)
+#
+# `view:` nodes render Rust-owned surfaces (article editor, board,
+# table) registered by name — YAML describes chrome, Rust owns content.
+# =====================================================================
+
+window:
+  title: "Cydonia"
+  size: [1280, 800]
+
+tokens:
+  colors:
+    bg: "#1e1e2e"
+    surface: "#313244"
+    overlay: "#45475a"
+    text: "#cdd6f4"
+    muted: "#a6adc8"
+    accent: "#89b4fa"
+    green: "#a6e3a1"
+    red: "#f38ba8"
+  spacing: 8
+  radius: 6
+
+root:
+  type: div
+  direction: column
+  style: { background: "$bg" }
+  children:
+    # ---------- menubar ----------
+    - type: div
+      direction: row
+      style: { height: 32, background: "$surface", padding: 4 }
+      children:
+        - type: icon
+          name: "logo"
+          style: { color: "$accent" }
+        - type: text
+          content: "Cydonia"
+          style: { color: "$text", weight: semibold, font_size: 13 }
+        - type: div
+          direction: row
+          gap: 12
+          style: { padding: [0, 0, 0, 16] }
+          children:
+            - type: button
+              label: "New Article"
+              on_click: "article.new"
+            - type: button
+              label: "New Board"
+              on_click: "board.new"
+            - type: button
+              label: "New Table"
+              on_click: "table.new"
+
+    # ---------- body: sidebar | main ----------
+    - type: split
+      direction: row
+      flex: 1
+
+      sidebar:
+        width: 260
+        style: { background: "$surface", padding: 12 }
+        children:
+          - type: text
+            content: "PROJECT"
+            style: { color: "$muted", font_size: 11, weight: bold }
+          - type: input
+            placeholder: "Search artifacts…"
+            bind: "search.query"
+          - type: list
+            source: "artifacts.recent"      # data source in Rust state
+            item:                            # template per row
+              type: div
+              direction: row
+              gap: 8
+              children:
+                - type: icon
+                  name: "$item.kind"         # article / board / table
+                - type: text
+                  content: "$item.title"
+                  style: { color: "$text", font_size: 13 }
+              on_click: "artifact.open($item.id)"
+
+      main:
+        child:
+          type: view
+          view: "artifact.active"    # article | board | table — Rust decides
+          style: { background: "$bg" }
+
+    # ---------- status bar ----------
+    - type: div
+      direction: row
+      gap: 16
+      style: { height: 28, background: "$surface", padding: [0, 12] }
+      children:
+        - type: icon
+          name: "agent-status"
+        - type: text
+          bind: "agents.status_line"
+          style: { color: "$muted", font_size: 12 }
+        - type: div
+          direction: row
+          gap: 8
+          style: { padding: [0, 0, 0, 999] }   # push right
+          children:
+            - type: button
+              label: "Sessions"
+              on_click: "feature.toggle(sessions)"
+            - type: button
+              label: "Boards"
+              on_click: "feature.toggle(boards)"
+            - type: button
+              label: "Tables"
+              on_click: "feature.toggle(tables)"

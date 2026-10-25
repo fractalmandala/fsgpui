@@ -1,0 +1,142 @@
+# =====================================================================
+# ezgpui example — Tide (Zed git-gpui IDE, JSON-schema theming)
+# Studygroup: ide. Source: cases/tide.md — "my ideal WebStorm": editor,
+# terminal, git stage/commit/PR review, file tree, finder/search,
+# diff/merge, LSP, ACP agent client, build, markdown, embedded browser.
+#
+# Layers exercised:
+#   L0 static   — div, text, style
+#   L1 components — list, tabs, input, icon
+#   L2 layout   — split
+#   L3 bindings — view (editor, term, diff, acp, build are Rust mods)
+#   L4 theming  — every color/dim from a schema-validated token file
+#                 (ui-v1.json + ui-v1.schema.json; checked in CI)
+#
+# Distinctive vs ide.yaml: PR-review workflow + build pipeline + finder.
+# Same lineage (Zed git-gpui), same shell grammar, different product.
+# =====================================================================
+
+window:
+  title: "Tide"
+  size: [1680, 1000]
+
+tokens:
+  # in the real app these values live in schemas/ui-v1.json, validated
+  # against ui-v1.schema.json — YAML edits the JSON, never the code.
+  colors:
+    bg: "#1e1e2e"
+    surface: "#24243a"
+    border: "#3b3b5c"
+    text: "#cdd6f4"
+    muted: "#7f849c"
+    accent: "#cba6f7"
+    selection: "#45475a"
+    diff_add_bg: "#2b3a2f"
+    diff_del_bg: "#3f2b2f"
+    status_ok: "#a6e3a1"
+    status_warn: "#f9e2af"
+  type:
+    sizes: { xs: 11, sm: 12, md: 13, lg: 16 }
+
+root:
+  type: div
+  direction: column
+  style: { background: "$bg" }
+  children:
+    # ---------- workbench ----------
+    - type: split
+      direction: row
+      flex: 1
+
+      # ----- left: file tree -----
+      sidebar:
+        width: 260
+        child:
+          type: view
+          view: "file.tree"
+          style: { background: "$surface" }
+
+      # ----- center: tabs | editor, then build output -----
+      main:
+        child:
+          type: split
+          direction: column
+          editor:
+            flex: 1
+            child:
+              type: div
+              direction: column
+              children:
+                - type: tabs
+                  style: { height: 32, background: "$surface" }
+                  source: "editor.tabs"
+                  active: "editor.active"
+                  on_change: "editor.open($tab.id)"
+                  child:
+                    type: view
+                    view: "editor.active"
+                    flex: 1
+
+                # PR review surface: diff hunks + comment threads
+                - type: view
+                  view: "git.pr_review"
+                  flex: 1
+                  visible: "git.review_open"
+
+          # build panel — task output streamed from the build module
+          dock:
+            height: 220
+            child:
+              type: div
+              direction: column
+              children:
+                - type: div
+                  direction: row
+                  gap: 8
+                  style: { height: 28, padding: [0, 8], background: "$surface" }
+                  children:
+                    - type: button
+                      label: "Build"
+                      on_click: "build.run"
+                    - type: text
+                      bind: "build.status"
+                      style: { color: "$status_warn", font_size: 11 }
+                - type: view
+                  view: "build.output"
+                  flex: 1
+
+      # ----- right: ACP agent + terminal -----
+      right_panel:
+        width: 420
+        child:
+          type: div
+          direction: column
+          children:
+            - type: view
+              view: "acp.agent_panel"       # spawns @geohar/pi-acp adapter
+              flex: 1
+            - type: view
+              view: "term.panel"
+              height: 260
+
+    # ---------- status bar ----------
+    - type: div
+      direction: row
+      gap: 16
+      style: { height: 26, background: "$surface", padding: [0, 12] }
+      children:
+        - type: text
+          bind: "git.branch"
+          style: { color: "$muted", font_size: 11 }
+        - type: text
+          bind: "lsp.status"
+          style: { color: "$status_ok", font_size: 11 }
+        - type: text
+          bind: "usage.tokens_line"
+          style: { color: "$muted", font_size: 11, padding: [0, 0, 0, 999] }
+
+# finder / search (project-wide, jump-to-match)
+palette:
+  on_key: "cmd-p"
+  source: "finder.entries"
+  on_select: "finder.jump"

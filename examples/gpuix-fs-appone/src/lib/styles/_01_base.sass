@@ -1,0 +1,67 @@
+*,
+*::before,
+*::after
+	box-sizing: border-box
+	min-width: 0
+
+body, html
+	color: var(--text-primary)
+	font-family: var(--font-sans)
+	font-size: var(--text-bs)
+	background: var(--bg-surface)
+	box-sizing: border-box
+	margin: 0
+	padding: 0
+
+:root
+	interpolate-size: allow-keywords
+	scrollbar-gutter: stable
+	overflow-wrap: break-word
+
+body
+	min-height: 100svh
+
+button, a, [role="button"]
+	touch-action: manipulation
+
+button, [role="button"]
+	user-select: none
+	-webkit-user-select: none
+
+img, video, svg
+	display: block
+	max-width: 100%
+	height: auto
+
+button, input, select, textarea
+	font: inherit
+	color: inherit
+
+p, li, h6, h5, h4, h3, h2, h1
+	margin: 0
+
+p, li
+	text-wrap: pretty
+
+h1, h2, h3, h4, h5
+	text-wrap: balance
+
+a
+	color: inherit
+	text-decoration: none
+
+//debug class
+.bdr
+	border-width: 1px
+	border-color: #FF30FF
+
+ul, ol
+	list-style-type: none
+	padding-inline-start: 0
+
+::view-transition-old(root), ::view-transition-new(root)
+	animation: none
+	mix-blend-mode: normal
+
+html.mode-wipe::view-transition-old(root), html.mode-wipe::view-transition-new(root)
+	animation: none

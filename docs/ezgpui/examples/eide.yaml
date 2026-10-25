@@ -1,0 +1,110 @@
+# =====================================================================
+# ezgpui example — EIDE (launcher shell around code-server)
+# Studygroup: ide. Source: cases/eide.md — a native gpui (crates.io +
+# gpui-wry) window showing launcher chrome: project picker, build/target
+# panels, launch progress, logs — then embedding a real code-server
+# (headless VS Code) in the same window via a wry WebView.
+#
+# Layers exercised:
+#   L0 static   — div, text, style
+#   L1 components — button, input, list
+#   L3 bindings — view (the code-server webview is one Rust surface)
+#
+# Distinctive: the webview IS the product; the YAML chrome exists to
+# show launch progress while it boots (health poll 250ms, timeout 90s).
+# Flat color constants — the pragmatic end of the styling spectrum.
+# =====================================================================
+
+window:
+  title: "EIDE"
+  size: [1400, 900]
+
+tokens:
+  colors:
+    bg: "#1e1e2e"
+    panel: "#252536"
+    panel_alt: "#2b2b40"
+    border: "#3b3b52"
+    text: "#cdd6f4"
+    accent: "#89b4fa"
+    bad: "#f38ba8"
+  spacing: 8
+
+root:
+  type: div
+  direction: row
+  style: { background: "$bg" }
+  children:
+    # ---------- left: launcher chrome ----------
+    - type: div
+      direction: column
+      gap: 12
+      style: { width: 320, background: "$panel", padding: 16 }
+      children:
+        - type: text
+          content: "EIDE Projects"
+          style: { color: "$text", font_size: 18, weight: bold }
+
+        - type: list
+          source: "projects.recent"
+          item:
+            type: div
+            direction: column
+            style: { padding: 8, border_radius: 6 }
+            children:
+              - type: text
+                content: "$project.name"
+                style: { color: "$text", font_size: 13, weight: medium }
+              - type: text
+                content: "$project.target"       # 8051 / STM8 / Cortex-M…
+                style: { color: "$accent", font_size: 11 }
+            on_click: "project.open($project.id)"
+
+        - type: button
+          label: "Open Folder…"
+          on_click: "project.pick_folder"
+
+        # build / target panel
+        - type: div
+          direction: column
+          gap: 6
+          style: { background: "$panel_alt", padding: 12, border_radius: 6 }
+          children:
+            - type: text
+              content: "Builder"
+              style: { color: "$muted", font_size: 11, weight: bold }
+            - type: button
+              label: "Build (F7)"
+              on_click: "build.run"
+            - type: button
+              label: "Flash"
+              on_click: "build.flash"
+
+    # ---------- right: progress → logs → the product ----------
+    - type: div
+      direction: column
+      flex: 1
+      children:
+        # launch progress while code-server boots
+        - type: div
+          direction: column
+          gap: 8
+          style: { padding: 16, visible: "launch.in_progress" }
+          children:
+            - type: text
+              bind: "launch.stage"             # "starting code-server…"
+              style: { color: "$text", font_size: 13 }
+            - type: view
+              view: "launch.progress_bar"
+              height: 4
+
+        # bridge log (newline JSON-RPC over stdio, drained on a timer)
+        - type: view
+          view: "log.stream"
+          height: 140
+          style: { background: "$panel_alt", border: "$border" }
+
+        # THE product: code-server in a wry WebView, filling the rest
+        - type: view
+          view: "code_server.webview"
+          flex: 1

@@ -1,3 +1,0 @@
-# For ad-hoc `bun file.ts` runs; `bun run start` goes through the gpuix-fractalsvelte bin, which
-# passes the same preload itself.
-preload = ["gpuix-fractalsvelte/plugin"]

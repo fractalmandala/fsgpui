@@ -1,0 +1,137 @@
+# =====================================================================
+# ezgpui example — Glass (browser + editor + terminal in one app)
+# Studygroup: poly. Source: cases/glass.md — a Zed hard fork whose thesis
+# is surface fusion: "Instead of switching between separate applications,
+# everything lives in the same environment." The browser is the product,
+# not a panel. Voice via livekit; local models via lmstudio; node runtime
+# in-app; gpui extracted to Glass-HQ/gpui with iOS work.
+#
+# Layers exercised:
+#   L1 components — list, tabs, icon, button, input
+#   L2 layout   — sidebar-driven surface fusion
+#   L3 bindings — view (browser, editor, terminal, voice are Rust surfaces)
+#
+# Distinctive: browser-first. The default surface is a full browser;
+# editor/terminal are surfaces you add — the inverse of ide.yaml.
+# =====================================================================
+
+window:
+  title: "Glass"
+  size: [1600, 1000]
+
+tokens:
+  theme: "glass-dark"          # Zed theme system + native macOS components
+
+root:
+  type: div
+  direction: column
+  children:
+    # ---------- app: surfaces rail | active surface ----------
+    - type: split
+      direction: row
+      flex: 1
+
+      # ----- left: surfaces + sidebar (native macOS feel) -----
+      sidebar:
+        width: 280
+        child:
+          type: div
+          direction: column
+          style: { background: "surface" }
+          children:
+            # surface switcher — browse / code / work in one place
+            - type: div
+              direction: row
+              gap: 10
+              style: { height: 44, padding: [0, 10] }
+              children:
+                - type: icon
+                  name: "browser"
+                  on_click: "surface.select(browser)"
+                - type: icon
+                  name: "editor"
+                  on_click: "surface.select(editor)"
+                - type: icon
+                  name: "terminal"
+                  on_click: "surface.select(terminal)"
+                - type: icon
+                  name: "voice"
+                  on_click: "voice.toggle"       # livekit client
+                - type: icon
+                  name: "local-models"
+                  on_click: "lmstudio.open"
+
+            # browser-first: tabs and history live in the sidebar
+            - type: div
+              direction: column
+              gap: 6
+              style: { padding: 10, visible: "surface.is_browser" }
+              children:
+                - type: input
+                  placeholder: "Search or enter address…"
+                  bind: "browser.url"
+                  on_submit: "browser.navigate"
+                - type: list
+                  source: "browser.open_tabs"
+                  item:
+                    type: div
+                    direction: row
+                    gap: 8
+                    children:
+                      - type: icon
+                        name: "favicon"
+                      - type: text
+                        content: "$tab.title"
+                        style: { font_size: 12 }
+                    on_click: "browser.select($tab.id)"
+
+            # agent surfaces (ACP thread on Zed's agent crates)
+            - type: view
+              view: "agent.thread_list"
+              flex: 1
+
+      # ----- main: the active fused surface -----
+      main:
+        child:
+          type: div
+          direction: column
+          children:
+            # browser chrome — shown only when the browser surface is active
+            - type: div
+              direction: row
+              gap: 8
+              style: { height: 36, padding: [0, 10], visible: "surface.is_browser" }
+              children:
+                - type: icon
+                  name: "back"
+                  on_click: "browser.back"
+                - type: icon
+                  name: "forward"
+                  on_click: "browser.forward"
+                - type: text
+                  bind: "browser.current_url"
+                  style: { font_size: 12, color: "muted" }
+
+            # the fusion surface: full browser / editor / terminal
+            - type: view
+              view: "surface.active"     # browser is default; never "just a panel"
+              flex: 1
+
+            # terminal docked below, resizable into focus
+            - type: view
+              view: "terminal.dock"
+              height: 240
+              visible: "terminal.docked"
+
+    # ---------- status bar ----------
+    - type: div
+      direction: row
+      gap: 16
+      style: { height: 26, background: "surface", padding: [0, 12] }
+      children:
+        - type: text
+          bind: "voice.status_line"      # livekit room state
+          style: { font_size: 11, color: "muted" }
+        - type: text
+          bind: "node_runtime.status"    # app_runtime / node available
+          style: { font_size: 11, color: "muted", padding: [0, 0, 0, 999] }

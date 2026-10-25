@@ -1,0 +1,81 @@
+# =====================================================================
+# ezgpui features example — Herdr
+# Pair of: ../herdr.yaml. Source: cases/herdr.md.
+# A client, not an emulator: it paints a daemon's surface model. The
+# feature manifest is mostly integrations — transport, commands that
+# carry boot IDs, per-provider usage probes.
+# =====================================================================
+
+app: herdr
+lineage: gpui-pre+gpui-wry
+
+features:
+  connection:                   # local socket or SSH; all transport I/O on
+    state:                      # a dedicated worker, drained as GUI events
+      endpoint_line: String
+      connected: Bool
+    integrations:
+      - kind: daemon            # herdr.dev daemon, installed separately
+        transport: { enum: [local_socket, ssh] }
+    commands:
+      connect: { args: [endpoint] }
+      disconnect: {}
+    views: ["connection.endpoint_line"]
+    notes: commands carry the boot ID of the snapshot they act on —
+      no reconnect/replay.
+
+  terminal_surface:             # paint the daemon's cells natively
+    state: {}
+    views: ["terminal.daemon_surface"]
+    settings:
+      slow_paint_budget: { default: 16ms }   # performance is first-class
+      selection_alpha: { default: 0.3 }      # tint over replace — keep
+      match_alpha: { default: 0.35 }         # glyphs readable on every theme
+      current_match_alpha: { default: 0.5 }
+
+  tabs:
+    state: { active: TabId }
+    commands:
+      select: { args: [id] }
+    sources: ["daemon.tabs"]
+
+  worktrees:
+    state: { repos: List<Repo> }
+    sources: ["repos.with_worktrees"]
+    commands:
+      focus: { args: [id] }
+      checkpoint: { args: [worktree_id] }    # right-click popover actions
+      teleport: { args: [worktree_id] }
+      open_notes: { args: [worktree_id] }
+      open_skills: { args: [worktree_id] }
+
+  host_vitals:                  # CPU/mem streamed from the daemon
+    sources: ["host.metrics"]
+    views: ["host.cpu_line", "host.mem_line"]
+
+  browser_preview:              # wry/WKWebView island; page annotation via
+    state: { preview_open: Bool }   # WKSnapshotConfiguration (macOS-gated)
+    commands:
+      toggle: {}
+      annotate: {}              # frozen snapshot for markup
+    views: ["browser.preview"]
+
+  copy_mode:
+    commands:
+      enter: { key: "ctrl-shift-c" }
+
+  palette:
+    commands:
+      show: { key: "cmd-k" }
+
+  usage:                        # per-provider usage probes (e.g. kimi)
+    tasks:
+      probe: { trigger: { manual: true }, runs: "usage.probe" }
+    views: ["usage.page"]
+
+  settings:
+    state: { theme: configTheme }   # own config Theme + theme_picker + contrast
+    views: ["settings_window"]
+
+  badge:
+    integrations: [{ kind: app_badge }]

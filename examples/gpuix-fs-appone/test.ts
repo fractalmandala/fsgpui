@@ -1,5 +1,5 @@
 import { mount_headless, click_test_id, all_text, check, finish } from 'gpuix-fractalsvelte/test';
-import App from './App.svelte';
+import App from './src/App.svelte';
 
 mount_headless(App, { width: 400, height: 300 });
 

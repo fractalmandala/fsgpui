@@ -1,0 +1,66 @@
+# =====================================================================
+# ezgpui features example — EIDE
+# Pair of: ../eide.yaml. Source: cases/eide.md.
+# A GPUI shell around a web app: launcher chrome, then a real
+# code-server embedded via wry. The feature story is child-process
+# lifecycle — health polls, timeouts, fallback downloads.
+# =====================================================================
+
+app: eide
+lineage: gpui-0.2.2+gpui-wry
+
+features:
+  projects:
+    state:
+      recent: List<Project>
+      selected: Option<ProjectId>
+    commands:
+      open: { args: [id] }
+      pick_folder: {}
+    sources: ["projects.recent"]
+
+  build:
+    state: { status: String }
+    commands:
+      run: { key: "F7" }
+      flash: {}
+    tasks:
+      stream_output: { trigger: { event: "build.progress" }, runs: "build.append_log" }
+    views: ["build.status"]
+
+  node_bridge:                  # spawns dist/core.js; newline JSON-RPC over
+    integrations:               # stdio; deliberately NOT async — std mpsc
+      - kind: child_process     # drained by the view on a timer
+        binary: node
+        args: ["dist/core.js"]
+        protocol: jsonrpc-ndjson
+        executor: std_threads_mpsc   # keeps the GPUI executor free of blocking
+    tasks:
+      drain: { trigger: { interval: 16ms }, runs: "bridge.drain" }
+
+  code_server:                  # THE product surface
+    state:
+      in_progress: Bool
+      stage: String
+      port: u16
+    settings:
+      timeout: { default: 90s }          # VS Code boot is slow
+      health_poll: { default: 250ms }
+      isolated_dirs: "~/.eide-gpui"      # private extensions/user-data dirs
+    integrations:
+      - kind: webview
+        engine: wry
+        binary: code-server
+    tasks:
+      boot: { trigger: { startup: true }, runs: "codeserver.start" }
+      health: { trigger: { interval: 250ms }, runs: "codeserver.poll" }
+    views: ["code_server.webview", "launch.progress_bar"]
+
+  vsix_fetch:                   # fallback: download CL.eide from marketplace
+    settings:
+      url_env: EIDE_VSIX_URL
+    commands:
+      download: {}
+
+  log_stream:
+    views: ["log.stream"]

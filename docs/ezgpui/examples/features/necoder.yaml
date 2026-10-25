@@ -1,0 +1,71 @@
+# =====================================================================
+# ezgpui features example — necoder
+# Pair of: ../necoder.yaml. Source: cases/necoder.md.
+# Color-oriented agent editor. Distinctive principles in feature form:
+# one-shot rate-limit reads (borrow the agent's own auth, never store
+# tokens, never poll) and parse-only reads of other people's configs.
+# =====================================================================
+
+app: necoder
+lineage: zed-git-revpinned     # rev b2d9c2e1, matches local zed/ clone
+
+features:
+  agent_panel:                  # wraps Claude Code / Codex as ACP children
+    state:
+      draft: String
+      thread: ThreadId
+    commands:
+      send: { key: "enter" }
+    integrations:
+      - kind: child_process
+        binary: claude-agent-acp
+        protocol: acp
+      - kind: child_process
+        binary: codex-acp
+        protocol: acp
+    views: ["agent_panel.thread"]
+
+  color_coding:                 # "orient by color" — the product concept
+    state:
+      project_hues: Map<ProjectId, Color>
+      thread_tint_alpha: 0.15
+    sources: ["projects.open"]
+
+  todo_board:                   # the agent checks items off
+    state: { items: List<Todo> }
+    sources: ["todo.items"]
+    notes: mutations arrive from the agent thread, not the user
+
+  usage:
+    state: { context_line: String }
+    tasks:
+      read_limits:              # codex_limits principle: read ONCE on
+        trigger: { manual: true }   # demand via codex app-server
+        runs: "usage.read_once"
+    settings:
+      poll: { locked: false, default: never }   # never poll; never store
+      token_storage: { locked: false, default: none }  # borrow agent auth
+    views: ["usage.context_bar"]
+
+  mcp_registry:                 # reads ~/.codex/config.toml —
+    settings:                   # toml parse-only, no write-back
+      mode: read_only
+      path: "~/.codex/config.toml"
+
+  presets:
+    state: { selected: PresetId }
+
+  history:
+    persisted: sqlite
+
+  skills:
+    state: { installed: List<Skill> }
+
+  deploy_install:
+    commands:
+      install_adapters: {}      # sets up claude-agent-acp / codex-acp
+
+  i18n:
+    settings:
+      locale: { default: sys_locale_display_language }  # CFLocale/AppleLanguages —
+      languages: [ja, en]       # macOS GUI launches have no LANG

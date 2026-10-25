@@ -1,0 +1,145 @@
+# =====================================================================
+# ezgpui example — Waku-style agent control plane
+# Source of the layout: cases/waku.md (sessions/transcript/composer,
+# command palette, usage meter, terminal, browser surface in the right
+# panel, JS REPL, task switcher).
+#
+# Layers exercised:
+#   L0 static   — div, text, style
+#   L1 components — icon, button, input, list, palette
+#   L2 layout   — split (three columns)
+#   L3 bindings — on_click / view (transcript, composer, terminal,
+#                 webview, repl are Rust-registered surfaces)
+#
+# The headline: the native-webview browser panel is just another `view:`
+# node — geometry sync, overlay planes and forks stay in Rust.
+# =====================================================================
+
+window:
+  title: "Waku"
+  size: [1440, 900]
+
+tokens:
+  colors:
+    bg: "#11111b"
+    surface: "#181825"
+    overlay: "#313244"
+    text: "#cdd6f4"
+    muted: "#a6adc8"
+    accent: "#b4befe"
+    yellow: "#f9e2af"
+  spacing: 8
+  radius: 8
+
+root:
+  type: div
+  direction: column
+  style: { background: "$bg" }
+  children:
+    # ---------- body: sessions | conversation | surfaces ----------
+    - type: split
+      direction: row
+      flex: 1
+
+      # ----- left: sessions / projects / branches -----
+      sidebar:
+        width: 280
+        style: { background: "$surface", padding: 12 }
+        children:
+          - type: input
+            placeholder: "Search sessions…"
+            bind: "sessions.filter"
+          - type: list
+            source: "sessions.active"
+            item:
+              type: div
+              direction: row
+              gap: 8
+              children:
+                - type: icon
+                  name: "$item.agent"
+                - type: div
+                  direction: column
+                  children:
+                    - type: text
+                      content: "$item.title"
+                      style: { color: "$text", font_size: 13 }
+                    - type: text
+                      content: "$item.branch"
+                      style: { color: "$muted", font_size: 11 }
+              on_click: "session.open($item.id)"
+          - type: button
+            label: "New Session"
+            on_click: "session.new"
+            style: { background: "$accent", color: "#11111b" }
+
+      # ----- center: transcript + composer -----
+      main:
+        child:
+          type: div
+          direction: column
+          children:
+            - type: view
+              view: "transcript.active"
+              flex: 1
+              style: { background: "$bg", padding: 16 }
+
+            - type: div
+              direction: row
+              gap: 8
+              style: { background: "$surface", padding: 12 }
+              children:
+                - type: icon
+                  name: "attach"
+                  on_click: "composer.attach"
+                - type: input
+                  placeholder: "Message the agent…  (⌘⏎ to send)"
+                  bind: "composer.draft"
+                  flex: 1
+                - type: button
+                  label: "Send"
+                  on_click: "composer.send"
+                  style: { background: "$accent", color: "#11111b" }
+
+      # ----- right: browser / terminal / repl tabs -----
+      right_panel:
+        width: 480
+        children:
+          - type: tabs
+            style: { height: 36, background: "$surface" }
+            tabs:
+              - id: "browser"
+                label: "Browser"
+              - id: "terminal"
+                label: "Terminal"
+              - id: "repl"
+                label: "JS REPL"
+            active: "browser"
+            on_change: "surfaces.select"
+            child:
+              type: view
+              view: "surfaces.active"   # webview | terminal | repl — Rust owns
+              flex: 1
+
+    # ---------- status bar: usage meter, task switcher ----------
+    - type: div
+      direction: row
+      gap: 16
+      style: { height: 28, background: "$surface", padding: [0, 12] }
+      children:
+        - type: text
+          bind: "usage.meter_line"
+          style: { color: "$muted", font_size: 12 }
+        - type: text
+          bind: "session.active_project"
+          style: { color: "$muted", font_size: 12 }
+        - type: icon
+          name: "task-switcher"
+          on_click: "tasks.show_switcher"
+          style: { color: "$yellow" }
+
+# command palette is a top-level surface, opened by keybinding
+palette:
+  on_key: "cmd-k"
+  source: "commands.all"
+  on_select: "commands.run"

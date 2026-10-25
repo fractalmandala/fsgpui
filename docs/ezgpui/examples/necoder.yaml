@@ -1,0 +1,162 @@
+# =====================================================================
+# ezgpui example — necoder (color-oriented agent editor)
+# Studygroup: agent chat. Source: cases/necoder.md — a code editor for
+# running AI agents across repos/branches/worktrees: color-coded
+# projects and threads, a todo board the agent checks off, token-usage
+# visibility so context doesn't silently compact. Wraps Claude Code /
+# Codex via ACP adapters.
+#
+# Layers exercised:
+#   L0 static   — div, text, style
+#   L1 components — list, tabs, input, button, icon
+#   L2 layout   — split
+#   L3 bindings — view (agent_panel 26k LOC is one Rust surface)
+#   L4 theming  — per-project/thread color coding is load-bearing
+#
+# Distinctive: color IS the product concept — each project/thread gets
+# a hue; the YAML tokens make that a first-class idea.
+# =====================================================================
+
+window:
+  title: "necoder"
+  size: [1600, 980]
+
+tokens:
+  colors:
+    bg: "#11111b"
+    surface: "#181825"
+    overlay: "#313244"
+    text: "#cdd6f4"
+    muted: "#a6adc8"
+  coding:                               # necoder-specific: orient-by-color
+    project_hues: ["#89b4fa", "#a6e3a1", "#f9e2af", "#f38ba8", "#cba6f7", "#94e2d5"]
+    thread_tint_alpha: 0.15
+  usage:
+    warn_at: 0.7                        # context compaction warning threshold
+
+root:
+  type: div
+  direction: column
+  style: { background: "$bg" }
+  children:
+    # ---------- workbench: explorer | editor | agent ----------
+    - type: split
+      direction: row
+      flex: 1
+
+      # ----- left: color-coded explorer -----
+      sidebar:
+        width: 260
+        child:
+          type: div
+          direction: column
+          style: { background: "$surface" }
+          children:
+            - type: input
+              placeholder: "Filter files…"
+              bind: "explorer.filter"
+            - type: list
+              source: "projects.open"
+              item:
+                type: div
+                direction: row
+                gap: 8
+                style: { padding: [4, 8] }
+                children:
+                  - type: icon
+                    name: "project"
+                    style: { color: "$item.hue" }    # project's assigned hue
+                  - type: text
+                    content: "$project.name"
+                    style: { color: "$text", font_size: 13 }
+              on_click: "project.focus($project.id)"
+            - type: view
+              view: "explorer.tree"
+              flex: 1
+
+      # ----- center: editor + review tabs -----
+      main:
+        child:
+          type: div
+          direction: column
+          children:
+            - type: tabs
+              style: { height: 34, background: "$surface" }
+              source: "editor.tabs"
+              tab:
+                type: div
+                direction: row
+                gap: 6
+                children:
+                  - type: icon
+                    name: "thread"
+                    style: { color: "$tab.thread_hue" }
+                  - type: text
+                    content: "$tab.name"
+                    style: { color: "$text", font_size: 12 }
+              active: "editor.active"
+              on_change: "editor.open($tab.id)"
+              child:
+                type: view
+                view: "editor.active"
+                flex: 1
+
+            # review_view — what the agent changed
+            - type: view
+              view: "review.changes"
+              height: 300
+              visible: "review.open"
+
+    # ----- right: the agent panel (todo board + chat + usage) -----
+      right_panel:
+        width: 460
+        child:
+          type: div
+          direction: column
+          style: { background: "$surface" }
+          children:
+            # token usage — visible so context never silently compacts
+            - type: div
+              direction: column
+              gap: 4
+              style: { padding: 12 }
+              children:
+                - type: text
+                  bind: "usage.context_line"
+                  style: { color: "$muted", font_size: 11 }
+                - type: view
+                  view: "usage.context_bar"
+                  height: 4
+  
+            # todo board — the agent checks items off
+            - type: list
+              source: "todo.items"
+              item:
+                type: div
+                direction: row
+                gap: 8
+                children:
+                  - type: icon
+                    name: "$item.state"      # pending / done
+                  - type: text
+                    content: "$item.text"
+                    style: { color: "$text", font_size: 12 }
+  
+            # the agent conversation (ACP child process lives in Rust)
+            - type: view
+              view: "agent_panel.thread"
+              flex: 1
+  
+            - type: div
+              direction: row
+              gap: 8
+              style: { padding: 12 }
+              children:
+                - type: input
+                  placeholder: "Prompt the agent…"
+                  bind: "agent_panel.draft"
+                  flex: 1
+                  on_submit: "agent_panel.send"
+                - type: button
+                  label: "Send"
+                  on_click: "agent_panel.send"

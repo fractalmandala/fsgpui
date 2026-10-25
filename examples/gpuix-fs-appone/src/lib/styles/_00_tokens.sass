@@ -1,0 +1,195 @@
+=light-theme-tokens
+	colorScheme: light
+	--whiteFixed: #FFFFFF
+	--blackFixed: #18181B
+	--bg: #FFFFFF
+	--bgSurface: #F4F3EE
+	--bgPanel: #F5F4EF
+	--bgSunken: #F6F6F6
+	--bgRaised: #FCFDFD
+	--bgExtra: #F5F7F9
+	--bgInput: #F4F3EE
+	--bgButton: #6f6f6e
+	--textPrimary: #1c1c1d
+	--textSecondary: #808182
+	--textMuted: #aaacaf
+	--textButton: #FFFFFF
+	--textInverse: #FFFFFF
+	--stateSurface: #F4F4F6
+	--stateHover: #E4E5E8
+	--stateSelected: #7c7c7a
+	--border: #E5E7EB
+	--borderSubtle: #F0F1F3
+	--borderStrong: #D1D5DB
+	--themeColor: #22c55e
+	--themeColorAlt: #00df89
+	--themeColorSub: #10b981
+	--bgSuccess: #10B981
+	--textSuccess: #FFFFFF
+	--bgWarning: #FFD000
+	--textWarning: #424242
+	--bgDanger: #EF4444
+	--textDanger: #FFFFFF
+	--bgInfo: #3B82F6
+	--textInfo: #FFFFFF
+	--ring: rgba(255, 208, 0, 0.4)
+	--shadow-color: 0 0 0
+	--shadow-rim: inset 0 1px 0 rgba(255, 255, 255, 0.6)
+	--shadow-xs: 0 1px 2px rgb(var(--shadow-color) / 0.05)
+	--shadow-sm: 0 1px 2px rgb(var(--shadow-color) / 0.06), 0 2px 4px rgb(var(--shadow-color) / 0.04)
+	--shadow-md: 0 2px 4px rgb(var(--shadow-color) / 0.05), 0 8px 16px rgb(var(--shadow-color) / 0.05)
+	--shadow-bs: 0 2px 4px rgb(var(--shadow-color) / 0.05), 0 6px 14px rgb(var(--shadow-color) / 0.05)
+	--shadow-lg: 0 4px 8px rgb(var(--shadow-color) / 0.06), 0 12px 24px rgb(var(--shadow-color) / 0.06)
+	--shadow-xl: 0 8px 16px rgb(var(--shadow-color) / 0.07), 0 20px 36px rgb(var(--shadow-color) / 0.07)
+	--shadow-2xl: 0 12px 24px rgb(var(--shadow-color) / 0.08), 0 28px 48px rgb(var(--shadow-color) / 0.08)
+	--shadow-3xl: 0 16px 32px rgb(var(--shadow-color) / 0.10), 0 36px 64px rgb(var(--shadow-color) / 0.10)
+
+=dark-theme-tokens
+	color-scheme: dark
+	--white-fixed: #FFFFFF
+	--black-fixed: #18181B
+	--bg: #121214
+	--bg-surface: #1C1C20
+	--bg-panel: #1E1E22
+	--bg-sunken: #27272C
+	--bg-raised: #36363D
+	--bg-extra: #161618
+	--bg-input: #27272C
+	--bg-button: #32323A
+	--text-primary: #F4F4F6
+	--text-secondary: #9D9DA8
+	--text-muted: #63636E
+	--text-inverse: #121214
+	--state-surface: #27272C
+	--state-hover: #33333C
+	--state-selected: #3E3E4A
+	--border: #2E2E36
+	--border-subtle: #222228
+	--border-strong: #44444E
+	--theme-color: #22c55e
+	--theme-color-alt: #00df89
+	--theme-color-sub: #10b981
+	--accent-orange: #FF7A00
+	--accent-green: #22C55E
+	--success: #22C55E
+	--success-hover: #34D399
+	--warning: #FFD000
+	--warning-hover: #FCD34D
+	--danger: #EF4444
+	--danger-hover: #F87171
+	--info: #60A5FA
+	--info-hover: #93C5FD
+	--ring: rgba(255, 208, 0, 0.45)
+	--shadow-color: 0 0 0
+	--shadow-umbra: rgb(0 0 0 / 0.60)
+	--shadow-rim: inset 0 1px 0 rgba(255, 255, 255, 0.08)
+	--shadow-xs: 0 1px 2px rgb(var(--shadow-color) / 0.3)
+	--shadow-sm: 0 1px 2px rgb(var(--shadow-color) / 0.25), 0 2px 4px rgb(var(--shadow-color) / 0.2)
+	--shadow-md: 0 2px 4px rgb(var(--shadow-color) / 0.2), 0 8px 16px rgb(var(--shadow-color) / 0.25)
+	--shadow-bs: 0 2px 4px rgb(var(--shadow-color) / 0.2), 0 6px 14px rgb(var(--shadow-color) / 0.25)
+	--shadow-lg: 0 4px 8px rgb(var(--shadow-color) / 0.25), 0 12px 24px rgb(var(--shadow-color) / 0.3)
+	--shadow-xl: 0 8px 16px rgb(var(--shadow-color) / 0.3), 0 20px 36px rgb(var(--shadow-color) / 0.35)
+	--shadow-2xl: 0 12px 24px rgb(var(--shadow-color) / 0.35), 0 28px 48px rgb(var(--shadow-color) / 0.4)
+	--shadow-3xl: 0 16px 32px rgb(var(--shadow-color) / 0.4), 0 36px 64px rgb(var(--shadow-color) / 0.45)
+
+@layer fractalstyler.tokens
+	[data-mode='dark']
+		+dark-theme-tokens
+
+	[data-mode='light']
+		+light-theme-tokens
+
+	:root
+		--text-scaling: 1.25
+		--text-xs: 0.67rem
+		--text-sm: 0.75rem
+		--text-md: clamp(0.8333rem, 0.8061rem + 0.1212vw, 0.9rem)
+		--text-bs: clamp(1rem, 0.9489rem + 0.2273vw, 1rem)
+		--text-lg: clamp(1.2rem, 1.1156rem + 0.375vw, 1.4063rem)
+		--text-xl: clamp(1.44rem, 1.31rem + 0.5778vw, 1.7578rem)
+		--text-2xl: clamp(1.728rem, 1.536rem + 0.8532vw, 2.1973rem)
+		--text-3xl: clamp(2.0736rem, 1.7983rem + 1.2236vw, 2.7466rem)
+		--text-4xl: clamp(2.4883rem, 2.1018rem + 1.718vw, 3.4332rem)
+		--text-5xl: clamp(2.986rem, 2.4519rem + 2.3737vw, 4.2915rem)
+
+		--unit-space: 0.25rem
+		--space-xs: var(--unit-space)
+		--space-sm: calc(var(--unit-space) * 2)
+		--space-md: calc(var(--unit-space) * 3)
+		--space-bs: calc(var(--unit-space) * 4)
+		--space-lg: calc(var(--unit-space) * 6)
+		--space-xl: calc(var(--unit-space) * 8)
+		--space-2xl: calc(var(--unit-space) * 12)
+		--space-3xl: calc(var(--unit-space) * 16)
+
+		--radius-xs: 2px
+		--radius-sm: 4px
+		--radius-md: 8px
+		--radius-bs: 16px
+		--radius-lg: 32px
+		--radius-full: 9999px
+
+		// Avatar and switch channels. The switch numbers are load-bearing: the thumb
+		// must travel exactly the 18px hard-coded on .switch-track.checked, and the
+		// track is border-box (1px border + 2px padding), so w = 16 + 18 + 4 + 2.
+		--avatar-size: 32px
+		--switch-w: 40px
+		--switch-h: 22px
+		--switch-thumb: 16px
+
+		// Motion language (registry v1) — durations and easings all compositions read.
+		--transin1: cubic-bezier(0.470, 0.000, 0.745, 0.715)
+		--transin2: cubic-bezier(0.550, 0.055, 0.675, 0.190)
+		--transin3: cubic-bezier(0.755, 0.050, 0.855, 0.060)
+		--transout1: cubic-bezier(0.390, 0.575, 0.565, 1.000)
+		--transout2: cubic-bezier(0.215, 0.610, 0.355, 1.000)
+		--transout3: cubic-bezier(0.230, 1.000, 0.320, 1.000)
+		--speed0: 50ms
+		--speed1: 90ms
+		--speed2: 140ms
+		--speed3: 220ms
+		--motionin1: var(--speed0) var(--transin1)
+		--motionout1: var(--speed1) var(--transout1)
+		--motionin2: var(--speed2) var(--transin2)
+		--motionout2: var(--speed2) var(--transout2)
+		--motionin3: var(--speed3) var(--transin3)
+		--motionout3: var(--speed3) var(--transout3)
+
+		--header-height: 64px
+		--footer-height: 32px
+		--fit-height: calc(var(--header-height) + var(--footer-height))
+		--prose-clamp: 65ch
+		--content-clamp: 1600px
+		--app-inline: var(--space-lg)
+		--card-min: 240px
+		--height-sm: 20px
+		--height-md: 24px
+		--height-bs: 28px
+		--height-lg: 32px
+		--height-xl: 40px
+		--height-2xl: 48px
+
+		--sidebar-width: 280px
+		--sidebar-width-left: 280px
+		--sidebar-width-right: 280px
+		--z-sticky: 100
+		--z-raised: 200
+		--z-modal: 300
+		--z-toast: 500
+
+		--greenpop1: #10b981
+		--greenpop2: #22c55e
+		--greenpop3: #00df89
+		--greenpop4: #00e676
+
+		--orangepop1: #ff7a00
+		--orangepop2: #f97316
+		--orangepop3: #ea580c
+		--orangepop4: #ff5e36
+		--orangepop5: #ff9966
+		--orangepop6: #ff9f1c
+
+		--yellowpop1: #ffd000
+		--yellowpop2: #facc15
+		--yellowpop3: #fbbf24
+		--yellowpop4: #eab308

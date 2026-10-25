@@ -1,0 +1,128 @@
+# =====================================================================
+# ezgpui example — Fulgur (E2EE self-hosted sync editor)
+# Studygroup: notes. Source: cases/fulgur.md — a native text editor with
+# end-to-end encrypted sync you can self-host (Fulgurant server). Files
+# move between machines like browser tabs. X25519 keys per device in the
+# OS keychain; age encryption; zero-knowledge server. Built on gpui-kit.
+#
+# Layers exercised:
+#   L0 static   — div, text, style
+#   L1 components — list, tabs, input, button, icon
+#   L2 layout   — window_manager + content_area grammar
+#   L3 bindings — view (editor surface), sync bindings
+#   L4 theming  — JSON theme packs are data files, matching the app
+#                 (catppuccin, everforest, tokyonight…)
+#
+# Distinctive: sync state is chrome. Devices/servers/keys are status
+# surfaces, not settings buried in dialogs.
+# =====================================================================
+
+window:
+  title: "Fulgur"
+  size: [1280, 840]
+
+tokens:
+  # theme packs ship as JSON files in the app; one name selects one
+  theme_pack: "catppuccin"
+  colors:
+    bg: "#1e1e2e"
+    surface: "#181825"
+    text: "#cdd6f4"
+    muted: "#a6adc8"
+    accent: "#a6e3a1"
+    synced: "#a6e3a1"
+    pending: "#f9e2af"
+
+root:
+  type: div
+  direction: column
+  style: { background: "$bg" }
+  children:
+    # ---------- editor: files | tabs+editor ----------
+    - type: split
+      direction: row
+      flex: 1
+
+      # ----- left: file tree (content_area) -----
+      sidebar:
+        width: 260
+        child:
+          type: div
+          direction: column
+          style: { background: "$surface" }
+          children:
+            - type: input
+              placeholder: "Find file…"
+              bind: "files.filter"
+            - type: view
+              view: "files.tree"
+              flex: 1
+            # sync truth: which devices have what
+            - type: div
+              direction: column
+              gap: 4
+              style: { padding: 10 }
+              children:
+                - type: text
+                  content: "Devices"
+                  style: { color: "$muted", font_size: 11, weight: bold }
+                - type: list
+                  source: "sync.devices"
+                  item:
+                    type: div
+                    direction: row
+                    gap: 6
+                    children:
+                      - type: icon
+                        name: "device-key"      # X25519, in OS keychain
+                      - type: text
+                        content: "$device.name"
+                        style: { color: "$text", font_size: 11 }
+                      - type: icon
+                        name: "$device.sync_state"
+
+      # ----- main: tabs + editor -----
+      main:
+        child:
+          type: div
+          direction: column
+          children:
+            # open files move between machines like browser tabs
+            - type: tabs
+              style: { height: 32, background: "$surface" }
+              source: "editor.open_files"
+              tab:
+                type: div
+                direction: row
+                gap: 6
+                children:
+                  - type: icon
+                    name: "$file.sync_icon"
+                  - type: text
+                    content: "$file.name"
+                    style: { color: "$text", font_size: 12 }
+              active: "editor.active_file"
+              on_change: "files.open($file.id)"
+              child:
+                type: view
+                view: "editor.active"
+                flex: 1
+
+    # ---------- status bar: sync is first-class chrome ----------
+    - type: div
+      direction: row
+      gap: 16
+      style: { height: 26, background: "$surface", padding: [0, 12] }
+      children:
+        - type: icon
+          name: "sync-status"
+        - type: text
+          bind: "sync.status_line"      # "synced · fulgurant:personal"
+          style: { color: "$synced", font_size: 11 }
+        - type: text
+          bind: "sync.servers_line"     # multiple self-hosted servers at once
+          style: { color: "$muted", font_size: 11 }
+        - type: icon
+          name: "keychain"
+          on_click: "sync.open_key_settings"
+          style: { color: "$muted", padding: [0, 0, 0, 999] }

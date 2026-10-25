@@ -1,0 +1,76 @@
+# =====================================================================
+# ezgpui features example — Tide (Gpuide)
+# Pair of: ../tide.yaml. Source: cases/tide.md.
+# Zed git-gpui IDE. Its distinctive feature move: every color and
+# layout dimension comes from a schema-validated JSON file, checked by
+# a CI script — theming as a validated feature.
+# =====================================================================
+
+app: tide
+lineage: zed-git-floating      # font-kit feature REQUIRED or no text renders
+
+features:
+  editor:
+    state:
+      active: TabId
+      tabs: List<Tab>
+    views: ["editor.active", "editor.tabs"]
+    commands:
+      save: { key: "cmd-s" }
+
+  file_tree:
+    views: ["file.tree"]
+
+  finder:
+    commands:
+      show: { key: "cmd-p" }
+      search: { args: [query] }
+    views: ["finder.results"]
+
+  diff_merge:
+    views: ["git.pr_review"]
+    commands:
+      open_review: {}
+
+  git_flow:                     # stage / commit / PR review
+    state: { branch: String }
+    commands:
+      stage: {}
+      commit: { key: "cmd-enter" }
+      open_pr: {}
+
+  terminal:
+    views: ["term.panel"]
+
+  lsp:
+    views: ["status.lsp"]
+
+  acp_agent:                    # spawns @geohar/pi-acp adapter; ndjson
+    integrations:               # JSON-RPC 2.0 over stdio (NOT LSP framing)
+      - kind: child_process
+        protocol: acp
+        handshake: [initialize, session/new, session/prompt]
+    tasks:
+      stream_updates: { trigger: { event: "session/update" }, runs: "acp.apply" }
+    views: ["acp.agent_panel"]
+
+  build:
+    state: { status: String }
+    commands:
+      run: {}
+    views: ["build.output", "build.status"]
+
+  markdown_preview:
+    toggleable: true
+    views: ["md.preview"]
+
+  browser_embed:                # WKWebView child view over the pane;
+    toggleable: true            # objc2 opens the WebKit inspector detached
+    views: ["browser.embed"]
+
+  theme_schema:                 # THE distinctive feature: colors + dims in
+    settings:                   # schemas/ui-v1.json, validated against
+      schema: "schemas/ui-v1.schema.json"   # ui-v1.schema.json by
+      checked_by: "scripts/check-ui-schema.py"  # scripts/check-ui-schema.py
+    notes: theme.rs/ui.rs are typed accessors only — edit the JSON,
+      never the code.

@@ -1,0 +1,212 @@
+# =====================================================================
+# ezgpui example — IDE (Zed-based, /Users/amrit/projectguppy/IDE-ide)
+# Source of the layout: the app itself — GPUI workbench with project
+# tree, editor tabs, BYOK agent panel, integrated browser preview
+# (alt-b), terminal dock, status bar.
+#
+# Layers exercised:
+#   L0 static   — div, text, style
+#   L1 components — icon, button, list, tabs, input
+#   L2 layout   — split (three columns + bottom dock)
+#   L3 bindings — on_click / view (editor, agent panel, terminal,
+#                 browser preview are Rust-registered surfaces)
+#
+# The editor is the app's reason to exist — it is ALL Rust. YAML owns
+# only the chrome around it.
+# =====================================================================
+
+window:
+  title: "IDE"
+  size: [1600, 1000]
+
+tokens:
+  colors:
+    bg: "#181825"
+    surface: "#1e1e2e"
+    overlay: "#313244"
+    text: "#cdd6f4"
+    muted: "#7f849c"
+    accent: "#89b4fa"
+    green: "#a6e3a1"
+    red: "#f38ba8"
+    yellow: "#f9e2af"
+  spacing: 6
+  radius: 4
+
+root:
+  type: div
+  direction: column
+  style: { background: "$bg" }
+  children:
+    # ---------- title bar ----------
+    - type: div
+      direction: row
+      gap: 12
+      style: { height: 34, background: "$surface", padding: [0, 8] }
+      children:
+        - type: icon
+          name: "menu"
+        - type: text
+          bind: "project.name"
+          style: { color: "$text", font_size: 12, weight: medium }
+        - type: div
+          direction: row
+          gap: 8
+          style: { padding: [0, 0, 0, 999] }   # push right
+          children:
+            - type: icon
+              name: "browser-preview"
+              on_click: "preview.toggle"        # alt-b in the real app
+              style: { color: "$accent" }
+            - type: icon
+              name: "agent"
+              on_click: "agent_panel.toggle"
+
+    # ---------- workbench: activity | editor | agent panel ----------
+    - type: split
+      direction: row
+      flex: 1
+
+      # ----- left: activity bar + project tree -----
+      sidebar:
+        width: 240
+        children:
+          - type: div
+            direction: row
+            flex: 1
+            children:
+              # activity rail
+              - type: div
+                direction: column
+                gap: 12
+                style: { width: 44, background: "$surface", padding: [12, 0] }
+                children:
+                  - type: icon
+                    name: "files"
+                    on_click: "activity.select(files)"
+                  - type: icon
+                    name: "search"
+                    on_click: "activity.select(search)"
+                  - type: icon
+                    name: "git"
+                    on_click: "activity.select(git)"
+                  - type: icon
+                    name: "settings"
+                    on_click: "activity.select(settings)"
+
+              # project tree
+              - type: view
+                view: "project.tree"
+                flex: 1
+                style: { background: "$surface" }
+
+      # ----- center: editor tabs + bottom dock -----
+      main:
+        child:
+          type: split
+          direction: column
+
+          editor:
+            flex: 1
+            child:
+              type: div
+              direction: column
+              children:
+                - type: tabs
+                  style: { height: 32, background: "$surface" }
+                  source: "editor.open_tabs"
+                  tab:
+                    type: div
+                    direction: row
+                    gap: 6
+                    children:
+                      - type: icon
+                        name: "$tab.kind"
+                      - type: text
+                        content: "$tab.name"
+                        style: { color: "$text", font_size: 12 }
+                  active: "editor.active_tab"
+                  on_change: "editor.open($tab.id)"
+                  child:
+                    type: view
+                    view: "editor.active"          # the GPUI editor surface
+                    flex: 1
+
+                # browser preview pane — toggled, shares editor space
+                - type: view
+                  view: "preview.browser"
+                  height: 400
+                  visible: "preview.open"
+
+          # bottom dock: terminal
+          dock:
+            height: 240
+            child:
+              type: tabs
+              style: { height: 30, background: "$surface" }
+              tabs:
+                - id: "terminal"
+                  label: "Terminal"
+                - id: "diagnostics"
+                  label: "Diagnostics"
+              active: "terminal"
+              on_change: "dock.select"
+              child:
+                type: view
+                view: "dock.active"
+                flex: 1
+
+      # ----- right: BYOK agent panel -----
+      right_panel:
+        width: 420
+        visible: "agent_panel.open"
+        child:
+          type: div
+          direction: column
+          style: { background: "$surface" }
+          children:
+            - type: div
+              direction: row
+              gap: 8
+              style: { height: 36, padding: [0, 12] }
+              children:
+                - type: text
+                  content: "Agent"
+                  style: { color: "$text", font_size: 13, weight: semibold }
+                - type: text
+                  bind: "agent_panel.model"
+                  style: { color: "$muted", font_size: 11 }
+            - type: view
+              view: "agent_panel.thread"
+              flex: 1
+            - type: div
+              direction: row
+              gap: 8
+              style: { padding: 12 }
+              children:
+                - type: input
+                  placeholder: "Ask, edit, or run…"
+                  bind: "agent_panel.draft"
+                  flex: 1
+                - type: button
+                  label: "→"
+                  on_click: "agent_panel.submit"
+                  style: { background: "$accent", color: "#181825" }
+
+    # ---------- status bar ----------
+    - type: div
+      direction: row
+      gap: 16
+      style: { height: 26, background: "$surface", padding: [0, 12] }
+      children:
+        - type: icon
+          name: "git-branch"
+        - type: text
+          bind: "git.branch"
+          style: { color: "$muted", font_size: 11 }
+        - type: text
+          bind: "diagnostics.counts"
+          style: { color: "$yellow", font_size: 11 }
+        - type: text
+          bind: "editor.cursor_position"
+          style: { color: "$muted", font_size: 11, padding: [0, 0, 0, 999] }

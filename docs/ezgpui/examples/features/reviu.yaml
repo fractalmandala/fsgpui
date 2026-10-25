@@ -1,0 +1,61 @@
+# =====================================================================
+# ezgpui features example — Reviu
+# Pair of: ../reviu.yaml. Source: cases/reviu.md.
+# Review-first app: the diff is the center of gravity. Real Git
+# workflows in-app, hunk-anchored comments, ACP agent chat.
+# =====================================================================
+
+app: reviu
+lineage: zed-git-floating + gpui-component@main   # two floating deps —
+                                                  # least pinned combo in the wiki
+features:
+  diff_review:
+    state:
+      active_file: Path
+      selected_hunk: Option<HunkId>
+    views: ["diff.active", "git.changed_files"]
+    commands:
+      open_diff: { args: [path] }
+    notes: built on diff_core + buffer + ansi_text + selectable_text —
+      small gpui-free primitives
+
+  hunk_comments:
+    state:
+      draft: String
+      pending: List<Comment>
+    commands:
+      comment: { args: [hunk_id] }
+      discuss_with_agent: {}
+    views: ["review.draft"]
+
+  git_workflows:
+    state:
+      repo_name: String
+      head_line: String
+      branches: List<Branch>
+    commands:
+      stage_all: {}
+      commit_flow: {}
+      open_branch: { args: [branch] }
+    views: ["git.branch_list", "git.status_line"]
+
+  agent_chat:                   # 4th independent ACP implementation
+    state: { draft: String }
+    commands:
+      send: { key: "enter" }
+    integrations:
+      - kind: child_process
+        protocol: acp
+    views: ["agent_chat_panel.thread"]
+
+  editor:
+    views: ["editor"]
+
+  terminal:
+    views: ["terminal"]
+
+  syntax:
+    settings:
+      grammars:
+        vue: vendored           # vendored tree-sitter-vue — Vue is
+                                # first-class when upstream lags

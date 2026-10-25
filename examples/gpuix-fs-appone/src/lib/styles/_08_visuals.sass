@@ -1,0 +1,170 @@
+// ============================================================================
+// dress — L5. Skin and compositions. Emission order within this file follows
+// Contract 5: bare dress before compositions. Components own their own hover
+// states; there is no standalone .hover / .transition (registry ruling).
+// All compositions read the --radius-* channels so shape presets reach them.
+// ============================================================================
+
+@use 'sass:string'
+@use 'sass:list'
+@use 'sass:map'
+@use '00_config' as *
+@use '00_tokens' as *
+
+// --- Bare backgrounds (one declaration each) ----------------------------------
+.bg-main, .bg
+	background: var(--bg)
+.bg-surface
+	background: var(--bg-surface)
+.bg-panel
+	background: var(--bg-panel)
+.bg-sunken
+	background: var(--bg-sunken)
+.bg-raised
+	background: var(--bg-raised)
+.bg-extra
+	background: var(--bg-extra)
+
+// --- Ink ----------------------------------------------------------------------
+.text-primary
+	color: var(--text-primary)
+.text-secondary
+	color: var(--text-secondary)
+.text-muted
+	color: var(--text-muted)
+.text-inverse
+	color: var(--text-inverse)
+.text-white
+	color: var(--white-fixed)
+.text-black
+	color: var(--black-fixed)
+.text-theme
+	color: var(--theme-color)
+.text-theme-alt
+	color: var(--theme-color-alt)
+.text-theme-sub
+	color: var(--theme-color-sub)
+.text-success
+	color: var(--success)
+.text-warning
+	color: var(--warning)
+.text-danger
+	color: var(--danger)
+.text-info
+	color: var(--info)
+
+// Status fills, mirroring the status inks above. A dot or chip that carries the
+// status as a background had no composable form before these, which made it a
+// reason to open _09_own.sass.
+.bg-success
+	background: var(--success)
+	transition: background var(--motionout2)
+	&:hover
+		background: var(--success-hover)
+.bg-warning
+	background: var(--warning)
+	transition: background var(--motionout2)
+	&:hover
+		background: var(--warning-hover)
+.bg-danger
+	background: var(--danger)
+	transition: background var(--motionout2)
+	&:hover
+		background: var(--danger-hover)
+.bg-info
+	background: var(--info)
+	transition: background var(--motionout2)
+	&:hover
+		background: var(--info-hover)
+
+// --- Lines (the partition-law set) ---------------------------------------------
+.border
+	border: 1px solid var(--border)
+.border-subtle
+	border: 1px solid var(--border-subtle)
+.border-strong
+	border: 1px solid var(--border-strong)
+.bt
+	border-top: 1px solid var(--border)
+.br
+	border-right: 1px solid var(--border)
+.bb
+	border-bottom: 1px solid var(--border)
+.bl
+	border-left: 1px solid var(--border)
+.bt-str
+	border-top: 1px solid var(--border-strong)
+.br-str
+	border-right: 1px solid var(--border-strong)
+.bb-str
+	border-bottom: 1px solid var(--border-strong)
+.bl-str
+	border-left: 1px solid var(--border-strong)
+.bt-sub
+	border-top: 1px solid var(--border-subtle)
+.br-sub
+	border-right: 1px solid var(--border-subtle)
+.bb-sub
+	border-bottom: 1px solid var(--border-subtle)
+.bl-sub
+	border-left: 1px solid var(--border-subtle)
+
+.shadow-xs
+	box-shadow: var(--shadow-xs)
+.shadow-sm
+	box-shadow: var(--shadow-sm)
+.shadow-md
+	box-shadow: var(--shadow-md)
+.shadow-bs
+	box-shadow: var(--shadow-bs)
+.shadow-lg
+	box-shadow: var(--shadow-lg)
+.shadow-xl
+	box-shadow: var(--shadow-xl)
+.shadow-2xl
+	box-shadow: var(--shadow-2xl)
+.shadow-3xl
+	box-shadow: var(--shadow-3xl)
+
+
+// --- Responsive visibility -----------------------------------------------------
+.hide-mobile
+	@media (max-width: 1024px)
+		display: none
+
+.hide-desktop
+	@media (min-width: 1025px)
+		display: none
+
+//special color classes
+
+.orange1
+	color: var(--orangepop1)
+.orange2
+	color: var(--orangepop2)
+.orange3
+	color: var(--orangepop3)
+.orange4
+	color: var(--orangepop4)
+.orange5
+	color: var(--orangepop5)
+.orange6
+	color: var(--orangepop6)
+
+.yellow1
+	color: var(--yellowpop1)
+.yellow2
+	color: var(--yellowpop2)
+.yellow3
+	color: var(--yellowpop3)
+.yellow4
+	color: var(--yellowpop4)
+
+.green1
+	color: var(--greenpop1)
+.green2
+	color: var(--greenpop2)
+.green3
+	color: var(--greenpop3)
+.green4
+	color: var(--greenpop4)

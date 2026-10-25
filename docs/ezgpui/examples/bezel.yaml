@@ -1,0 +1,92 @@
+# =====================================================================
+# ezgpui example — Bezel (component library gallery)
+# Studygroup: UI. Source: cases/bezel.md — gpui component library;
+# its "app" is `gallery`: every component mounted in a real window,
+# section-by-section, doubling as the visual-regression harness.
+#
+# Layers exercised:
+#   L1 components — the fullest component surface of any example
+#   L4 theming    — tokens with light/dark + Brand re-hue (oklch
+#                   lightness is NOT a knob; contrast is verified)
+#
+# Distinctive: theme-as-environment. Components read the Theme global
+# at paint time — YAML never threads style props, only content.
+# =====================================================================
+
+window:
+  title: "Bezel Gallery"
+  size: [1200, 860]
+
+tokens:
+  appearance: dark                    # designed light/dark pair, not an inversion
+  brand:
+    tint: "#89b4fa"                   # Brand { tint, accent, radius } re-hue
+    accent: "#b4befe"
+    radius: 10
+  colors:
+    bg: "#1e1e2e"
+    surface: "#313244"
+    text: "#cdd6f4"
+    muted: "#a6adc8"
+  fonts:
+    sans: "Geist Sans"                # register + select are different steps
+    mono: "Geist Mono"
+
+root:
+  type: div
+  direction: row
+  style: { background: "$bg" }
+  children:
+    # ---------- left: catalog sections ----------
+    - type: div
+      direction: column
+      style: { width: 240, background: "$surface", padding: 12 }
+      children:
+        - type: input
+          placeholder: "Filter components…"
+          bind: "gallery.filter"
+        - type: list
+          source: "gallery.sections"   # buttons, inputs, lists, tables, tabs,
+          item:                        # menus, popovers, docking, tooltip…
+            type: text
+            content: "$section.name"
+            style: { color: "$text", font_size: 13 }
+          on_click: "gallery.mount($section.id)"
+
+    # ---------- right: live component section ----------
+    - type: div
+      direction: column
+      flex: 1
+      children:
+        - type: div
+          direction: row
+          gap: 8
+          style: { height: 40, padding: [0, 12], background: "$surface" }
+          children:
+            - type: text
+              bind: "gallery.active_section"
+              style: { color: "$text", weight: semibold, font_size: 13 }
+            - type: button
+              label: "Light"
+              on_click: "theme.set_appearance(light)"
+            - type: button
+              label: "Re-hue"
+              on_click: "theme.rebrand"
+
+        # the gallery mounts REAL components — no mockup path.
+        # one `view:` node per mounting strategy:
+        - type: view
+          view: "gallery.section"      # the mounted section, real widgets
+          flex: 1
+
+        # docking demo: tiling panes are a component, not window chrome
+        - type: view
+          view: "gallery.docking_demo"
+          height: 260
+          visible: "gallery.docking_visible"
+
+# command palette — the bezel ui::palette (cmd-shift-p)
+palette:
+  on_key: "cmd-shift-p"
+  source: "gallery.commands"
+  on_select: "commands.run"

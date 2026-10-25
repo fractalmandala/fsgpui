@@ -1,0 +1,133 @@
+# =====================================================================
+# ezgpui example — Tailor (Interface Builder for Rust)
+# Studygroup: ui. Source: cases/tailor.md — lay out a screen from REAL
+# components, write the code behind the controls, press Run, export a
+# crate with no Tailor in it. "The canvas is not a drawing of your
+# interface — it is your interface." Ships an MCP server beside the
+# executable; headless `tailordev --build` for CI.
+#
+# Layers exercised:
+#   L1 components — the palette IS the gpui-kit/guise catalog
+#   L2 layout   — same flexbox on canvas and in output
+#   L3 bindings — view (canvas, code pane) + inspector bindings
+#   L4 theming  — canvas reads the same theme presets as generated code
+#
+# Distinctive: the schema/catalog split. One catalog table drives
+# palette, canvas, and codegen — "a component cannot render one way
+# and generate another." This is ezgpui's `freeze` endgame.
+# =====================================================================
+
+window:
+  title: "Tailor"
+  size: [1560, 980]
+
+tokens:
+  colors:
+    bg: "#1e1e2e"
+    surface: "#24243a"
+    overlay: "#313244"
+    text: "#cdd6f4"
+    muted: "#a6adc8"
+    accent: "#89b4fa"
+    canvas: "#181825"
+  theme_preset: "guise-default"         # canvas and output share this
+
+root:
+  type: div
+  direction: column
+  style: { background: "$bg" }
+  children:
+    # ---------- toolbar: build + run ----------
+    - type: div
+      direction: row
+      gap: 10
+      style: { height: 40, background: "$surface", padding: [0, 12] }
+      children:
+        - type: button
+          label: "Run"
+          on_click: "build.run"          # compiles + launches the generated crate
+          style: { background: "$accent", color: "#1e1e2e" }
+        - type: button
+          label: "Build (headless)"
+          on_click: "build.headless"     # tailordev --build; CI-friendly
+        - type: button
+          label: "Export Crate"
+          on_click: "codegen.export"     # Tailor-free output
+        - type: text
+          bind: "codegen.target_library" # guise | gpui-kit
+          style: { color: "$muted", font_size: 11, padding: [0, 0, 0, 999] }
+
+    # ---------- editor: palette | canvas | inspector + code ----------
+    - type: split
+      direction: row
+      flex: 1
+
+      # ----- left: component palette from the catalog -----
+      sidebar:
+        width: 240
+        child:
+          type: div
+          direction: column
+          style: { background: "$surface", padding: 10 }
+          children:
+            - type: input
+              placeholder: "Search palette…"
+              bind: "palette.filter"
+            - type: list
+              source: "catalog.components"   # Button, Input, Tabs, Sheet…
+              item:
+                type: div
+                direction: row
+                gap: 8
+                children:
+                  - type: icon
+                    name: "$component.icon"
+                  - type: text
+                    content: "$component.name"
+                    style: { color: "$text", font_size: 13 }
+              # drag onto canvas — the drag seam, not a clone
+              on_drag: "canvas.place($component.id)"
+
+      # ----- center: the canvas (real components, same flexbox) -----
+      main:
+        child:
+          type: view
+          view: "canvas.document"        # the .tailor node tree, rendered
+          flex: 1                        # with REAL guise/gpui-kit widgets
+          style: { background: "$canvas" }
+
+      # ----- right: inspector + generated code -----
+      right_panel:
+        width: 380
+        child:
+          type: split
+          direction: column
+          inspector:
+            flex: 1
+            child:
+              type: div
+              direction: column
+              gap: 8
+              style: { background: "$surface", padding: 12 }
+              children:
+                - type: text
+                  bind: "selection.component_name"
+                  style: { color: "$text", font_size: 13, weight: semibold }
+                - type: view
+                  view: "inspector.props"   # prop editors from the catalog
+                  flex: 1
+                - type: view
+                  view: "inspector.state_actions"
+                  height: 160
+
+          code:
+            height: 300
+            child:
+              type: view
+              view: "codegen.preview"    # the Rust this screen generates
+              style: { background: "$bg" }
+
+# MCP server ships beside the executable — agents drive the builder
+mcp:
+  enabled: true
+  tools: ["palette.list", "canvas.place", "inspector.set_prop", "codegen.export"]

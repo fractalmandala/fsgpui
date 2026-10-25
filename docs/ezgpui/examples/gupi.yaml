@@ -1,0 +1,116 @@
+# =====================================================================
+# ezgpui example — Gupi (GUI host for the `pi` coding agent)
+# Studygroup: agent chat. Source: cases/gupi.md — organize project
+# conversations, follow model/tool activity, explore history branches,
+# temporary chats. Drives an external `pi` executable over JSONL; built
+# on gpui-kit + app-theme (light/dark/system, adjustable font size).
+#
+# Layers exercised:
+#   L0 static   — div, text, style
+#   L1 components — input, list, button, icon
+#   L2 layout   — split
+#   L3 bindings — view (conversation, activity stream are Rust surfaces)
+#
+# Distinctive: host-not-agent. The YAML chrome manages sessions and
+# presentation; the agent itself is a separate process owned by Rust.
+# =====================================================================
+
+window:
+  title: "Gupi"
+  size: [1320, 860]
+
+tokens:
+  appearance: dark                    # ThemeChoice: light / dark / system
+  colors:
+    bg: "#181825"
+    surface: "#1e1e2e"
+    overlay: "#313244"
+    text: "#cdd6f4"
+    muted: "#a6adc8"
+    accent: "#f5c2e7"
+  fonts:
+    size: 14                          # Theme::update font_size, user-adjustable
+
+root:
+  type: div
+  direction: row
+  style: { background: "$bg" }
+  children:
+    # ---------- left: project conversations ----------
+    - type: div
+      direction: column
+      gap: 10
+      style: { width: 300, background: "$surface", padding: 12 }
+      children:
+        - type: input
+          placeholder: "Search conversations…"
+          bind: "conversations.filter"
+
+        - type: list
+          source: "conversations.by_project"
+          group_by: "$conv.project"
+          item:
+            type: div
+            direction: column
+            gap: 2
+            children:
+              - type: text
+                content: "$conv.title"
+                style: { color: "$text", font_size: 13 }
+              - type: text
+                content: "$conv.last_activity"
+                style: { color: "$muted", font_size: 11 }
+            on_click: "conversation.open($conv.id)"
+
+        # temporary chats — throwaway, not in project history
+        - type: button
+          label: "New Temporary Chat"
+          on_click: "conversation.new_temporary"
+          style: { color: "$accent" }
+
+        - type: div
+          direction: row
+          gap: 8
+          children:
+            - type: icon
+              name: "pi-health"           # external `pi` on PATH?
+            - type: text
+              bind: "pi.version_line"
+              style: { color: "$muted", font_size: 11 }
+
+    # ---------- main: conversation + activity ----------
+    - type: div
+      direction: column
+      flex: 1
+      children:
+        # branch history strip — explore where a conversation forked
+        - type: view
+          view: "conversation.branch_strip"
+          height: 36
+
+        # the conversation itself
+        - type: view
+          view: "conversation.active"
+          flex: 1
+
+        # model/tool activity — what the agent is doing right now
+        - type: view
+          view: "activity.stream"
+          height: 180
+          style: { background: "$surface" }
+
+    # ---------- right: inspector ----------
+    - type: div
+      direction: column
+      gap: 8
+      style: { width: 280, background: "$surface", padding: 12, visible: "inspector.open" }
+      children:
+        - type: text
+          content: "Session"
+          style: { color: "$muted", font_size: 11, weight: bold }
+        - type: view
+          view: "inspector.session"
+          flex: 1
+        - type: button
+          label: "Settings"
+          on_click: "settings.open"

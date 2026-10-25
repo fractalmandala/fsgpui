@@ -1,0 +1,131 @@
+# =====================================================================
+# ezgpui example — Ghostex (many-agent chat, platform-spanning core)
+# Studygroup: poly. Source: cases/ghostex.md — "built for developers who
+# keep many agents alive at once. A chat view for every agent… every
+# session survives restarts." gx-core is an Elm-style core (Event-in /
+# Effect-out, selectors, injected clock, zero I/O) shared by desktop,
+# mobile (UniFFI), and web. Desktop embeds CEF Chromium panes, a
+# libghostty terminal element, and code-server.
+#
+# Layers exercised:
+#   L1 components — list, tabs, input, button, icon
+#   L2 layout   — gpui-component composition + overlay panes
+#   L3 bindings — view + Effect-routing: YAML intents dispatch to the
+#                 ELMM core; the core never knows gpui exists
+#
+# Distinctive: one chat view per agent as first-class tabs; heavy
+# islands (Chromium, ghostty VT) are Rust surfaces. The YAML-visible
+# state is gx-core selectors; all mutations are Intents.
+# =====================================================================
+
+window:
+  title: "Ghostex"
+  size: [1600, 980]
+
+tokens:
+  colors:
+    bg: "#11111b"
+    surface: "#181825"
+    overlay: "#313244"
+    text: "#cdd6f4"
+    muted: "#a6adc8"
+    accent: "#cba6f7"
+    live: "#a6e3a1"
+
+root:
+  type: div
+  direction: column
+  style: { background: "$bg" }
+  children:
+    # ---------- agent tabs: one chat view per agent ----------
+    - type: tabs
+      style: { height: 36, background: "$surface" }
+      source: "agents.alive"              # every agent kept alive at once
+      tab:
+        type: div
+        direction: row
+        gap: 6
+        children:
+          - type: icon
+            name: "$agent.state"          # orb animation state (Rust clock)
+          - type: text
+            content: "$agent.name"
+            style: { color: "$text", font_size: 12 }
+      active: "agents.active"
+      on_change: "agents.focus($agent.id)"
+      child:
+        type: div
+        direction: column
+        flex: 1
+        children:
+          # ---------- chat + islands ----------
+          - type: split
+            direction: row
+            flex: 1
+
+            main:
+              child:
+                type: div
+                direction: column
+                children:
+                  # the chat view for this agent — restored after restart
+                  - type: view
+                    view: "chat.active"   # reads gx-core selectors
+                    flex: 1
+
+                  - type: div
+                    direction: row
+                    gap: 8
+                    style: { padding: 12 }
+                    children:
+                      - type: input
+                        placeholder: "Message agent…"
+                        bind: "composer.draft"
+                        flex: 1
+                        on_submit: "intent.composer_send"    # → gx-core Intent
+                      - type: button
+                        label: "Send"
+                        on_click: "intent.composer_send"
+
+            right_panel:
+              width: 440
+              child:
+                type: tabs
+                style: { height: 30, background: "$surface" }
+                tabs:
+                  - id: "chromium"
+                    label: "Chromium"      # vendored cef-rs pane
+                  - id: "terminal"
+                    label: "Terminal"      # libghostty VT, GPUI-composited
+                  - id: "code"
+                    label: "code-server"
+                active: "islands.active"
+                on_change: "islands.select"
+                child:
+                  type: view
+                  view: "islands.active"
+                  flex: 1
+
+          # ---------- status bar: session survival ----------
+          - type: div
+            direction: row
+            gap: 16
+            style: { height: 26, background: "$surface", padding: [0, 12] }
+            children:
+              - type: text
+                bind: "agents.session_count"
+                style: { color: "$muted", font_size: 11 }
+              - type: text
+                bind: "session.persistence_line"   # "all sessions survive restarts"
+                style: { color: "$live", font_size: 11 }
+              - type: icon
+                name: "speech"
+                on_click: "intent.speech_toggle"   # gpui-component speech feature
+                style: { color: "$muted", padding: [0, 0, 0, 999] }
+
+# app-level wiring: gx-core owns state; hosts perform Effects.
+# The YAML renderer reads selectors and dispatches Intents — nothing else.
+core:
+  store: "gx-core"                      # one store that owns product state
+  intents: "on_click / on_submit"       # YAML events dispatch Intents
+  reads: "selectors"                     # bind: reads selector output

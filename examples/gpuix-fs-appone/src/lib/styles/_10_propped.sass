@@ -1,0 +1,90 @@
+.el-v-primary
+	background: var(--state-surface)
+	border: 1px solid var(--border)
+	&:hover
+		background: var(--state-hover)
+	&.selected
+		background: var(--state-selected)
+		border: 1px solid var(--border-strong)
+
+.el-v-secondary		
+	background: var(--bg-panel)
+	border: 1px solid var(--border-subtle)
+	&:hover
+		border: 1px solid var(--border)
+	&.selected
+		background: var(--state-selected)
+		border: 1px solid var(--border)
+
+.el-v-themed
+	background: var(--theme-color)
+	border: 1px solid var(--theme-color)
+	&:hover
+		background: var(--theme-color-sub)
+		border: 1px solid var(--theme-color-sub)
+	&.selected
+		background: var(--theme-color-alt)
+		border: 1px solid var(--theme-color-alt)
+
+.el-v-outline		
+	background: transparent
+	color: var(--text-primary)
+	border: 1px solid var(--text-primary)
+	&:hover
+		color: var(--theme-color)
+		border: 1px solid var(--theme-color)
+	&.selected
+		color: var(--text-primary)
+		background: var(--state-selected)
+		border: 1px solid var(--border)
+
+.el-v-ghost		
+	background: transparent
+	border: none
+.el-v-link	
+	background: transparent
+	border: none
+	text-decoration: none
+	&:hover
+		border: 1px solid var(--theme-color)
+
+.el-v-icon
+	background: none
+	border: none
+	&:hover
+		color: var(--theme-color)
+	&.selected
+		color: var(--text-primary)
+		background: var(--state-selected)
+		border: 1px solid var(--border)
+		
+.shape-square	
+	border-radius: 0
+.shape-min
+	border-radius: 2px
+.shape-modern
+	border-radius: 4px
+.shape-curved
+	border-radius: 8px
+.shape-round
+	border-radius: 16px
+
+.hSm
+	height: 16px
+.hMd
+	height: 24px
+.hBs
+	height: 32px
+.hLg
+	height: 40px
+.hXl
+	height: 48px
+
+.pad-xs
+	padding: var(--spaceXs) var(--spaceSm)
+.pad-sm
+	padding: var(--spaceSm)
+.pad-bs
+	padding: var(--spaceBs)
+.pad-lg
+	padding: var(--spaceLg)

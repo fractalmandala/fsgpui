@@ -1,0 +1,69 @@
+# =====================================================================
+# ezgpui features example — Ghostex
+# Pair of: ../ghostex.yaml. Source: cases/ghostex.md.
+# Many agents alive at once; the cleanest ELMM core in the wiki. This
+# manifest is gx-core written down: one store, Intent-in, Effect-out,
+# selector reads, injected clock. Heavy islands are integrations.
+# =====================================================================
+
+app: ghostex
+lineage: zed-git-floating-vendored + gpui-component
+
+core:                           # gx-core discipline, as schema
+  store: single_owner           # "the one store that owns product state"
+  inputs: [wire_frames, user_intents, clock_ticks]
+  outputs: [state_via_selectors, effects]
+  io: none                      # no gpui, threads, sockets, fs, or clock —
+  clock: injected_now_ms        # hosts pass now_ms in
+  shared_by: [desktop, mobile_uniffi, web]
+
+features:
+  agent_chats:                  # "a chat view for every agent"
+    state:
+      alive: List<Agent>
+      active: AgentId
+    commands:
+      focus: { args: [agent_id] }
+      composer_send: { dispatch: intent }
+      speech_toggle: { dispatch: intent }
+    views: ["chat.active", "agents.alive"]
+
+  session_persistence:
+    state: { session_count: usize }
+    notes: "every session survives restarts"
+    persisted: gx-store
+
+  chromium_panes:               # vendored cef-rs; platform-specific,
+    integrations:               # helper + bootstrap binaries
+      - kind: cef_browser
+    views: ["islands.chromium"]
+
+  ghostty_terminal:             # vendored libghostty: PTY → VT → snapshot
+    integrations:               # → GPUI-composited element (staged P1c→P1e)
+      - kind: libghostty_vt
+    views: ["islands.terminal"]
+
+  code_server:
+    integrations: [{ kind: embedded_code_server }]
+    views: ["islands.code"]
+
+  speech:                       # gpui-component speech feature
+    toggleable: true
+
+  editor_client:
+    integrations: [{ kind: gx-editor-client }]
+
+  agent_sync:
+    integrations: [{ kind: gx-agent-sync }]
+
+  mobile_bridge:                # mobile shares the cores, NOT the GPUI shell
+    integrations:
+      - kind: uniffi_bindings
+      - kind: gpui_mobile_poc
+
+  web_build:
+    toggleable: true
+
+  mcp:
+    mcp:
+      tools: ["session.list", "session.read", "chat.send"]

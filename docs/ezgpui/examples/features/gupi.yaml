@@ -1,0 +1,74 @@
+# =====================================================================
+# ezgpui features example — Gupi
+# Pair of: ../gupi.yaml. Source: cases/gupi.md.
+# A GUI host for the external `pi` agent — Gupi never *is* the agent.
+# The manifest shows the host pattern: process discovery, conversation
+# domain, and the desktop-app furniture around it.
+# =====================================================================
+
+app: gupi
+lineage: gpui-pre+gpui-kit
+
+features:
+  conversations:
+    state:
+      active: ConversationId
+      by_project: List<Conversation>
+      filter: String
+    commands:
+      open: { args: [id] }
+    sources: ["conversations.by_project"]
+    views: ["conversation.active"]
+    persisted: gupi-store
+
+  branches:                     # explore history branches
+    state: { current: BranchId }
+    views: ["conversation.branch_strip"]
+
+  temporary_chats:              # throwaway, outside project history
+    commands:
+      new_temporary: {}
+
+  pi_runtime:                   # the external agent — a separate process,
+    integrations:               # isolated in pi-rpc (gpui-free, tokio)
+      - kind: child_process
+        binary: pi              # found on PATH or absolute-path setting
+        protocol: jsonl-stdio
+        requires: external_install   # Gupi bundles neither Pi nor accounts
+    tasks:
+      version_probe: { trigger: { startup: true }, runs: "pi.probe" }
+
+  resources:                    # local prompts/packages management
+    state: { installed: List<Resource> }
+
+  settings:
+    settings:
+      theme_choice: { type: enum, values: [light, dark, system] }  # system-accent
+      font_size: { type: u16, min: 11, max: 20 }  # Theme::update at runtime
+      pi_path: { type: path }
+    views: ["inspector.session"]
+
+  onboarding:
+    toggleable: true
+    tasks:
+      first_run: { trigger: { startup: once }, runs: "onboarding.show" }
+
+  tray:
+    integrations: [{ kind: tray }]        # macOS-first
+
+  notifications:
+    integrations: [{ kind: system_notifications }]
+
+  shortcuts:
+    tasks: {}                  # generated from all features' commands
+
+  screen_capture:
+    integrations: [{ kind: screen_capture }]  # smol + image
+
+  updates:
+    tasks:
+      check: { trigger: { interval: 24h }, runs: "updates.check" }  # semver
+
+  i18n:
+    settings:
+      locale: { type: locale, default: sys-locale }  # fluent-bundle

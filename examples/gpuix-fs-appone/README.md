@@ -12,6 +12,7 @@ npm run build        # dist/app (dist/app.exe on Windows), one executable for th
 ```
 
 AGENTS! Read `AGENTS.md`. You too, Claude.
+[test](/lib/styles/test.md)
 
 Every script runs through the `gpuix-fractalsvelte` bin, which starts Node (or Bun, under
 `bun run start` / `gpuix-fractalsvelte --bun app.ts`) with the module conditions Svelte's custom
@@ -26,6 +27,9 @@ bun  --conditions custom-renderer --conditions development --preload gpuix-fract
 
 ## Files
 
+- `src/lib/styles/load.ts` — compiles `src/lib/styles/index.sass` into GPUI classes and
+  tokens. `app.ts` calls it once before mounting, so `.box`, `.text-sm`, `.bg-surface` and the
+  rest of the fractalstyler classes are available alongside the component's own `<style>`.
 - `app.ts` — the entry: `render_hot` opens the window and remounts `App.svelte` on every save.
 - `App.svelte` — the component. Styling is a `<style>` block of class rules; see
   [docs/styling.md](../../docs/gpuix-fractalsvelte/02styling.md) for what
@@ -45,6 +49,26 @@ bun  --conditions custom-renderer --conditions development --preload gpuix-fract
 - `svelte.config.js` — editor and svelte-check only: switches off Svelte's DOM a11y advice.
 
 Needs Node >= 24 or Bun >= 1.4.
+
+## Design system classes and tokens
+
+`src/lib/styles/` is the fractalstyler sheet. `load_styles()` in `src/lib/styles/load.ts`
+runs at startup and:
+
+- compiles `index.sass` and registers every class rule with GPUI;
+- resolves token values once (`rem`, `calc`, `clamp`, nested `var()`) and hands them to
+  `set_css_vars`;
+- camel-cases token names, so CSS `--bg-surface` is GPUI `bgSurface` (matching `themes.ts`).
+
+Colour rules keep their `var()`s, so the existing `set_css_vars(lightTheme | darkTheme)` in
+`App.svelte` still repaints them live. Use the classes directly:
+
+```svelte
+<div class="box xcenter gap-sm pad-bs bg-surface text-primary radius-md">…</div>
+```
+
+`gpui-dom.ts` matches required classes, at most one tag, and `:hover` / `:active`. Attribute
+selectors, combinators, and other pseudo-classes are ignored with a warning.
 
 ## Themeing
 

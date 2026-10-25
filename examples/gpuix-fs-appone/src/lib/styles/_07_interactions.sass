@@ -1,0 +1,190 @@
+@use '00_config' as *
+@use '00_tokens' as *
+
+.input
+	display: block
+	padding-inline: var(--space-md)
+	transition: background var(--motionin1), border-color var(--motionin1), color var(--motionin1)
+	&:focus-visible
+		outline: none
+		border-color: var(--theme-color)
+		box-shadow: 0 0 0 2px var(--ring)
+	&.fitted
+		width: max-content
+
+.select
+	display: block
+	padding-inline: var(--space-bs)
+	appearance: none
+	-webkit-appearance: none
+	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23697080' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E")
+	background-repeat: no-repeat
+	background-position: right 8px center
+	cursor: pointer
+	&:focus-visible
+		outline: none
+		border-color: var(--theme-color)
+		box-shadow: 0 0 0 2px var(--ring)
+	&.fitted
+		width: max-content
+
+// --- The link family -------------------------------------------------------------
+.link
+	color: var(--theme-color)
+	text-decoration: none
+	transition: color var(--motionin1)
+	&:hover
+		color: var(--theme-color-alt)
+
+.link-plain
+	color: var(--text-primary)
+	text-decoration: none
+	transition: color var(--motionin1)
+	&:hover
+		color: var(--theme-color)
+
+.link-parent
+	color: var(--text-primary)
+	text-decoration: none
+	.link-title
+		transition: color var(--motionin1)
+		text-decoration: none
+	&:hover
+		.link-title
+			color: var(--theme-color)
+		
+a.nav-link
+	padding: var(--space-sm)
+	border-radius: var(--radius-sm)
+	&:hover
+		background: var(--state-hover)
+
+// --- Buttons — bare element, or the .button class ------------------------------
+button, .button // Button root: flex centring, type, cursor, focus ring, disabled state. The axes ride the .el-* classes in _10_propped.sass.
+	display: flex
+	align-items: center
+	justify-content: center
+	text-decoration: none
+	cursor: pointer
+	user-select: none
+	transition: background var(--motionin1), border-color var(--motionin1), color var(--motionin1)
+	padding-inline: var(--space-md)
+	&:focus-visible
+		outline: 2px solid var(--ring)
+		outline-offset: 1px
+	&:disabled
+		opacity: 0.5
+		cursor: not-allowed
+		pointer-events: none
+
+.button-group,
+.split-button
+	display: inline-flex
+	align-items: stretch
+	vertical-align: middle
+	&.vertical
+		flex-direction: column
+	&:not(.vertical)
+		flex-direction: row
+	.button,
+	button
+		border-radius: 0
+		&:first-child
+			border-top-left-radius: var(--radius-sm)
+			border-bottom-left-radius: var(--radius-sm)
+		&:last-child
+			border-top-right-radius: var(--radius-sm)
+			border-bottom-right-radius: var(--radius-sm)
+		&:not(:first-child)
+			margin-left: -1px
+			position: relative
+			z-index: 1
+		&:hover,
+		&:focus-visible
+			z-index: 2
+	&.vertical
+		.button,
+		button
+			border-radius: 0
+			&:first-child
+				border-top-left-radius: var(--radius-sm)
+				border-top-right-radius: var(--radius-sm)
+			&:last-child
+				border-bottom-left-radius: var(--radius-sm)
+				border-bottom-right-radius: var(--radius-sm)
+			&:not(:first-child)
+				margin-left: 0
+				margin-top: -1px
+				position: relative
+				z-index: 1
+			&:hover,
+			&:focus-visible
+				z-index: 2
+
+@keyframes vibrating
+	0%
+		transform: scale(0)
+	50%
+		transform: scale(1.03)
+	100%
+		transform: scale(0)
+
+
+a.btn, a.button
+	display: flex
+	align-items: center
+	justify-content: center
+	font-size: var(--text-md)
+	text-decoration: none
+	cursor: pointer
+	user-select: none
+	transition: background var(--motionin1), border-color var(--motionin1), color var(--motionin1)
+	padding-inline: var(--space-md)
+	&:focus-visible
+		outline: 2px solid var(--ring)
+		outline-offset: 1px
+	&:disabled
+		opacity: 0.5
+		cursor: not-allowed
+		pointer-events: none
+
+.accordion
+	display: flex
+	flex-direction: column
+	gap: var(--space-xs)
+
+.accordion-item
+	.accordion-content
+		display: grid
+		grid-template-rows: 0fr
+		padding: 0
+		transition: grid-template-rows var(--speed2) var(--transout1)
+	// The panel is what collapses. It needs min-height: 0 so the grid row can
+	// size it, and overflow: hidden so the content clips while closed — which
+	// is why it carries a name rather than being reached at by position.
+	.accordion-panel
+		overflow: hidden
+		min-height: 0
+	&.open 
+		.accordion-content
+			grid-template-rows: 1fr
+			padding: var(--space-sm)
+
+.accordion-trigger
+	display: flex
+	flex-direction: row
+	align-items: center
+	justify-content: space-between
+	width: 100%
+	min-height: var(--height-lg)
+	padding: var(--space-sm)
+	text-align: left
+	background: transparent
+	border: 0
+	cursor: pointer
+	user-select: none
+	&:hover
+		background: var(--bg-raised)
+	&:focus-visible
+		outline: 2px solid var(--ring)
+		outline-offset: -2px

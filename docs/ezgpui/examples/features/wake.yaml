@@ -1,0 +1,86 @@
+# =====================================================================
+# ezgpui features example — Wake
+# Pair of: ../wake.yaml. Source: cases/wake.md.
+# Read-only agent-session historian. READ-ONLY BY DESIGN — the manifest
+# says so at the top level: no feature may write to agent stores; the
+# resume path leaves the app. Adapter-per-agent is the extensibility shape.
+# =====================================================================
+
+app: wake
+lineage: zed-git-floating + gpui-component@fd3bc2bb
+
+read_only: true                 # load-bearing: never writes to ~/.claude,
+                                # ~/.codex, or any agent store
+
+features:
+  adapters:                     # adding an agent = one adapter describing
+    settings:                   # where its sessions live
+      claude: { path: "~/.claude/projects/**/*.jsonl", format: jsonl }
+      codex: { path: "~/.codex/sessions", format: sqlite }
+      # adapters never touch the files they read
+
+  scanner_watcher:
+    tasks:
+      scan: { trigger: { startup: true }, runs: "core.scan" }
+      watch: { trigger: { event: "fs.change" }, runs: "core.rescan" }
+    settings:
+      single_writer_indexing: index_lock
+
+  search:                       # CJK-aware full-text search
+    state: { query: String }
+    commands:
+      jump_to_match: { key: "cmd-k" }
+    notes: wake-core text module — titles + transcripts, code included
+
+  transcript:
+    state: { active: SessionId }
+    views: ["transcript.session"]
+    commands:
+      open: { args: [id] }
+
+  resume:                       # one-click resume — OUT of the app
+    commands:
+      terminal: { args: [session_id] }   # Terminal/iTerm/Warp/Ghostty
+      desktop: { args: [session_id] }    # Claude/Codex Desktop
+      handoff: { args: [session_id, agent] }   # hand a session to another agent
+    notes: resumption goes through plugins/CLI in the real terminal
+
+  manage:
+    commands:
+      star: { args: [id] }
+      pin: { args: [id] }
+      export_markdown: { args: [id] }
+      delete: { args: [id] }   # to Trash only
+
+  cleanup:                      # disk-hungry sessions
+    commands:
+      suggest: {}
+      clean: { args: [ids] }
+
+  memory:                       # the notes agents keep: CLAUDE.md,
+    state: { files: List<MemoryFile> }   # AGENTS.md, Cursor rules…
+    sources: ["memory.by_agent_project"]
+
+  insights:
+    state:
+      heatmap: ActivityHeatmap
+      streaks: Streaks
+      top: { agents: List, projects: List, models: List }
+    views: ["insights.panels"]
+
+  remote_hosts:                 # mirror sessions over SSH
+    integrations:
+      - kind: ssh
+        read_only: true
+
+  mcp_server:                   # any agent can search the history
+    mcp:
+      tools:
+        - "search.query"
+        - "transcript.read"
+
+  cli:                          # wake-cli beside the app
+    integrations: [{ kind: cli }]
+
+  plugins:                      # Claude Code / Codex plugins — new sessions
+    notes: "start knowing where agents left off"

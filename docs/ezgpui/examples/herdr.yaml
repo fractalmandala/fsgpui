@@ -1,0 +1,127 @@
+# =====================================================================
+# ezgpui example — Herdr (native client painting a daemon's terminals)
+# Studygroup: multiagent chat. Source: cases/herdr.md — the client
+# paints a remote Herdr daemon's terminal cells (splits, tabs, images,
+# selection, search) natively. Sidebar shows host CPU/mem, repos with
+# worktrees, agents with status dots. Browser previews are a wry island.
+#
+# Layers exercised:
+#   L0 static   — div, text, style
+#   L1 components — list, tabs, palette, icon
+#   L3 bindings — view (the split layout is DATA from the daemon, not
+#                 composed here — the one layout rule this example breaks)
+#
+# Distinctive: layout-over-the-wire. The daemon's SurfaceRect model
+# decides the panes; YAML owns the chrome around them. Commands carry
+# a boot ID (no reconnect/replay) — mutations are Rust-side.
+# =====================================================================
+
+window:
+  title: "Herdr"
+  size: [1520, 940]
+
+tokens:
+  colors:
+    bg: "#11111b"
+    surface: "#181825"
+    overlay: "#313244"
+    text: "#cdd6f4"
+    muted: "#a6adc8"
+    accent: "#94e2d5"
+    selection: "#89b4fa"                # tinted over cells, never replaced
+  selection_alpha: 0.3                  # SELECTION_ALPHA — keep glyphs readable
+
+root:
+  type: div
+  direction: row
+  style: { background: "$bg" }
+  children:
+    # ---------- left: hosts, repos, agents ----------
+    - type: div
+      direction: column
+      gap: 10
+      style: { width: 280, background: "$surface", padding: 12 }
+      children:
+        # connection state: local | ssh host — from herdr-client worker
+        - type: div
+          direction: row
+          gap: 6
+          children:
+            - type: icon
+              name: "connection"
+            - type: text
+              bind: "connection.endpoint_line"   # "local" / "ssh:host"
+              style: { color: "$muted", font_size: 11 }
+
+        # host vitals streamed from the daemon
+        - type: div
+          direction: row
+          gap: 12
+          children:
+            - type: text
+              bind: "host.cpu_line"
+              style: { color: "$muted", font_size: 11 }
+            - type: text
+              bind: "host.mem_line"
+              style: { color: "$muted", font_size: 11 }
+
+        # repos with linked worktrees; every agent has a status dot
+        - type: list
+          source: "repos.with_worktrees"
+          item:
+            type: div
+            direction: column
+            gap: 4
+            children:
+              - type: text
+                content: "$repo.name"
+                style: { color: "$text", font_size: 13, weight: medium }
+              - type: list
+                source: "$repo.worktrees"
+                item:
+                  type: div
+                  direction: row
+                  gap: 6
+                  children:
+                    - type: icon
+                      name: "$worktree.status_dot"   # running/idle/done
+                    - type: text
+                      content: "$worktree.name"
+                      style: { color: "$muted", font_size: 12 }
+                  on_click: "worktree.focus($worktree.id)"
+                  on_context_menu: "worktree.menu"   # checkpoints, teleport, notes
+
+    # ---------- main: tab strip + daemon surface ----------
+    - type: div
+      direction: column
+      flex: 1
+      children:
+        # tab strip mirrors the daemon's tab model
+        - type: tabs
+          style: { height: 34, background: "$surface" }
+          source: "daemon.tabs"
+          tab:
+            type: text
+            content: "$tab.title"
+            style: { color: "$text", font_size: 12 }
+          active: "daemon.active_tab"
+          on_change: "daemon.select_tab($tab.id)"
+
+        # THE surface: splits/panes arrive as SurfaceRects over the wire;
+        # terminal_painter draws glyphs, graphics, images, search tints.
+        # This view owns the whole area — YAML cannot reshape it.
+        - type: view
+          view: "terminal.daemon_surface"
+          flex: 1
+
+        # browser preview island (wry/WKWebView) with snapshot annotation
+        - type: view
+          view: "browser.preview"
+          height: 320
+          visible: "browser.preview_open"
+
+# palette (cmd-k): commands, worktree jump, copy-mode entry
+palette:
+  on_key: "cmd-k"
+  source: "commands.all"
+  on_select: "commands.run"

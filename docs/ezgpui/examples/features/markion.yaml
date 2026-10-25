@@ -1,0 +1,76 @@
+# =====================================================================
+# ezgpui features example — Markion
+# Pair of: ../markion.yaml. Source: cases/markion.md.
+# Markdown-truth WYSIWYG notes. Four view modes over ONE document
+# state; the updater refuses to install while a document is dirty.
+# =====================================================================
+
+app: markion
+lineage: gpui-0.2.2-vendored-patch   # [patch.crates-io] → vendor/zed/crates/gpui
+
+features:
+  doc_modes:                    # four modes, one document, no second model
+    state:
+      mode: { enum: [edit, visual, split, read] }
+      active_note: NoteId
+      # per-tab cursor/selection/undo/scroll preserved across switches
+    commands:
+      set_mode: { args: [mode] }
+    views: ["doc.source_editor", "doc.visual_surface", "doc.rendered"]
+    notes: "not a separate rich-text document model; markdown is always
+      the source of truth"
+
+  slash_palette:
+    commands:
+      insert_block: { inline_trigger: "/" }   # inline, not modal
+    sources: ["doc.blocks"]
+
+  block_editing:
+    state:
+      code_cells: ExactEditor
+      math_cells: ExactEditor
+      table_cells: ExactEditor
+      mermaid: ExactEditor
+    commands:
+      block_context_menu: {}
+      drag_reorder: {}
+      auto_pair: {}
+      emoji_complete: { inline_trigger: ":" }
+
+  frontmatter:
+    state: { parsed: Frontmatter }
+
+  diagrams:
+    integrations: [{ kind: mermaid }]     # diagram crate (Typune-absorbed)
+
+  importers:
+    integrations:
+      - { kind: pdf_import }
+      - { kind: docx_import }
+      - { kind: html_import }
+
+  export:
+    commands:
+      run: { args: [format] }
+    integrations: [{ kind: export_pipeline }]
+
+  git_sync:
+    tasks:
+      sync: { trigger: { interval: 5m }, runs: "git.sync" }
+
+  image_ops:
+    commands:
+      insert: { key: "cmd-v" }   # paste/transfer handling (image::Frame type
+    notes: resvg/usvg/image versions must stay unified with gpui's own   # identity)
+
+  i18n:
+    settings:
+      languages: [en, zh-TW, ja, fr, de, es]
+
+  updater:
+    tasks:
+      check: { trigger: { startup: true }, runs: "update.check" }
+    settings:
+      verify: minisign           # cryptographically verified (Windows)
+      refuse_when_dirty: true    # refuses to install while a document
+                                 # has unsaved changes

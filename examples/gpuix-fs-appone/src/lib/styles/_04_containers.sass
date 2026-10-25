@@ -1,0 +1,235 @@
+// ============================================================================
+// flow — L2. Containers and the alignment universe, verbatim from the
+// registry. Alignment classes are nested under their base — never standalone.
+// x/y are physical axes, always (Contract 4).
+// ============================================================================
+@use '00_config' as *
+.box
+	display: flex
+	flex-direction: column
+	&.xcenter
+		align-items: center
+		text-align: center
+	&.xleft
+		align-items: flex-start
+		text-align: left
+	&.xright
+		align-items: flex-end
+		text-align: right
+	&.ycenter
+		justify-content: center
+	&.ytop
+		justify-content: flex-start
+	&.ybot
+		justify-content: flex-end
+	&.ybetween
+		justify-content: space-between
+	&.yevenly
+		justify-content: space-evenly
+	&.yaround
+		justify-content: space-around
+
+.row
+	display: flex
+	flex-direction: row
+	&.xleft
+		justify-content: flex-start
+	&.xcenter
+		justify-content: center
+	&.xright
+		justify-content: flex-end
+	&.xbetween
+		justify-content: space-between
+	&.xevenly
+		justify-content: space-evenly
+	&.xaround
+		justify-content: space-around
+	&.ycenter
+		align-items: center
+	&.ytop
+		align-items: flex-start
+	&.ybot
+		align-items: flex-end
+
+.grid, .grid-2, .grid-3, .grid-4, .grid-5, .grid-6
+	display: grid
+	&.center
+		place-items: center
+	&.xcenter
+		justify-items: center
+		text-align: center
+	&.xleft
+		justify-items: start
+		text-align: left
+	&.xright
+		justify-items: end
+		text-align: right
+	&.xstretch
+		justify-items: stretch
+	&.ycenter
+		align-items: center
+	&.ytop
+		align-items: start
+	&.ybot
+		align-items: end
+	&.ystretch
+		align-items: stretch
+	&.xbetween
+		justify-content: space-between
+	&.xevenly
+		justify-content: space-evenly
+	&.xaround
+		justify-content: space-around
+	&.ybetween
+		align-content: space-between
+	&.yevenly
+		align-content: space-evenly
+	&.yaround
+		align-content: space-around
+
+.wrap
+	flex-wrap: wrap
+
+.grow
+	flex: 1 1 0%
+
+.shrink-0
+	flex-shrink: 0
+
+.relative
+	position: relative
+.absolute
+	position: absolute
+.fixed
+	position: fixed
+.sticky
+	position: sticky
+
+// Stacking. Mapped to the --z-* ladder in _00_tokens so overlays stack in one
+// agreed order instead of ad-hoc z-index numbers.
+.z-sticky // Stacking: sticky headers and rails (var(--z-sticky))
+	z-index: var(--z-sticky)
+.z-raised // Stacking: dropdowns, menus and floating panels above sticky chrome (var(--z-raised))
+	z-index: var(--z-raised)
+.z-modal // Stacking: modal overlays and drawers (var(--z-modal))
+	z-index: var(--z-modal)
+.z-toast // Stacking: toasts and notifications, above modals (var(--z-toast))
+	z-index: var(--z-toast)
+
+// Scroll containers. A panel that has to hold more than fits — a long option
+// list, a code block, a table — is a composition primitive, not a bespoke
+// widget. Without these the only way to express it was a hand-written rule,
+// which is the escape hatch the registry exists to avoid.
+// Pair with a height: .scroll-y needs one to have anything to scroll against.
+.scroll-y // Vertical scroll inside a bounded height; needs an .h-* or a constraining flex parent
+	overflow-y: auto
+	overflow-x: hidden
+	overscroll-behavior: contain
+
+.scroll-x // Horizontal scroll inside a bounded width; .reel adds snap points
+	overflow-x: auto
+	overflow-y: hidden
+	overscroll-behavior: contain
+
+// Gridding golden rules: exactly 3 items → 3→1, never 2+1; count 4 or a
+// multiple of 4 → 4→2→1, never 3+1; 6 → 6→3→2→1 (both rules hold throughout).
+.grid-1
+	display: grid
+	grid-template-columns: repeat(1, minmax(0, 1fr))
+
+.grid-2
+	display: grid
+	grid-template-columns: repeat(1, minmax(0, 1fr))
+	@media (min-width: 1025px)
+		grid-template-columns: repeat(2, minmax(0, 1fr))
+
+.grid-3
+	display: grid
+	grid-template-columns: repeat(1, minmax(0, 1fr))
+	@media (min-width: 1025px)
+		grid-template-columns: repeat(3, minmax(0, 1fr))
+
+.grid-4
+	display: grid
+	grid-template-columns: repeat(1, minmax(0, 1fr))
+	@media (min-width: 1025px)
+		grid-template-columns: repeat(2, minmax(0, 1fr))
+	@media (min-width: 1281px)
+		grid-template-columns: repeat(4, minmax(0, 1fr))
+
+.grid-6
+	display: grid
+	grid-template-columns: repeat(1, minmax(0, 1fr))
+	@media (min-width: 1025px)
+		grid-template-columns: repeat(3, minmax(0, 1fr))
+	@media (min-width: 1281px)
+		grid-template-columns: repeat(6, minmax(0, 1fr))
+
+.cspan-1
+	grid-column: span 1
+.cspan-2
+	grid-column: span 2
+.cspan-3
+	grid-column: span 3
+.cspan-4
+	grid-column: span 4
+.cspan-5
+	grid-column: span 5
+.cspan-6
+	grid-column: span 6
+.cspan-7
+	grid-column: span 7
+.cspan-8
+	grid-column: span 8
+
+// Auto-fit repeatable cards — column count negotiable, min track from config.
+.card-grid
+	display: grid
+	grid-template-columns: repeat(auto-fit, minmax(min(var(--card-min), 100%), 1fr))
+
+// Prose — the reading measure (≤ 760px) + typographic rhythm (rhythm authored).
+.prose
+	max-width: var(--prose-clamp)
+	margin-inline: auto
+	display: flex
+	flex-direction: column
+	gap: var(--space-sm)
+	h1, h2, h3, h4
+		&:first-child
+			margin-top: 0
+	
+.prose-left
+	max-width: var(--prose-clamp)
+	margin-right: auto
+	display: flex
+	flex-direction: column
+	gap: var(--space-sm)
+	h1, h2, h3, h4
+		&:first-child
+			margin-top: 0
+
+// Frame presets — aspect-ratio media boxes (replaces any frame abstraction).
+@each $name, $ratio in $frame-ratios
+	.frame-#{$name}
+		aspect-ratio: #{$ratio}
+		overflow: hidden
+		position: relative
+		img, video, iframe, svg
+			width: 100%
+			height: 100%
+			object-fit: cover
+
+// Reel — the human-driven scroll-snap rail (filmstrip). Open for carousel duty.
+.reel
+	display: flex
+	flex-direction: row
+	overflow-x: auto
+	overscroll-behavior-inline: contain
+	scroll-snap-type: inline mandatory
+	// The system's one permitted `>`. Snap targets must be the rail's own
+	// children: a descendant selector would make nested elements snap too and
+	// the rail would catch in the wrong places. Kept deliberately — see the
+	// combinator guard in scripts/validate-deck.ts.
+	> *
+		flex: 0 0 auto
+		scroll-snap-align: start

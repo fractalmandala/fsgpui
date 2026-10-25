@@ -1,0 +1,137 @@
+// ============================================================================
+// shells — L4. Canonical markups are canon: every class here implements the
+// markup registered in the registry. Overlay mechanics, the docs-frame roles
+// and the mobile TOC disclosure are authored to the registered behaviors.
+// Motion reads the motion tokens — presets reach everything.
+// ============================================================================
+
+@use 'sass:string'
+@use 'sass:list'
+@use 'sass:map'
+@use '00_config' as *
+@use '00_tokens' as *
+
+$md: map.get($breakpoints, md)
+$bs: map.get($breakpoints, bs)
+$lg: map.get($breakpoints, lg)
+
+// --- The app-shell canon ------------------------------------------------------
+.app-shell
+	display: flex
+	flex-direction: column
+	position: relative
+	height: 100%
+	width: 100%
+	flex-grow: 1
+
+.app-header
+	display: flex
+	flex-direction: row
+	align-items: center
+	position: sticky
+	top: 0
+	z-index: var(--z-sticky)
+	height: var(--header-height)
+	padding-inline: var(--app-inline)
+	width: 100%
+	&.clamped
+		width: var(--content-clamp)
+		margin-inline: auto
+
+.app-main
+	flex: 1
+	min-width: 0
+	min-height: 0
+	height: 100%
+	width: 100%
+	display: flex
+	flex-direction: row
+	&.clamped
+		width: var(--content-clamp)
+		margin-inline: auto
+
+.main-section
+	flex: 1 1 0%
+	min-width: 0
+	&.solo
+		padding-inline: var(--app-inline)
+
+// --- Role-bound rails (Amendment A1) -------------------------------------------
+// Left = nav: visible ≥ lg; below, .open on .app-shell resurrects it as an
+// off-canvas drawer (the header menu button toggles it). Right = TOC: visible
+// ≥ xl; below, its content surfaces in .mobile-toc at the top of the page.
+.sidebar-left,
+.sidebar-right
+	display: none
+	flex-shrink: 0
+	position: sticky
+	top: var(--header-height)
+	height: calc(100dvh - var(--fit-height))
+	overflow-y: auto
+	ul, ol
+		margin-left: 0
+		padding-left: 0
+
+.sidebar-left
+	width: var(--sidebar-width-left)
+
+.sidebar-right
+	width: var(--sidebar-width-right)
+
+@media (max-width: #{$bs})
+	.app-shell.open .sidebar-left
+		display: block
+		position: fixed
+		left: 0
+		z-index: var(--z-modal)
+		height: var(--fit-height)
+
+@media (min-width: 1025px)
+	.sidebar-left
+		display: block
+
+@media (min-width: 1281px)
+	.sidebar-right
+		display: block
+
+.app-footer
+	display: flex
+	flex-direction: row
+	align-items: center
+	padding-inline: var(--app-inline)
+	min-height: var(--footer-height)
+
+.content-section
+	width: 100%
+	&.null
+		padding-inline: 0 var(--space-bs)
+	@media (min-width: 769px)
+		padding-inline: var(--space-bs)
+		&.narrow-half
+			width: 640px
+			margin-inline: auto
+		&.narrow-wide
+			width: 720px
+			margin-inline: auto
+	@media (min-width: 1025px)
+		&.narrow-full
+			width: 640px
+			margin-inline: auto
+		&.narrow-half
+			width: 750px
+			padding-right: 25px
+		&.narrow-wide
+			width: 750px
+	@media (min-width: 1281px)
+		&.narrow-full
+			width: 680px
+		&.narrow-half
+			width: 800px
+			padding-right: 120px
+		&.narrow-wide
+			width: 1024px
+	@media (min-width: 1441px)
+		&.narrow-wide
+			width: 1280px
+		&.narrow-half
+			width: 1024px

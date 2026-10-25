@@ -1,0 +1,52 @@
+# =====================================================================
+# ezgpui features example — Fulgur
+# Pair of: ../fulgur.yaml. Source: cases/fulgur.md.
+# E2EE self-hostable sync. The feature story is cryptography posture:
+# per-device X25519 keys in the OS keychain, age encryption,
+# zero-knowledge server, multiple servers at once.
+# =====================================================================
+
+app: fulgur
+lineage: gpui-kit               # gpui arrives through gpui-kit (gpui-pre beneath)
+
+features:
+  editor:
+    state:
+      active_file: FileId
+      open_files: List<File>    # open files move between machines
+      filter: String            # like browser tabs
+    views: ["editor.active", "editor.tabs", "files.tree"]
+
+  sync:                         # THE differentiator
+    state:
+      status_line: String
+      servers_line: String
+    settings:
+      servers: { type: list }   # MULTIPLE self-hosted Fulgurant servers
+      encryption: age           # at once (personal + work)
+    integrations:
+      - kind: server
+        self_hosted: true
+        zero_knowledge: true    # the server never sees plaintext
+    tasks:
+      push: { trigger: { event: "file.changed" }, runs: "sync.push" }
+      pull: { trigger: { event: "peer.update" }, runs: "sync.apply" }
+    views: ["sync.status_line", "sync.servers_line"]
+
+  keychain:                     # key storage posture
+    settings:
+      keys: x25519_per_device
+      storage: { enum: [macos_keychain, secret_service] }
+      secret_service_optional: true   # everything else works without it (Linux)
+    views: ["sync.open_key_settings"]
+
+  theme_packs:                  # themes as data files, not code
+    settings:
+      pack: { enum: [catppuccin, everforest, hybrid, macos-classic,
+                     mellifluous, solarized, spaceduck, tokyonight] }
+
+  settings:
+    settings:
+      languages: {}
+    notes: clippy pedantic always on; allow-list burned down one entry
+      at a time

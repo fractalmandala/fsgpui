@@ -1,0 +1,76 @@
+window:
+  title: "ez-gpui App"
+  size: [800, 600]
+
+root:
+  type: div
+  direction: column
+  gap: 16
+  style:
+    background: "#1e1e2e"
+    padding: 32
+  children:
+    - type: text
+      content: "Built with EZ-GPUI"
+      style:
+        color: "#cdd6f4"
+        font_size: 32
+        weight: bold
+
+    - type: text
+      content: "This entire UI was generated from config.yaml"
+      style:
+        color: "#a6adc8"
+        font_size: 16
+
+    - type: div
+      direction: row
+      gap: 12
+      children:
+        - type: div
+          style:
+            background: "#89b4fa"
+            padding: 16
+            border_radius: 8
+          children:
+            - type: text
+              content: "Blue Box"
+              style:
+                color: "#1e1e2e"
+                weight: semibold
+
+        - type: div
+          style:
+            background: "#a6e3a1"
+            padding: 16
+            border_radius: 8
+          children:
+            - type: text
+              content: "Green Box"
+              style:
+                color: "#1e1e2e"
+                weight: semibold
+
+        - type: div
+          style:
+            background: "#f38ba8"
+            padding: 16
+            border_radius: 8
+          children:
+            - type: text
+              content: "Red Box"
+              style:
+                color: "#1e1e2e"
+                weight: semibold
+
+    - type: div
+      style:
+        background: "#313244"
+        padding: 20
+        border_radius: 8
+      children:
+        - type: text
+          content: "Edit config.yaml and restart to see changes"
+          style:
+            color: "#bac2de"
+            font_size: 14

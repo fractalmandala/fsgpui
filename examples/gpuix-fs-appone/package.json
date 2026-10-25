@@ -4,17 +4,18 @@
 	"version": "0.0.0",
 	"type": "module",
 	"scripts": {
-		"start": "node app.ts",
+		"start": "node --experimental-ffi --disable-warning=ExperimentalWarning app.ts",
 		"test": "gpuix-fractalsvelte test.ts",
 		"build": "bun build.ts",
 		"typecheck": "tsc --noEmit && svelte-check --diagnostic-sources js,svelte --fail-on-warnings"
 	},
 	"dependencies": {
-		"gpuix-fractalsvelte": "file:/Users/amrit/fractaldesign/packages/fsgpui/vendor/gpuix-fractalsvelte"
+		"gpuix-fractalsvelte": "file:/Users/amrit/fractaldesign/packages/gpuix-fractalsvelte"
 	},
 	"devDependencies": {
 		"@types/bun": "^1.4.3",
 		"@types/node": "^26.6.5",
+		"sass": "^1.106.1",
 		"svelte-check": "^4.7.6",
 		"typescript": "^5.9.3"
 	}

@@ -1,0 +1,136 @@
+# =====================================================================
+# ezgpui example — Markion (markdown-truth WYSIWYG notes)
+# Studygroup: notes. Source: cases/markion.md — markdown notes with four
+# view modes sharing ONE document state: Edit (raw), Visual Edit
+# (WYSIWYG-first, markdown always the source of truth), Split Preview
+# (source-mapped sync scroll), Read (rendered, 860px centered). Slash
+# palette, block context menu, frontmatter, git sync, one-click updater.
+#
+# Layers exercised:
+#   L0 static   — div, text, style
+#   L1 components — input, list, button, icon, palette
+#   L2 layout   — split preview panes
+#   L3 bindings — view (the four mode surfaces are Rust views over one
+#                 markdown document model — "no second rendering path")
+#   L4 theming  — preview/read theming, adaptive width
+#
+# Distinctive: mode switcher that preserves cursor/selection/undo/scroll
+# per tab — that fidelity lives in Rust; YAML just names the modes.
+# =====================================================================
+
+window:
+  title: "Markion"
+  size: [1280, 880]
+
+tokens:
+  colors:
+    bg: "#1e1e2e"
+    surface: "#24243a"
+    text: "#cdd6f4"
+    muted: "#a6adc8"
+    accent: "#89b4fa"
+  reading:
+    width: 860                          # centered Read-mode column
+
+root:
+  type: div
+  direction: column
+  style: { background: "$bg" }
+  children:
+    # ---------- toolbar: mode switcher + doc actions ----------
+    - type: div
+      direction: row
+      gap: 10
+      style: { height: 40, background: "$surface", padding: [0, 12] }
+      children:
+        - type: tabs
+          style: { height: 28 }
+          tabs:
+            - id: "edit"
+              label: "Edit"
+            - id: "visual"
+              label: "Visual Edit"
+            - id: "split"
+              label: "Split Preview"
+            - id: "read"
+              label: "Read"
+          active: "doc.mode"
+          on_change: "doc.set_mode($tab.id)"    # state survives the switch
+
+        - type: div
+          direction: row
+          gap: 8
+          style: { padding: [0, 0, 0, 999] }
+          children:
+            - type: icon
+              name: "git-sync"
+              on_click: "sync.now"
+            - type: icon
+              name: "export"
+              on_click: "export.menu"
+
+    # ---------- body: notes list | document ----------
+    - type: split
+      direction: row
+      flex: 1
+
+      sidebar:
+        width: 280
+        child:
+          type: div
+          direction: column
+          style: { background: "$surface" }
+          children:
+            - type: input
+              placeholder: "Search notes…"
+              bind: "notes.filter"
+            - type: list
+              source: "notes.all"
+              item:
+                type: div
+                direction: column
+                gap: 2
+                style: { padding: [6, 8] }
+                children:
+                  - type: text
+                    content: "$note.title"
+                    style: { color: "$text", font_size: 13 }
+                  - type: text
+                    content: "$note.frontmatter_summary"
+                    style: { color: "$muted", font_size: 11 }
+              on_click: "note.open($note.id)"
+            - type: button
+              label: "New Note"
+              on_click: "note.create"
+
+      main:
+        child:
+          # the four surfaces over one markdown truth.
+          # visible: switches panes; state/undo/scroll persist in Rust.
+          type: div
+          direction: row
+          flex: 1
+          children:
+            # raw markdown source (edit + split-left)
+            - type: view
+              view: "doc.source_editor"
+              flex: 1
+              visible: "doc.mode_is(edit, split)"
+
+            # WYSIWYG-first visual editing (visual + split-right)
+            - type: view
+              view: "doc.visual_surface"   # code cells, math, mermaid,
+              flex: 1                      # tables get exact editors
+              visible: "doc.mode_is(visual, split)"
+
+            # rendered read mode — 860px centered
+            - type: view
+              view: "doc.rendered"
+              flex: 1
+              visible: "doc.mode_is(read)"
+
+# slash-command palette inside Visual Edit (/, blocks, emoji :codes)
+palette:
+  on_key: "/"                              # inline, not modal
+  source: "doc.blocks"
+  on_select: "doc.insert_block"

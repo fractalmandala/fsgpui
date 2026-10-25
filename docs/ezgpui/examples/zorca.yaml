@@ -1,0 +1,139 @@
+# =====================================================================
+# ezgpui example — ZOrca (Agent Development Environment on Zed)
+# Studygroup: other. Source: cases/zorca.md — a Zed hard fork repositioned
+# as an ADE: "All your agents. All your projects. One native workspace."
+# Each coding agent gets a Git worktree, terminal, and diff; session
+# restore; local and SSH projects. Layout/theming inherited from Zed.
+#
+# Layers exercised:
+#   L1 components — list, tabs, icon, button
+#   L2 layout   — Zed's dock/pane grammar (described, not re-modeled)
+#   L3 bindings — view (agent workspaces, thread terminals, diffs)
+#
+# Distinctive: the fork IS Zed, so this YAML describes Zed's own
+# workspace shell with the ADE layer as first-class panes. ade_session
+# (SSH/transport) is gpui-free Rust beneath every `view:`.
+# =====================================================================
+
+window:
+  title: "ZOrca — Agent Development Environment"
+  size: [1680, 1000]
+
+tokens:
+  # Zed's theme system, inherited. One choice here, resolved by Rust.
+  theme: "one-dark"
+
+root:
+  type: div
+  direction: column
+  children:
+    # ---------- workspace: agents rail | workbench ----------
+    - type: split
+      direction: row
+      flex: 1
+
+      # ----- left: all agents, all projects -----
+      sidebar:
+        width: 300
+        child:
+          type: div
+          direction: column
+          children:
+            - type: div
+              direction: row
+              gap: 8
+              style: { height: 36, padding: [0, 10] }
+              children:
+                - type: button
+                  label: "New Agent"
+                  on_click: "agent.spawn"        # picks CLI + project + worktree
+                - type: button
+                  label: "Open Project…"
+                  on_click: "project.open"
+
+            # worktree-per-agent rows — agent status at a glance
+            - type: list
+              source: "agent_workspaces.rows"
+              group_by: "$row.project"
+              item:
+                type: div
+                direction: row
+                gap: 8
+                style: { padding: [6, 10] }
+                children:
+                  - type: icon
+                    name: "$row.agent_kind"      # claude / codex / …
+                  - type: div
+                    direction: column
+                    gap: 2
+                    children:
+                      - type: text
+                        content: "$row.worktree_name"
+                        style: { font_size: 12, weight: medium }
+                      - type: text
+                        content: "$row.thread_title"
+                        style: { font_size: 11, color: "muted" }
+                  - type: icon
+                    name: "$row.status"          # working / waiting / done
+              on_click: "workspace.focus($row.id)"
+              on_context_menu: "workspace.row_menu"   # archive, restore, terminal
+
+            - type: view
+              view: "session.restore_list"       # everything comes back after restart
+              height: 180
+
+      # ----- center: focused agent's workbench -----
+      main:
+        child:
+          type: split
+          direction: column
+          editor:
+            flex: 1
+            child:
+              type: tabs
+              style: { height: 34 }
+              tabs:
+                - id: "diff"
+                  label: "Diff"
+                - id: "files"
+                  label: "Files"
+              active: "diff"
+              on_change: "workspace.select_surface"
+              child:
+                type: view
+                view: "workspace.active_surface"  # Zed editor/diff panes
+
+          # the agent's own terminal — a first-class Zed terminal with
+          # thread metadata, NOT a wrapper
+          dock:
+            height: 280
+            child:
+              type: view
+              view: "terminal.with_thread_metadata"
+
+      # ----- right: thread + session plumbing status -----
+      right_panel:
+        width: 380
+        child:
+          type: div
+          direction: column
+          children:
+            - type: view
+              view: "agent.thread"
+              flex: 1
+            - type: div
+              direction: row
+              gap: 8
+              style: { height: 28, padding: [0, 10] }
+              children:
+                - type: icon
+                  name: "session-transport"
+                - type: text
+                  bind: "ade_session.transport_line"  # local | ssh + deploy hash check
+                  style: { font_size: 11, color: "muted" }
+
+# agent palette — the ADE's command surface
+palette:
+  on_key: "cmd-shift-p"
+  source: "ade.commands"
+  on_select: "commands.run"

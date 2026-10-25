@@ -1,0 +1,66 @@
+# =====================================================================
+# ezgpui features example — Rovar
+# Pair of: ../rovar.yaml. Source: cases/rovar.md.
+# Design editor, desktop + web. The scene/auto-layout engine lives in
+# the 90k app crate today; this manifest is what extracting it would
+# produce. rovar-format (append-only containers) is already gpui-free.
+# =====================================================================
+
+app: rovar
+lineage: gpui-fusion            # fork ADDS gpui_effects + gpui_media
+
+features:
+  canvas:                       # the scene graph — the product
+    state:
+      active_page: PageId
+      selection: List<NodeId>
+    views: ["scene.canvas", "scene.layer_tree"]
+    commands:
+      undo: { key: "cmd-z" }
+      redo: { key: "cmd-shift-z" }
+
+  auto_layout:                  # constraint/flex over the scene graph
+    state: { props: AutoLayoutProps }
+    views: ["inspector.auto_layout"]
+
+  components_library:           # reusable component instances
+    state: { library: List<Component> }
+    sources: ["library.components"]
+    commands:
+      place: { args: [component_id] }
+
+  pages:
+    state: { list: List<Page> }
+    sources: ["document.pages"]
+    commands:
+      open: { args: [id] }
+
+  media:                        # images, video — gpui_media from the fork
+    toggleable: true
+    notes: lifted code depending on this carries the gpui-fusion fork
+
+  effects:                      # gpui_effects from the fork
+    toggleable: true
+
+  export:
+    commands:
+      png: { args: [selection] }
+      svg: { args: [selection] }
+    integrations: [{ kind: resvg_usvg }]   # wasm-oriented rasterization
+
+  collab:                       # rovar-server: personal + team workspaces
+    toggleable: true
+    state: { sync_state: String }
+    integrations:
+      - kind: server
+        contract: rovar-api
+        self_hosted: true
+    views: ["document.sync_state"]
+
+  containers:                   # rovar-format: append-only immutable blocks
+    notes: >-                   # + committed index; CRDT-friendly; zero
+      readers stream blocks without loading the container.   # GUI deps
+
+  i18n:
+    settings:
+      languages: [en, zh-Hans]

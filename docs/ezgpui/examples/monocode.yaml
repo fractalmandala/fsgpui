@@ -1,0 +1,178 @@
+# =====================================================================
+# ezgpui example — MonoCode in GPUI (conceptual port)
+# Studygroup: multiagent (agent orchestrator). Source target: reverse
+# engineering of /Applications/MonoCode.app 0.13.0 (Tauri 2 / wry /
+# WKWebView react app, 58-module Rust backend `monocode-lib`), enhanced
+# with the monocode-main sources. A GUI for coding agents: "Works with
+# your subscriptions on Claude Code, Codex, Cursor, Grok Build,
+# OpenCode, Antigravity, Pi, omp, fx, Hermes Agent, and Devin."
+# Tabs are sessions. The composer is the input. Splits for side-by-side.
+#
+# Layers exercised:
+#   L1 components — tabs, list, input, icon, button, badge rows
+#   L2 layout     — session sidebar + tabbed pane grid + terminal dock;
+#                   quick composer as a second borderless surface
+#   L3 bindings   — view (transcript, terminal, diff editor, access picker)
+#
+# Distinctive vs the other examples: the content model already exists in
+# Rust (see ../features/monocode.yaml) — this YAML only re-skins its
+# chrome in GPUI. Every `view:` below maps to a Tauri webview surface in
+# the original (AgentTranscript.tsx, TerminalView.tsx, ApprovalToasts.tsx,
+# QuickComposer). Heavy React streaming (shiki/streamdown) and xterm.js
+# become gpui-kit's text + terminal components; smarts stay in Rust.
+# =====================================================================
+
+window:
+  title: "MonoCode"
+  size: [1680, 1050]          # README screenshot size; macOS traffic lights
+
+tokens:
+  theme: "monocode-dark"      # dark default; GlassBackdrop translucency
+  glass: true                 # vibrancy behind sidebar + titlebar areas
+
+root:
+  type: div
+  direction: column
+  children:
+    # ---------- app chrome (MenuBar.tsx) ----------
+    - type: div
+      direction: row
+      gap: 8
+      style: { height: 38, padding: [0, 12] }
+      children:
+        - type: button
+          label: "Open Project…"
+          on_click: "project.open"          # CmdOrCtrl+O
+        - type: icon
+          name: "search"
+          on_click: "search.focus"          # CmdOrCtrl+F — Find in Files
+        - type: div
+          style: { flex: 1 }
+        - type: text
+          bind: "usage.meter_line"          # pi/devin/codex rate-limit LCD
+          style: { font_size: 11, color: "muted" }
+        - type: icon
+          name: "automations"
+          on_click: "automations.show"
+        - type: icon
+          name: "settings"                  # CmdOrCtrl+,
+
+    # ---------- workspace: session rail | pane grid | dock ----------
+    - type: split
+      direction: row
+      flex: 1
+
+      # ----- left: session sidebar grouped by project (Mono rail too) -----
+      sidebar:
+        width: 280
+        child:
+          type: div
+          direction: column
+          children:
+            # Monos — experimental cross-project agents with memory
+            - type: view
+              view: "mono.rail_section"     # MonoRailSection.tsx
+              height: 150
+
+            # sessions grouped per project; worktree badge per row
+            - type: list
+              source: "sessions.rows"
+              group_by: "$row.project"
+              item:
+                type: div
+                direction: row
+                gap: 8
+                style: { padding: [6, 10] }
+                children:
+                  - type: icon
+                    name: "$row.harness"    # claude / codex / pi / …
+                  - type: div
+                    direction: column
+                    gap: 2
+                    children:
+                      - type: text
+                        content: "$row.title"
+                        style: { font_size: 12, weight: medium }
+                      - type: text
+                        content: "$row.worktree_status"
+                        style: { font_size: 11, color: "muted" }
+                  - type: badge
+                    content: "$row.turn_state"   # running / waiting / approval
+              on_click: "session.focus($row.id)"
+              on_context_menu: "session.row_menu"    # archive, checkpoint, move tab
+
+            - type: button
+              label: "New Session"
+              on_click: "session.new"       # CmdOrCtrl+T
+
+      # ----- center: tabs are sessions; split panes side by side -----
+      main:
+        child:
+          type: div
+          direction: column
+          children:
+            - type: tabs
+              style: { height: 34 }
+              source: "panes.tabs"          # includes agent + terminal tabs
+              active: "panes.active"
+              on_change: "panes.select"
+              on_close: "panes.close"       # CmdOrCtrl+W / Shift+W others
+              child:
+                type: split_pane_grid       # Split Pane Right/Down; focus arrows
+                flex: 1
+                source: "panes.grid"
+                pane:
+                  type: view
+                  view: "pane.content"      # transcript+composer | terminal | diff
+
+            # bottom dock: project terminal (ProjectTerminalDock.tsx, xterm)
+            - type: dock
+              height: 260
+              collapsed: "$terminal.collapsed"   # CmdOrCtrl+J
+              child:
+                type: view
+                view: "terminal.project_dock"
+
+      # ----- sparse right edge: approvals + inbox, presented as toasts -----
+      right_panel:
+        width: 0
+        notes: >-
+          AccessPicker / ApprovalToasts are floating, not docked — they
+          render from the approvals feature over the pane grid.
+
+    # ---------- composer lives inside each agent pane (view above) ----------
+    # Composer.tsx: model switcher (CmdOrCtrl+K), @file mentions, emoji,
+    # attachments, ContextMeter, runner picker (submit-with-settlement).
+
+    # ---------- find overlay (Find in Files, Go to File) ----------
+    - type: div
+      visible: "$search.overlay_open"
+      style: { border_radius: 8 }
+      children:
+        - type: input
+          bind: "search.query"
+          on_submit: "search.run"           # ripgrep-backed (fs module)
+        - type: list
+          source: "search.results"
+          on_click: "search.reveal($row.path)"
+
+    # ---------- approvals surface (ApprovalToasts / AccessPicker) ----------
+    - type: view
+      view: "approvals.surface"
+      notes: >-
+        anchored lower-center; scope-grant buttons authorize the turn
+        (control service scopes — control.rs).
+
+# quick composer — separate borderless window in the original
+# (quick-composer.html + global shortcut Shift+Space, screenshot
+# captures, git branch popup). L2 multi-window: render as second
+# WindowConfig once the schema gains `windows:`; until then:
+#
+#   surface "quick_composer":
+#     view: "quick_composer.popup"
+#
+# palette — the whole app's command surface (menu.rs generated)
+palette:
+  on_key: "cmd-shift-p"
+  source: "commands.palette"               # includes App:/Session:/Terminal:/Pane:
+  on_select: "commands.run"

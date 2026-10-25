@@ -1,0 +1,112 @@
+# =====================================================================
+# ezgpui features example — Waku
+# Pair of: ../waku.yaml. Source: cases/waku.md.
+# A native control plane for local coding agents: 26 feature files in
+# src/app/*; this manifest names them all and wires their triggers.
+# =====================================================================
+
+app: waku
+lineage: egoist/zed@waku-webview
+
+features:
+  sessions:
+    state:
+      active: SessionId
+      list: List<Session>
+      filter: String
+    commands:
+      new: { key: "cmd-n" }
+      open: { args: [id] }
+      close: { args: [id] }
+    sources: ["sessions.active"]
+    views: ["sidebar.sessions"]
+    persisted: sqlite
+
+  transcript:
+    state: {}
+    views: ["transcript.active"]
+
+  composer:
+    state: { draft: String }
+    commands:
+      send: { key: "cmd-enter" }
+      attach: {}
+    views: ["composer"]
+
+  branches:
+    state: { current: BranchId }
+    commands:
+      fork: {}
+      list: {}
+
+  palette:
+    commands:
+      show: { key: "cmd-k" }
+    mcp: []
+
+  usage:                        # usage meter + provider pages
+    state:
+      meter_line: String
+    settings:
+      provider: { type: enum, values: [kimi, anthropic, openai] }
+    tasks:
+      refresh: { trigger: { interval: 60s }, runs: "usage.poll" }
+    views: ["status.usage"]
+
+  skills:
+    state: { installed: List<Skill> }
+    views: ["skills.page"]
+
+  task_switcher:
+    commands:
+      show: { key: "cmd-tab" }
+    views: ["status.switcher"]
+
+  goals:
+    state: { open_dialogs: List<GoalId> }
+
+  review_diff:
+    views: ["review.panel"]
+
+  terminal:
+    views: ["surfaces.terminal"]
+
+  browser:                      # native webview surface (fork overlay plane)
+    state:
+      open: false
+      url: String
+    views: ["surfaces.browser"]
+    commands:
+      navigate: { args: [url] }
+    integrations:
+      - kind: webview           # WKWebView / WebView2; macOS+Windows only
+
+  js_repl:                      # Node child process
+    integrations:
+      - kind: child_process
+        binary: node
+        restart: on_crash
+
+  computer_use:
+    toggleable: true
+    integrations: [{ kind: waku-computer-use }]
+
+  analytics:
+    toggleable: true
+    settings:
+      local_only: { default: true }
+
+  daemon:                       # waku-core behind waku-protocol
+    integrations:
+      - kind: daemon
+        transport: local_socket
+        contract: waku-protocol   # versioned wire contract; native AND web clients
+
+  updater:
+    tasks:
+      check: { trigger: { startup: true }, runs: "update.check" }
+
+  theme:
+    settings:
+      preference: { type: enum, values: [light, dark, system] }
+    # ThemePreference syncs across devices

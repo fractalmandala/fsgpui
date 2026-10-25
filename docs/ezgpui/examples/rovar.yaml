@@ -1,0 +1,161 @@
+# =====================================================================
+# ezgpui example — Rovar (design editor, desktop + web)
+# Studygroup: other. Source: cases/rovar.md — a Figma-class design
+# editor in GPUI: artboards, vectors, text, images, video, auto-layout,
+# reusable components, multi-page docs, PNG/SVG export. gpui-fusion
+# fork adds effects + media crates.
+#
+# Layers exercised:
+#   L0 static   — div, text, style
+#   L1 components — list, input, button, icon
+#   L2 layout   — split
+#   L3 bindings — view (the artboard canvas is the app; auto-layout
+#                 engine, document merge, export all live in Rust)
+#   L4 theming  — the tool edits design tokens for users AND themes itself
+#
+# Distinctive: the canvas is an infinite surface — not a div tree.
+# YAML owns the editor chrome around it; the scene graph is Rust.
+# =====================================================================
+
+window:
+  title: "Rovar"
+  size: [1600, 1000]
+
+tokens:
+  colors:
+    bg: "#11111b"
+    surface: "#181825"
+    overlay: "#313244"
+    text: "#cdd6f4"
+    muted: "#a6adc8"
+    accent: "#f5c2e7"
+    canvas: "#0b0b12"                    # artboard backdrop
+
+root:
+  type: div
+  direction: column
+  style: { background: "$bg" }
+  children:
+    # ---------- toolbar ----------
+    - type: div
+      direction: row
+      gap: 12
+      style: { height: 40, background: "$surface", padding: [0, 12] }
+      children:
+        - type: icon
+          name: "move"
+          on_click: "tool.select(move)"
+        - type: icon
+          name: "frame"
+          on_click: "tool.select(frame)"
+        - type: icon
+          name: "vector"
+          on_click: "tool.select(vector)"
+        - type: icon
+          name: "text"
+          on_click: "tool.select(text)"
+        - type: icon
+          name: "image"
+          on_click: "tool.select(image)"
+        - type: div
+          direction: row
+          gap: 8
+          style: { padding: [0, 0, 0, 999] }
+          children:
+            - type: button
+              label: "Export PNG"
+              on_click: "export.png"
+            - type: button
+              label: "Export SVG"
+              on_click: "export.svg"
+            - type: icon
+              name: "collab"               # rovar-server workspaces
+              on_click: "collab.open"
+
+    # ---------- editor: pages | canvas | inspector ----------
+    - type: split
+      direction: row
+      flex: 1
+
+      # ----- left: pages + layers + components -----
+      sidebar:
+        width: 260
+        child:
+          type: div
+          direction: column
+          style: { background: "$surface" }
+          children:
+            - type: text
+              content: "Pages"
+              style: { color: "$muted", font_size: 11, weight: bold }
+            - type: list
+              source: "document.pages"
+              item:
+                type: text
+                content: "$page.name"
+                style: { color: "$text", font_size: 12 }
+              on_click: "page.open($page.id)"
+
+            - type: text
+              content: "Layers"
+              style: { color: "$muted", font_size: 11, weight: bold }
+            - type: view
+              view: "scene.layer_tree"     # mirrors the scene graph
+              flex: 1
+
+            - type: text
+              content: "Components"
+              style: { color: "$muted", font_size: 11, weight: bold }
+            - type: list
+              source: "library.components" # reusable component instances
+              item:
+                type: text
+                content: "$component.name"
+                style: { color: "$accent", font_size: 12 }
+              on_click: "tool.place_component($component.id)"
+
+      # ----- center: THE canvas -----
+      main:
+        child:
+          type: view
+          view: "scene.canvas"             # artboards, auto-layout, effects,
+          flex: 1                          # media — all Rust-owned gpui-fusion
+          style: { background: "$canvas" }
+
+      # ----- right: inspector (auto-layout + tokens of selection) -----
+      right_panel:
+        width: 300
+        child:
+          type: div
+          direction: column
+          gap: 10
+          style: { background: "$surface", padding: 12 }
+          children:
+            - type: text
+              content: "Auto Layout"
+              style: { color: "$muted", font_size: 11, weight: bold }
+            - type: view
+              view: "inspector.auto_layout"  # direction/gap/padding/align…
+            - type: text
+              content: "Fill & Stroke"
+              style: { color: "$muted", font_size: 11, weight: bold }
+            - type: view
+              view: "inspector.paint"
+            - type: text
+              content: "Export"
+              style: { color: "$muted", font_size: 11, weight: bold }
+            - type: view
+              view: "inspector.export"
+
+    # ---------- status bar ----------
+    - type: div
+      direction: row
+      gap: 16
+      style: { height: 26, background: "$surface", padding: [0, 12] }
+      children:
+        - type: text
+          bind: "selection.summary"
+          style: { color: "$muted", font_size: 11 }
+        - type: text
+          bind: "document.sync_state"      # local-first; optional server
+          style: { color: "$muted", font_size: 11, padding: [0, 0, 0, 999] }

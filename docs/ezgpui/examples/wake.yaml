@@ -1,0 +1,137 @@
+# =====================================================================
+# ezgpui example — Wake (read-only agent-session historian)
+# Studygroup: multiagent chat. Source: cases/wake.md — gathers every
+# coding-agent session on the machine (reads ~/.claude, ~/.codex —
+# READ-ONLY, entirely local) into one searchable place: sessions grouped
+# by agent and project, CJK-aware full-text search (⌘K), transcript
+# view, one-click resume to terminal, insights, remote hosts over SSH.
+# wake-core is a complete gpui-free engine; the app is a thin view.
+#
+# Layers exercised:
+#   L0 static   — div, text, style
+#   L1 components — list, input, button, icon, palette
+#   L2 layout   — sessions list + transcript shell
+#   L3 bindings — view (transcript, insights) + adapter-per-agent data
+#
+# Distinctive: cleanest two-crate split in the wiki, and the YAML
+# mirrors it — everything list-like reads wake-core sources; mutations
+# don't exist (read-only by design; resume goes to the real terminal).
+# =====================================================================
+
+window:
+  title: "Wake"
+  size: [1400, 900]
+
+tokens:
+  colors:
+    bg: "#1e1e2e"
+    surface: "#181825"
+    overlay: "#313244"
+    text: "#cdd6f4"
+    muted: "#a6adc8"
+    accent: "#89b4fa"
+    star: "#f9e2af"
+
+root:
+  type: div
+  direction: row
+  style: { background: "$bg" }
+  children:
+    # ---------- left: sessions by agent and project ----------
+    - type: div
+      direction: column
+      gap: 10
+      style: { width: 360, background: "$surface", padding: 12 }
+      children:
+        - type: input
+          placeholder: "Search transcripts… (⌘K, CJK + code aware)"
+          bind: "search.query"
+          on_change: "search.run"       # wake-core text module
+
+        # grouped: agent → project → sessions; sub-agents under parents
+        - type: list
+          source: "sessions.indexed"
+          group_by: "$session.agent"
+          sort_by: "$session.updated_at"
+          item:
+            type: div
+            direction: column
+            gap: 2
+            style: { padding: [6, 8] }
+            children:
+              - type: div
+                direction: row
+                gap: 6
+                children:
+                  - type: icon
+                    name: "$session.agent_icon"
+                  - type: text
+                    content: "$session.title"
+                    style: { color: "$text", font_size: 13 }
+                  - type: icon
+                    name: "star"
+                    visible: "$session.starred"
+              - type: text
+                content: "$session.project · $session.updated_ago"
+                style: { color: "$muted", font_size: 11 }
+          on_click: "session.open($session.id)"
+          on_context_menu: "session.menu"   # star/pin/export-md/hand-to-agent
+
+        # live: watcher updates as agents write
+        - type: div
+          direction: row
+          gap: 6
+          children:
+            - type: icon
+              name: "watching"
+            - type: text
+              bind: "watcher.status_line"
+              style: { color: "$muted", font_size: 11 }
+
+    # ---------- right: transcript + insights ----------
+    - type: div
+      direction: column
+      flex: 1
+      children:
+        # the transcript: chat bubbles, inline images, collapsible tool
+        # calls, thinking, syntax highlighting — read-only rendering
+        - type: view
+          view: "transcript.session"
+          flex: 1
+
+        # one-click resume — hands off to the real terminal in the
+        # right project folder; Wake itself never writes to the stores
+        - type: div
+          direction: row
+          gap: 8
+          style: { padding: 10, background: "$surface" }
+          children:
+            - type: button
+              label: "Resume in Terminal"
+              on_click: "resume.terminal"
+            - type: button
+              label: "Resume in Desktop"
+              on_click: "resume.desktop"
+            - type: button
+              label: "Hand to Agent"
+              on_click: "resume.handoff"
+            - type: text
+              bind: "session.path"
+              style: { color: "$muted", font_size: 11, padding: [0, 0, 0, 999] }
+
+        # insights: activity heatmap, streaks, top agents/models
+        - type: view
+          view: "insights.panels"
+          height: 160
+          visible: "insights.open"
+
+# ⌘K — full-text search across titles and transcripts, jump to match
+palette:
+  on_key: "cmd-k"
+  source: "search.results"
+  on_select: "search.jump_to_match"
+
+# wake-mcp: any agent can search this history too
+mcp:
+  enabled: true
+  tools: ["search.query", "transcript.read"]

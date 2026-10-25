@@ -1,0 +1,164 @@
+# =====================================================================
+# ezgpui example — Reviu (review-first app for agent-written code)
+# Studygroup: other. Source: cases/reviu.md — "The review app for code
+# your agent writes." Diff-centric, real Git workflows in-app, agent
+# chat panel, ACP support. Longbridge gpui-component theming; FSL license.
+#
+# Layers exercised:
+#   L0 static   — div, text, style
+#   L1 components — list, tabs, input, button, icon
+#   L2 layout   — review-oriented panel arrangement
+#   L3 bindings — view (diff surfaces, agent chat; diff_core/ansi_text
+#                 are gpui-free Rust below)
+#
+# Distinctive: the diff is the center of gravity, not the editor.
+# Comments attach to hunks; the agent panel argues with you about them.
+# =====================================================================
+
+window:
+  title: "Reviu"
+  size: [1600, 980]
+
+tokens:
+  colors:
+    bg: "#11111b"
+    surface: "#181825"
+    overlay: "#313244"
+    text: "#cdd6f4"
+    muted: "#a6adc8"
+    accent: "#89b4fa"
+    add: "#a6e3a1"
+    del: "#f38ba8"
+
+root:
+  type: div
+  direction: column
+  style: { background: "$bg" }
+  children:
+    # ---------- repo bar ----------
+    - type: div
+      direction: row
+      gap: 12
+      style: { height: 38, background: "$surface", padding: [0, 12] }
+      children:
+        - type: text
+          bind: "git.repo_name"
+          style: { color: "$text", font_size: 13, weight: semibold }
+        - type: text
+          bind: "git.head_line"
+          style: { color: "$muted", font_size: 11 }
+        - type: div
+          direction: row
+          gap: 8
+          style: { padding: [0, 0, 0, 999] }
+          children:
+            - type: button
+              label: "Stage All"
+              on_click: "git.stage_all"
+            - type: button
+              label: "Commit…"
+              on_click: "git.commit_flow"
+
+    # ---------- review: changes | diff | agent ----------
+    - type: split
+      direction: row
+      flex: 1
+
+      # ----- left: changed files -----
+      sidebar:
+        width: 300
+        child:
+          type: div
+          direction: column
+          style: { background: "$surface" }
+          children:
+            - type: text
+              content: "Working changes"
+              style: { color: "$muted", font_size: 11, weight: bold }
+            - type: list
+              source: "git.changed_files"
+              item:
+                type: div
+                direction: row
+                gap: 8
+                style: { padding: [4, 8] }
+                children:
+                  - type: icon
+                    name: "$file.change_kind"     # added/modified/deleted
+                  - type: text
+                    content: "$file.path"
+                    style: { color: "$text", font_size: 12 }
+                  - type: text
+                    content: "$file.diffstat"
+                    style: { color: "$muted", font_size: 11 }
+              on_click: "diff.open($file.path)"
+
+            - type: text
+              content: "Branches / PRs"
+              style: { color: "$muted", font_size: 11, weight: bold }
+            - type: view
+              view: "git.branch_list"
+              height: 200
+
+      # ----- center: THE diff -----
+      main:
+        child:
+          type: div
+          direction: column
+          children:
+            - type: view
+              view: "diff.active"        # hunk-level, syntax-highlighted,
+              flex: 1                    # comment-anchored — diff_core in Rust
+
+            # comment composer anchored to the selected hunk
+            - type: div
+              direction: row
+              gap: 8
+              style: { padding: 10, visible: "diff.hunk_selected" }
+              children:
+                - type: input
+                  placeholder: "Comment on hunk…"
+                  bind: "review.draft"
+                  flex: 1
+                  on_submit: "review.comment"
+                - type: button
+                  label: "Ask Agent"
+                  on_click: "agent.discuss_hunk"
+
+      # ----- right: agent chat panel -----
+      right_panel:
+        width: 400
+        child:
+          type: div
+          direction: column
+          style: { background: "$surface" }
+          children:
+            - type: view
+              view: "agent_chat_panel.thread"   # ACP child process in Rust
+              flex: 1
+            - type: div
+              direction: row
+              gap: 8
+              style: { padding: 10 }
+              children:
+                - type: input
+                  placeholder: "Discuss the diff…"
+                  bind: "agent.draft"
+                  flex: 1
+                  on_submit: "agent.send"
+                - type: button
+                  label: "→"
+                  on_click: "agent.send"
+
+    # ---------- status bar ----------
+    - type: div
+      direction: row
+      gap: 16
+      style: { height: 26, background: "$surface", padding: [0, 12] }
+      children:
+        - type: text
+          bind: "git.status_line"
+          style: { color: "$muted", font_size: 11 }
+        - type: text
+          bind: "review.pending_comments"
+          style: { color: "$accent", font_size: 11, padding: [0, 0, 0, 999] }

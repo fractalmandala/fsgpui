@@ -1,0 +1,83 @@
+# =====================================================================
+# ezgpui features example — Cydonia
+# Pair of: ../cydonia.yaml. Source: cases/cydonia.md.
+# ACP agent workspace with durable artifacts; features runtime-toggleable;
+# the app itself answers as an MCP server; artifact/mcp crates are
+# gpui-free by design — this manifest is their shape.
+# =====================================================================
+
+app: cydonia
+lineage: bezel-gpui
+
+features:
+  projects:
+    state:
+      open_root: Path
+      recent: List<Project>
+    commands:
+      open: { args: [dir], menu: "File" }
+    views: ["sidebar.project"]
+
+  agents:                       # ACP agents (cacp/cacp-agents wire protocol)
+    state:
+      running: Map<AgentId, AgentSession>
+      status_line: String
+    commands:
+      start: { args: [project, agent_kind] }
+      stop: { args: [agent_id] }
+    integrations:
+      - kind: child_process     # ACP adapters speak stdio JSON-RPC
+        protocol: acp
+    views: ["status.agents"]
+    tasks:
+      supervise: { trigger: { event: "agent.exited" }, runs: "agent.supervise" }
+
+  artifacts:                    # articles, boards, tables, spaces — "shapes
+    state:                      # rather than files"; fs is one backend
+      active: ArtifactId
+      recent: List<Artifact>
+      search_query: String
+    commands:
+      new_article: { key: "cmd-n", menu: "File" }
+      new_board: {}
+      new_table: {}
+      open: { args: [id] }
+    sources: ["artifacts.recent"]
+    views: ["artifact.active"]
+    persisted: sqlite
+
+  feature_flags:                # features are runtime-toggleable in the app
+    toggleable: true
+    state:
+      sessions: { on: true }
+      boards: { on: true }
+      tables: { on: true }
+    commands:
+      toggle: { args: [feature], menu: "View" }
+
+  settings:
+    state:
+      dir: "~/.config/cydonia"   # bin assumes this layout
+    settings:
+      theme: { default: dark }
+      font: { type: path }
+
+  git:
+    tasks:
+      watch: { trigger: { event: "fs.change" }, runs: "git.refresh" }
+
+  hotkeys:
+    integrations: [{ kind: global_hotkey }]   # global-hotkey crate; desktop-only
+
+  updater:
+    tasks:
+      check: { trigger: { interval: 24h }, runs: "update.check" }
+
+  mcp_server:                   # the app answers as an MCP server —
+    mcp:                        # cydonia-mcp is transport-agnostic
+      tools:
+        - "artifact.list"
+        - "artifact.read"
+        - "artifact.write"
+        - "session.list"
+    integrations: [{ kind: in_process }]

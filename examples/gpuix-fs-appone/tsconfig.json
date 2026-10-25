@@ -14,9 +14,9 @@
 		"skipLibCheck": true,
 		"paths": {
 			"svelte": ["./node_modules/gpuix-fractalsvelte/node_modules/svelte"],
-			"svelte/*": ["./node_modules/gpuix-fractalsvelte/node_modules/svelte/*"]
+			"svelte/*": ["./node_modules/gpuix-fractalsvelte/node_modules/svelte/*"],
 		}
 	},
 	"svelteOptions": { "namespace": "gpuixHTML" },
-	"include": ["*.ts", "*.svelte"]
+	"include": ["app.ts", "gpui-dom.ts", "src/**/*.ts", "src/**/*.svelte"]
 }

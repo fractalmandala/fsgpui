@@ -1,0 +1,29 @@
+@use 'sass:map'
+
+$steps: ('xs' 'sm' 'bs' 'lg' 'xl' '2xl' '3xl')
+$gap-families: (gap: gap, rgap: row-gap, cgap: column-gap)
+$pad-families: (pad: padding, px: padding-inline, py: padding-block, pt: padding-top, pr: padding-right, pb: padding-bottom, pl: padding-left)
+$mar-families: (mar: margin, mx: margin-inline, my: margin-block, mt: margin-top, mr: margin-right, mb: margin-bottom, ml: margin-left)
+$frame-ratios: ('16-9': '16 / 9', '9-16': '9 / 16', '4-3': '4 / 3', '3-4': '3 / 4', '3-2': '3 / 2', '2-3': '2 / 3', '1-1': '1 / 1')
+$breakpoints: (md: 768px, bs: 1024px, lg: 1280px)
+
+// Step index:             xs     sm     bs     lg     xl     2xl    3xl
+// Key Alpha (tight):     0.12   0.09   0.06   0.04   0.03   0.02   0.02
+// Ambient Alpha (wide):  0.00   0.02   0.04   0.06   0.08   0.09   0.09   0.08
+// Key Blur (px):           1      2      4      4      8     12     16     24
+// Ambient Blur (px):       0      3      6     16     24     36     48     64
+
+$shadow-specs: (
+  'xs':  (y1: 1px,  b1: 1px,  a1: 0.14,  y2: 0px,   b2: 0px,   a2: 0.00),
+  'sm':  (y1: 1px,  b1: 2px,  a1: 0.12,  y2: 1px,   b2: 3px,   a2: 0.02),
+  'md':  (y1: 2px,  b1: 4px,  a1: 0.09,  y2: 3px,   b2: 6px,   a2: 0.04),
+  'bs':  (y1: 2px,  b1: 4px,  a1: 0.06,  y2: 6px,   b2: 14px,  a2: 0.06),
+  'lg':  (y1: 4px,  b1: 8px,  a1: 0.04,  y2: 12px,  b2: 24px,  a2: 0.08),
+  'xl':  (y1: 6px,  b1: 12px, a1: 0.03,  y2: 20px,  b2: 36px,  a2: 0.09),
+  '2xl': (y1: 8px,  b1: 16px, a1: 0.02,  y2: 28px,  b2: 48px,  a2: 0.09),
+  '3xl': (y1: 12px, b1: 24px, a1: 0.02,  y2: 36px,  b2: 64px,  a2: 0.08)
+)
+
+:root
+  @each $step, $val in $shadow-specs
+    --shade-#{$step}: var(--shadow-rim), 0 #{map.get($val, y1)} #{map.get($val, b1)} rgb(var(--shadow-color) / #{map.get($val, a1)}), 0 #{map.get($val, y2)} #{map.get($val, b2)} rgb(var(--shadow-color) / #{map.get($val, a2)})

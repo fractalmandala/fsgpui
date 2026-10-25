@@ -1,0 +1,54 @@
+# =====================================================================
+# ezgpui features example — Glass
+# Pair of: ../glass.yaml. Source: cases/glass.md.
+# Zed hard fork: browser + editor + terminal in one app. Browser is the
+# product, not a panel. Voice via livekit, local models via lmstudio,
+# a JS runtime in-app, ACP agent stack on Zed's agent crates.
+# =====================================================================
+
+app: glass
+lineage: zed-hard-fork+glass-gpui   # Glass-HQ/gpui, rev-pinned, iOS work
+
+features:
+  browser:                      # FIRST-CLASS surface — "you never have to
+    state:                      # touch the editor"
+      active_tab: TabId
+      open_tabs: List<BrowserTab>
+      current_url: String
+    commands:
+      navigate: { args: [url] }
+      back: {}
+      forward: {}
+      select: { args: [id] }
+    views: ["surface.browser", "sidebar.browser_tabs"]
+
+  editor:
+    views: ["surface.editor"]
+
+  terminal:
+    state: { docked: Bool }
+    views: ["surface.terminal", "terminal.dock"]
+
+  voice:                        # livekit_api + livekit_client
+    state: { status_line: String, in_room: Bool }
+    commands:
+      toggle: {}
+    integrations: [{ kind: livekit }]
+
+  local_models:                 # lmstudio crate
+    commands:
+      open: {}
+    integrations: [{ kind: lmstudio }]
+
+  node_runtime:                 # JS runtime inside the app (app_runtime +
+    state: { status: String }   # app_runtime_ui + node_runtime)
+    integrations: [{ kind: embedded_node }]
+
+  agent_acp:                    # acp_thread + acp_tools on Zed's agent
+    views: ["agent.thread_list"]   # crates (agent, agent_ui, agent_servers…)
+
+  sidebar:                      # the fork's own sidebar crate
+    views: ["sidebar"]
+
+  native_chrome:                # "significant UI changes and native macOS
+    notes: inherited from Zed's theme system; iOS port in progress   # components"

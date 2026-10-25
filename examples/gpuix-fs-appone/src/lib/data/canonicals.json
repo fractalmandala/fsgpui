@@ -1,0 +1,3657 @@
+[
+ {
+   "token": "text2xs",
+   "tokenValue": "0.675rem",
+   "deconstruction": "font-size: 0.675rem"
+ },
+ {
+   "token": "textXs",
+   "tokenValue": "0.75rem",
+   "deconstruction": "font-size: 0.75rem"
+ },
+ {
+   "token": "textSm",
+   "tokenValue": "0.875rem",
+   "deconstruction": "font-size: 0.875rem"
+ },
+ {
+   "token": "textBs",
+   "tokenValue": "1rem",
+   "deconstruction": "font-size: 1rem"
+ },
+ {
+   "token": "textLg",
+   "tokenValue": "1.2rem",
+   "deconstruction": "font-size: 1.2rem"
+ },
+ {
+   "token": "textXl",
+   "tokenValue": "1.44rem",
+   "deconstruction": "font-size: 1.44rem"
+ },
+ {
+   "token": "text2xl",
+   "tokenValue": "1.728rem",
+   "deconstruction": "font-size: 1.728rem"
+ },
+ {
+   "token": "text3xl",
+   "tokenValue": "2.0736rem",
+   "deconstruction": "font-size: 2.0736rem"
+ },
+ {
+   "token": "text4xl",
+   "tokenValue": "2.4883rem",
+   "deconstruction": "font-size: 2.4883rem"
+ },
+ {
+   "token": "text5xl",
+   "tokenValue": "2.986rem",
+   "deconstruction": "font-size: 2.986rem"
+ },
+ {
+   "token": "speedXs",
+   "tokenValue": "40ms",
+   "deconstruction": "duration: 40ms"
+ },
+ {
+   "token": "speedSm",
+   "tokenValue": "70ms",
+   "deconstruction": "duration: 70ms"
+ },
+ {
+   "token": "speedBs",
+   "tokenValue": "120ms",
+   "deconstruction": "duration: 120ms"
+ },
+ {
+   "token": "speedLg",
+   "tokenValue": "200ms",
+   "deconstruction": "duration: 200ms"
+ },
+ {
+   "token": "speedXl",
+   "tokenValue": "330ms",
+   "deconstruction": "duration: 330ms"
+ },
+ {
+   "token": "transinXs",
+   "tokenValue": "cubic-bezier(0.420, 0.000, 1.000, 1.000)",
+   "deconstruction": "transition-timing-function: cubic-bezier(0.420, 0.000, 1.000, 1.000)"
+ },
+ {
+   "token": "transinSm",
+   "tokenValue": "cubic-bezier(0.550, 0.055, 0.675, 0.190)",
+   "deconstruction": "transition-timing-function: cubic-bezier(0.550, 0.055, 0.675, 0.190)"
+ },
+ {
+   "token": "transinBs",
+   "tokenValue": "cubic-bezier(0.895, 0.030, 0.685, 0.220)",
+   "deconstruction": "transition-timing-function: cubic-bezier(0.895, 0.030, 0.685, 0.220)"
+ },
+ {
+   "token": "transinLg",
+   "tokenValue": "cubic-bezier(0.755, 0.050, 0.855, 0.060)",
+   "deconstruction": "transition-timing-function: cubic-bezier(0.755, 0.050, 0.855, 0.060)"
+ },
+ {
+   "token": "transoutXs",
+   "tokenValue": "cubic-bezier(0.250, 0.460, 0.450, 0.940)",
+   "deconstruction": "transition-timing-function: cubic-bezier(0.250, 0.460, 0.450, 0.940)"
+ },
+ {
+   "token": "transoutSm",
+   "tokenValue": "cubic-bezier(0.215, 0.610, 0.355, 1.000)",
+   "deconstruction": "transition-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000)"
+ },
+ {
+   "token": "transoutBs",
+   "tokenValue": "cubic-bezier(0.165, 0.840, 0.440, 1.000)",
+   "deconstruction": "transition-timing-function: cubic-bezier(0.165, 0.840, 0.440, 1.000)"
+ },
+ {
+   "token": "transoutLg",
+   "tokenValue": "cubic-bezier(0.230, 1.000, 0.320, 1.000)",
+   "deconstruction": "transition-timing-function: cubic-bezier(0.230, 1.000, 0.320, 1.000)"
+ },
+ {
+   "token": "hXs",
+   "tokenValue": "8px",
+   "deconstruction": "height: 8px"
+ },
+ {
+   "token": "hSm",
+   "tokenValue": "12px",
+   "deconstruction": "height: 12px"
+ },
+ {
+   "token": "hBs",
+   "tokenValue": "16px",
+   "deconstruction": "height: 16px"
+ },
+ {
+   "token": "hLg",
+   "tokenValue": "24px",
+   "deconstruction": "height: 24px"
+ },
+ {
+   "token": "hXl",
+   "tokenValue": "32px",
+   "deconstruction": "height: 32px"
+ },
+ {
+   "token": "h2xl",
+   "tokenValue": "40px",
+   "deconstruction": "height: 40px"
+ },
+ {
+   "token": "h3xl",
+   "tokenValue": "48px",
+   "deconstruction": "height: 48px"
+ },
+ {
+   "token": "gapXs",
+   "tokenValue": "4px",
+   "deconstruction": "gap: 4px"
+ },
+ {
+   "token": "gapSm",
+   "tokenValue": "8px",
+   "deconstruction": "gap: 8px"
+ },
+ {
+   "token": "gapBs",
+   "tokenValue": "16px",
+   "deconstruction": "gap: 16px"
+ },
+ {
+   "token": "gapLg",
+   "tokenValue": "24px",
+   "deconstruction": "gap: 24px"
+ },
+ {
+   "token": "gapXl",
+   "tokenValue": "32px",
+   "deconstruction": "gap: 32px"
+ },
+ {
+   "token": "gap2xl",
+   "tokenValue": "40px",
+   "deconstruction": "gap: 40px"
+ },
+ {
+   "token": "gap3xl",
+   "tokenValue": "48px",
+   "deconstruction": "gap: 48px"
+ },
+ {
+   "token": "cgapXs",
+   "tokenValue": "4px",
+   "deconstruction": "column-gap: 4px"
+ },
+ {
+   "token": "cgapSm",
+   "tokenValue": "8px",
+   "deconstruction": "column-gap: 8px"
+ },
+ {
+   "token": "cgapBs",
+   "tokenValue": "16px",
+   "deconstruction": "column-gap: 16px"
+ },
+ {
+   "token": "cgapLg",
+   "tokenValue": "24px",
+   "deconstruction": "column-gap: 24px"
+ },
+ {
+   "token": "cgapXl",
+   "tokenValue": "32px",
+   "deconstruction": "column-gap: 32px"
+ },
+ {
+   "token": "cgap2xl",
+   "tokenValue": "40px",
+   "deconstruction": "column-gap: 40px"
+ },
+ {
+   "token": "cgap3xl",
+   "tokenValue": "48px",
+   "deconstruction": "column-gap: 48px"
+ },
+ {
+   "token": "rgapXs",
+   "tokenValue": "4px",
+   "deconstruction": "row-gap: 4px"
+ },
+ {
+   "token": "rgapSm",
+   "tokenValue": "8px",
+   "deconstruction": "row-gap: 8px"
+ },
+ {
+   "token": "rgapBs",
+   "tokenValue": "16px",
+   "deconstruction": "row-gap: 16px"
+ },
+ {
+   "token": "rgapLg",
+   "tokenValue": "24px",
+   "deconstruction": "row-gap: 24px"
+ },
+ {
+   "token": "rgapXl",
+   "tokenValue": "32px",
+   "deconstruction": "row-gap: 32px"
+ },
+ {
+   "token": "rgap2xl",
+   "tokenValue": "40px",
+   "deconstruction": "row-gap: 40px"
+ },
+ {
+   "token": "rgap3xl",
+   "tokenValue": "48px",
+   "deconstruction": "row-gap: 48px"
+ },
+ {
+   "token": "headerHeight",
+   "tokenValue": "48px",
+   "deconstruction": "height: 48px"
+ },
+ {
+   "token": "footerHeight",
+   "tokenValue": "32px",
+   "deconstruction": "height: 32px"
+ },
+ {
+   "token": "appInline",
+   "tokenValue": "1rem",
+   "deconstruction": "padding-inline: 1rem"
+ },
+ {
+   "token": "cardMin",
+   "tokenValue": "240px",
+   "deconstruction": "min-width: 240px"
+ },
+ {
+   "token": "sidebarWidthLeft",
+   "tokenValue": "280px",
+   "deconstruction": "width: 280px"
+ },
+ {
+   "token": "sidebarWidthRight",
+   "tokenValue": "280px",
+   "deconstruction": "width: 280px"
+ },
+ {
+   "token": "z100",
+   "tokenValue": "100",
+   "deconstruction": "z-index: 100"
+ },
+ {
+   "token": "z300",
+   "tokenValue": "300",
+   "deconstruction": "z-index: 300"
+ },
+ {
+   "token": "z500",
+   "tokenValue": "500",
+   "deconstruction": "z-index: 500"
+ },
+ {
+   "token": "z800",
+   "tokenValue": "800",
+   "deconstruction": "z-index: 800"
+ },
+ {
+   "token": "z999",
+   "tokenValue": "999",
+   "deconstruction": "z-index: 999"
+ },
+ {
+   "token": "shadowLightXs",
+   "tokenValue": "0 1px 2px rgb(0 0 0 / 0.06), 0 2px 4px rgb(0 0 0 / 0.04)",
+   "deconstruction": "box-shadow: 0 1px 2px rgb(0 0 0 / 0.06), 0 2px 4px rgb(0 0 0 / 0.04)"
+ },
+ {
+   "token": "shadowLightSm",
+   "tokenValue": "0 2px 4px rgb(0 0 0 / 0.05), 0 8px 16px rgb(0 0 0 / 0.05)",
+   "deconstruction": "box-shadow: 0 2px 4px rgb(0 0 0 / 0.05), 0 8px 16px rgb(0 0 0 / 0.05)"
+ },
+ {
+   "token": "shadowLightBs",
+   "tokenValue": "0 2px 4px rgb(0 0 0 / 0.05), 0 6px 14px rgb(0 0 0 / 0.05)",
+   "deconstruction": "box-shadow: 0 2px 4px rgb(0 0 0 / 0.05), 0 6px 14px rgb(0 0 0 / 0.05)"
+ },
+ {
+   "token": "shadowLightLg",
+   "tokenValue": "0 4px 8px rgb(0 0 0 / 0.06), 0 12px 24px rgb(0 0 0 / 0.06)",
+   "deconstruction": "box-shadow: 0 4px 8px rgb(0 0 0 / 0.06), 0 12px 24px rgb(0 0 0 / 0.06)"
+ },
+ {
+   "token": "shadowLightXl",
+   "tokenValue": "0 8px 16px rgb(0 0 0 / 0.07), 0 20px 36px rgb(0 0 0 / 0.07)",
+   "deconstruction": "box-shadow: 0 8px 16px rgb(0 0 0 / 0.07), 0 20px 36px rgb(0 0 0 / 0.07)"
+ },
+ {
+   "token": "shadowLight2xl",
+   "tokenValue": "0 12px 24px rgb(0 0 0 / 0.08), 0 28px 48px rgb(0 0 0 / 0.08)",
+   "deconstruction": "box-shadow: 0 12px 24px rgb(0 0 0 / 0.08), 0 28px 48px rgb(0 0 0 / 0.08)"
+ },
+ {
+   "token": "shadowLight3xl",
+   "tokenValue": "0 16px 32px rgb(0 0 0 / 0.10), 0 36px 64px rgb(0 0 0 / 0.10)",
+   "deconstruction": "box-shadow: 0 16px 32px rgb(0 0 0 / 0.10), 0 36px 64px rgb(0 0 0 / 0.10)"
+ },
+ {
+   "token": "shadowDarkXs",
+   "tokenValue": "0 1px 2px rgb(0 0 0 / 0.25), 0 2px 4px rgb(0 0 0 / 0.2)",
+   "deconstruction": "box-shadow: 0 1px 2px rgb(0 0 0 / 0.25), 0 2px 4px rgb(0 0 0 / 0.2)"
+ },
+ {
+   "token": "shadowDarkSm",
+   "tokenValue": "0 2px 4px rgb(0 0 0 / 0.2), 0 8px 16px rgb(0 0 0 / 0.25)",
+   "deconstruction": "box-shadow: 0 2px 4px rgb(0 0 0 / 0.2), 0 8px 16px rgb(0 0 0 / 0.25)"
+ },
+ {
+   "token": "shadowDarkBs",
+   "tokenValue": "0 2px 4px rgb(0 0 0 / 0.2), 0 6px 14px rgb(0 0 0 / 0.25)",
+   "deconstruction": "box-shadow: 0 2px 4px rgb(0 0 0 / 0.2), 0 6px 14px rgb(0 0 0 / 0.25)"
+ },
+ {
+   "token": "shadowDarkLg",
+   "tokenValue": "0 4px 8px rgb(0 0 0 / 0.25), 0 12px 24px rgb(0 0 0 / 0.3)",
+   "deconstruction": "box-shadow: 0 4px 8px rgb(0 0 0 / 0.25), 0 12px 24px rgb(0 0 0 / 0.3)"
+ },
+ {
+   "token": "shadowDarkXl",
+   "tokenValue": "0 8px 16px rgb(0 0 0 / 0.3), 0 20px 36px rgb(0 0 0 / 0.35)",
+   "deconstruction": "box-shadow: 0 8px 16px rgb(0 0 0 / 0.3), 0 20px 36px rgb(0 0 0 / 0.35)"
+ },
+ {
+   "token": "shadowDark2xl",
+   "tokenValue": "0 12px 24px rgb(0 0 0 / 0.35), 0 28px 48px rgb(0 0 0 / 0.4)",
+   "deconstruction": "box-shadow: 0 12px 24px rgb(0 0 0 / 0.35), 0 28px 48px rgb(0 0 0 / 0.4)"
+ },
+ {
+   "token": "shadowDark3xl",
+   "tokenValue": "0 16px 32px rgb(0 0 0 / 0.4), 0 36px 64px rgb(0 0 0 / 0.45)",
+   "deconstruction": "box-shadow: 0 16px 32px rgb(0 0 0 / 0.4), 0 36px 64px rgb(0 0 0 / 0.45)"
+ },
+ {
+   "token": "rXs",
+   "tokenValue": "4px",
+   "deconstruction": "border-radius: 4px"
+ },
+ {
+   "token": "rSm",
+   "tokenValue": "8px",
+   "deconstruction": "border-radius: 8px"
+ },
+ {
+   "token": "rBs",
+   "tokenValue": "16px",
+   "deconstruction": "border-radius: 16px"
+ },
+ {
+   "token": "rLg",
+   "tokenValue": "24px",
+   "deconstruction": "border-radius: 24px"
+ },
+ {
+   "token": "rXl",
+   "tokenValue": "32px",
+   "deconstruction": "border-radius: 32px"
+ },
+ {
+   "token": "rFull",
+   "tokenValue": "9999px",
+   "deconstruction": "border-radius: 9999px"
+ },
+ {
+   "token": "bg",
+   "tokenValue": "#121412",
+   "deconstruction": "background-color: #121412"
+ },
+ {
+   "token": "bgSurface",
+   "tokenValue": "#1E201E",
+   "deconstruction": "background-color: #1E201E"
+ },
+ {
+   "token": "bgPanel",
+   "tokenValue": "#2B2D2B",
+   "deconstruction": "background-color: #2B2D2B"
+ },
+ {
+   "token": "bgExtra",
+   "tokenValue": "#262626",
+   "deconstruction": "background-color: #262626"
+ },
+ {
+   "token": "bgButton",
+   "tokenValue": "#303530",
+   "deconstruction": "background-color: #303530"
+ },
+ {
+   "token": "bgInput",
+   "tokenValue": "#191D19",
+   "deconstruction": "background-color: #191D19"
+ },
+ {
+   "token": "bgSunken",
+   "tokenValue": "#000301",
+   "deconstruction": "background-color: #000301"
+ },
+ {
+   "token": "bgRaised",
+   "tokenValue": "#0F170F",
+   "deconstruction": "background-color: #0F170F"
+ },
+ {
+   "token": "stateSurface",
+   "tokenValue": "#1C201C",
+   "deconstruction": "background-color: #1C201C"
+ },
+ {
+   "token": "stateHover",
+   "tokenValue": "#192219",
+   "deconstruction": "background-color: #192219"
+ },
+ {
+   "token": "stateActive",
+   "tokenValue": "#182518",
+   "deconstruction": "background-color: #182518"
+ },
+ {
+   "token": "border",
+   "tokenValue": "#313131",
+   "deconstruction": "border-color: #313131"
+ },
+ {
+   "token": "borderSubtle",
+   "tokenValue": "#212121",
+   "deconstruction": "border-color: #212121"
+ },
+ {
+   "token": "borderStrong",
+   "tokenValue": "#474747",
+   "deconstruction": "border-color: #474747"
+ },
+ {
+   "token": "textPrimary",
+   "tokenValue": "#FFFFFF",
+   "deconstruction": "color: #FFFFFF"
+ },
+ {
+   "token": "textSecondary",
+   "tokenValue": "#929292",
+   "deconstruction": "color: #929292"
+ },
+ {
+   "token": "textMuted",
+   "tokenValue": "#555555",
+   "deconstruction": "color: #555555"
+ },
+ {
+   "token": "textInverse",
+   "tokenValue": "#121412",
+   "deconstruction": "color: #121412"
+ },
+ {
+   "token": "textButton",
+   "tokenValue": "#FFFFFF",
+   "deconstruction": "color: #FFFFFF"
+ },
+ {
+   "token": "themeColor",
+   "tokenValue": "#3D8F00",
+   "deconstruction": "color: #3D8F00"
+ },
+ {
+   "token": "themeColorAlt",
+   "tokenValue": "#508B26",
+   "deconstruction": "color: #508B26"
+ },
+ {
+   "token": "themeColorSub",
+   "tokenValue": "#316A00",
+   "deconstruction": "color: #316A00"
+ },
+ {
+   "token": "textSuccess",
+   "tokenValue": "#FFFFFF",
+   "deconstruction": "color: #FFFFFF"
+ },
+ {
+   "token": "textInfo",
+   "tokenValue": "#FFFFFF",
+   "deconstruction": "color: #FFFFFF"
+ },
+ {
+   "token": "textWarning",
+   "tokenValue": "#FFFFFF",
+   "deconstruction": "color: #FFFFFF"
+ },
+ {
+   "token": "textDanger",
+   "tokenValue": "#FFFFFF",
+   "deconstruction": "color: #FFFFFF"
+ },
+ {
+   "token": "bgSuccess",
+   "tokenValue": "#2f9e44",
+   "deconstruction": "background-color: #2f9e44"
+ },
+ {
+   "token": "bgInfo",
+   "tokenValue": "#1c7ed6",
+   "deconstruction": "background-color: #1c7ed6"
+ },
+ {
+   "token": "bgWarning",
+   "tokenValue": "#fcc419",
+   "deconstruction": "background-color: #fcc419"
+ },
+ {
+   "token": "bgDanger",
+   "tokenValue": "#e03131",
+   "deconstruction": "background-color: #e03131"
+ },
+ {
+   "token": "whiteFixed",
+   "tokenValue": "#FFFFFF",
+   "deconstruction": "background-color: #FFFFFF"
+ },
+ {
+   "token": "blackFixed",
+   "tokenValue": "#111111",
+   "deconstruction": "background-color: #111111"
+ },
+ {
+   "token": "bg",
+   "tokenValue": "#FFFFFF",
+   "deconstruction": "background-color: #FFFFFF"
+ },
+ {
+   "token": "bgSurface",
+   "tokenValue": "#FAFAFA",
+   "deconstruction": "background-color: #FAFAFA"
+ },
+ {
+   "token": "bgPanel",
+   "tokenValue": "#F5F5F5",
+   "deconstruction": "background-color: #F5F5F5"
+ },
+ {
+   "token": "bgExtra",
+   "tokenValue": "#EFF4EE",
+   "deconstruction": "background-color: #EFF4EE"
+ },
+ {
+   "token": "bgButton",
+   "tokenValue": "#293524",
+   "deconstruction": "background-color: #293524"
+ },
+ {
+   "token": "bgInput",
+   "tokenValue": "#F3F5F3",
+   "deconstruction": "background-color: #F3F5F3"
+ },
+ {
+   "token": "bgSunken",
+   "tokenValue": "#F6F6F6",
+   "deconstruction": "background-color: #F6F6F6"
+ },
+ {
+   "token": "bgRaised",
+   "tokenValue": "#DADCD9",
+   "deconstruction": "background-color: #DADCD9"
+ },
+ {
+   "token": "stateSurface",
+   "tokenValue": "#E8EAE7",
+   "deconstruction": "background-color: #E8EAE7"
+ },
+ {
+   "token": "stateHover",
+   "tokenValue": "#DADCD9",
+   "deconstruction": "background-color: #DADCD9"
+ },
+ {
+   "token": "stateActive",
+   "tokenValue": "#DBEFD0",
+   "deconstruction": "background-color: #DBEFD0"
+ },
+ {
+   "token": "border",
+   "tokenValue": "#EAEAEA",
+   "deconstruction": "border-color: #EAEAEA"
+ },
+ {
+   "token": "borderSubtle",
+   "tokenValue": "#F1F1F1",
+   "deconstruction": "border-color: #F1F1F1"
+ },
+ {
+   "token": "borderStrong",
+   "tokenValue": "#D7D7D7",
+   "deconstruction": "border-color: #D7D7D7"
+ },
+ {
+   "token": "textPrimary",
+   "tokenValue": "#121212",
+   "deconstruction": "color: #121212"
+ },
+ {
+   "token": "textSecondary",
+   "tokenValue": "#878787",
+   "deconstruction": "color: #878787"
+ },
+ {
+   "token": "textMuted",
+   "tokenValue": "#b7b7b7",
+   "deconstruction": "color: #b7b7b7"
+ },
+ {
+   "token": "textInverse",
+   "tokenValue": "#FFFFFF",
+   "deconstruction": "color: #FFFFFF"
+ },
+ {
+   "token": "textButton",
+   "tokenValue": "#FFFFFF",
+   "deconstruction": "color: #FFFFFF"
+ },
+ {
+   "token": "themeColor",
+   "tokenValue": "#3D8F00",
+   "deconstruction": "color: #3D8F00"
+ },
+ {
+   "token": "themeColorAlt",
+   "tokenValue": "#508B26",
+   "deconstruction": "color: #508B26"
+ },
+ {
+   "token": "themeColorSub",
+   "tokenValue": "#316A00",
+   "deconstruction": "color: #316A00"
+ },
+ {
+   "token": "textSuccess",
+   "tokenValue": "#FFFFFF",
+   "deconstruction": "color: #FFFFFF"
+ },
+ {
+   "token": "textInfo",
+   "tokenValue": "#FFFFFF",
+   "deconstruction": "color: #FFFFFF"
+ },
+ {
+   "token": "textWarning",
+   "tokenValue": "#FFFFFF",
+   "deconstruction": "color: #FFFFFF"
+ },
+ {
+   "token": "textDanger",
+   "tokenValue": "#FFFFFF",
+   "deconstruction": "color: #FFFFFF"
+ },
+ {
+   "token": "bgSuccess",
+   "tokenValue": "#2f9e44",
+   "deconstruction": "background-color: #2f9e44"
+ },
+ {
+   "token": "bgInfo",
+   "tokenValue": "#1c7ed6",
+   "deconstruction": "background-color: #1c7ed6"
+ },
+ {
+   "token": "bgWarning",
+   "tokenValue": "#fcc419",
+   "deconstruction": "background-color: #fcc419"
+ },
+ {
+   "token": "bgDanger",
+   "tokenValue": "#e03131",
+   "deconstruction": "background-color: #e03131"
+ },
+ {
+   "token": "whiteFixed",
+   "tokenValue": "#FFFFFF",
+   "deconstruction": "background-color: #FFFFFF"
+ },
+ {
+   "token": "blackFixed",
+   "tokenValue": "#111111",
+   "deconstruction": "background-color: #111111"
+ },
+ {
+   "token": "pad2xs",
+   "tokenValue": "2px",
+   "deconstruction": "padding: 2px"
+ },
+ {
+   "token": "padXs",
+   "tokenValue": "4px",
+   "deconstruction": "padding: 4px"
+ },
+ {
+   "token": "padSm",
+   "tokenValue": "8px",
+   "deconstruction": "padding: 8px"
+ },
+ {
+   "token": "padBs",
+   "tokenValue": "16px",
+   "deconstruction": "padding: 16px"
+ },
+ {
+   "token": "padLg",
+   "tokenValue": "24px",
+   "deconstruction": "padding: 24px"
+ },
+ {
+   "token": "padXl",
+   "tokenValue": "32px",
+   "deconstruction": "padding: 32px"
+ },
+ {
+   "token": "px2xs",
+   "tokenValue": "2px",
+   "deconstruction": "padding-inline: 2px"
+ },
+ {
+   "token": "pxXs",
+   "tokenValue": "4px",
+   "deconstruction": "padding-inline: 4px"
+ },
+ {
+   "token": "pxSm",
+   "tokenValue": "8px",
+   "deconstruction": "padding-inline: 8px"
+ },
+ {
+   "token": "pxBs",
+   "tokenValue": "16px",
+   "deconstruction": "padding-inline: 16px"
+ },
+ {
+   "token": "pxLg",
+   "tokenValue": "24px",
+   "deconstruction": "padding-inline: 24px"
+ },
+ {
+   "token": "pxXl",
+   "tokenValue": "32px",
+   "deconstruction": "padding-inline: 32px"
+ },
+ {
+   "token": "py2xs",
+   "tokenValue": "2px",
+   "deconstruction": "padding-block: 2px"
+ },
+ {
+   "token": "pyXs",
+   "tokenValue": "4px",
+   "deconstruction": "padding-block: 4px"
+ },
+ {
+   "token": "pySm",
+   "tokenValue": "8px",
+   "deconstruction": "padding-block: 8px"
+ },
+ {
+   "token": "pyBs",
+   "tokenValue": "16px",
+   "deconstruction": "padding-block: 16px"
+ },
+ {
+   "token": "pyLg",
+   "tokenValue": "24px",
+   "deconstruction": "padding-block: 24px"
+ },
+ {
+   "token": "pyXl",
+   "tokenValue": "32px",
+   "deconstruction": "padding-block: 32px"
+ },
+ {
+   "token": "pr2xs",
+   "tokenValue": "2px",
+   "deconstruction": "padding-right: 2px"
+ },
+ {
+   "token": "prXs",
+   "tokenValue": "4px",
+   "deconstruction": "padding-right: 4px"
+ },
+ {
+   "token": "prSm",
+   "tokenValue": "8px",
+   "deconstruction": "padding-right: 8px"
+ },
+ {
+   "token": "prBs",
+   "tokenValue": "16px",
+   "deconstruction": "padding-right: 16px"
+ },
+ {
+   "token": "prLg",
+   "tokenValue": "24px",
+   "deconstruction": "padding-right: 24px"
+ },
+ {
+   "token": "prXl",
+   "tokenValue": "32px",
+   "deconstruction": "padding-right: 32px"
+ },
+ {
+   "token": "pl2xs",
+   "tokenValue": "2px",
+   "deconstruction": "padding-left: 2px"
+ },
+ {
+   "token": "plXs",
+   "tokenValue": "4px",
+   "deconstruction": "padding-left: 4px"
+ },
+ {
+   "token": "plSm",
+   "tokenValue": "8px",
+   "deconstruction": "padding-left: 8px"
+ },
+ {
+   "token": "plBs",
+   "tokenValue": "16px",
+   "deconstruction": "padding-left: 16px"
+ },
+ {
+   "token": "plLg",
+   "tokenValue": "24px",
+   "deconstruction": "padding-left: 24px"
+ },
+ {
+   "token": "plXl",
+   "tokenValue": "32px",
+   "deconstruction": "padding-left: 32px"
+ },
+ {
+   "token": "pt2xs",
+   "tokenValue": "2px",
+   "deconstruction": "padding-top: 2px"
+ },
+ {
+   "token": "ptXs",
+   "tokenValue": "4px",
+   "deconstruction": "padding-top: 4px"
+ },
+ {
+   "token": "ptSm",
+   "tokenValue": "8px",
+   "deconstruction": "padding-top: 8px"
+ },
+ {
+   "token": "ptBs",
+   "tokenValue": "16px",
+   "deconstruction": "padding-top: 16px"
+ },
+ {
+   "token": "ptLg",
+   "tokenValue": "24px",
+   "deconstruction": "padding-top: 24px"
+ },
+ {
+   "token": "ptXl",
+   "tokenValue": "32px",
+   "deconstruction": "padding-top: 32px"
+ },
+ {
+   "token": "pb2xs",
+   "tokenValue": "2px",
+   "deconstruction": "padding-bottom: 2px"
+ },
+ {
+   "token": "pbXs",
+   "tokenValue": "4px",
+   "deconstruction": "padding-bottom: 4px"
+ },
+ {
+   "token": "pbSm",
+   "tokenValue": "8px",
+   "deconstruction": "padding-bottom: 8px"
+ },
+ {
+   "token": "pbBs",
+   "tokenValue": "16px",
+   "deconstruction": "padding-bottom: 16px"
+ },
+ {
+   "token": "pbLg",
+   "tokenValue": "24px",
+   "deconstruction": "padding-bottom: 24px"
+ },
+ {
+   "token": "pbXl",
+   "tokenValue": "32px",
+   "deconstruction": "padding-bottom: 32px"
+ },
+ {
+   "token": "pad0",
+   "tokenValue": "0",
+   "deconstruction": "padding: 0"
+ },
+ {
+   "token": "px0",
+   "tokenValue": "0",
+   "deconstruction": "padding-inline: 0"
+ },
+ {
+   "token": "py0",
+   "tokenValue": "0",
+   "deconstruction": "padding-block: 0"
+ },
+ {
+   "token": "pr0",
+   "tokenValue": "0",
+   "deconstruction": "padding-right: 0"
+ },
+ {
+   "token": "pl0",
+   "tokenValue": "0",
+   "deconstruction": "padding-left: 0"
+ },
+ {
+   "token": "pt0",
+   "tokenValue": "0",
+   "deconstruction": "padding-top: 0"
+ },
+ {
+   "token": "pb0",
+   "tokenValue": "0",
+   "deconstruction": "padding-bottom: 0"
+ },
+ {
+   "token": "mar2xs",
+   "tokenValue": "2px",
+   "deconstruction": "margin: 2px"
+ },
+ {
+   "token": "marXs",
+   "tokenValue": "4px",
+   "deconstruction": "margin: 4px"
+ },
+ {
+   "token": "marSm",
+   "tokenValue": "8px",
+   "deconstruction": "margin: 8px"
+ },
+ {
+   "token": "marBs",
+   "tokenValue": "16px",
+   "deconstruction": "margin: 16px"
+ },
+ {
+   "token": "marLg",
+   "tokenValue": "24px",
+   "deconstruction": "margin: 24px"
+ },
+ {
+   "token": "marXl",
+   "tokenValue": "32px",
+   "deconstruction": "margin: 32px"
+ },
+ {
+   "token": "mx2xs",
+   "tokenValue": "2px",
+   "deconstruction": "margin-inline: 2px"
+ },
+ {
+   "token": "mxXs",
+   "tokenValue": "4px",
+   "deconstruction": "margin-inline: 4px"
+ },
+ {
+   "token": "mxSm",
+   "tokenValue": "8px",
+   "deconstruction": "margin-inline: 8px"
+ },
+ {
+   "token": "mxBs",
+   "tokenValue": "16px",
+   "deconstruction": "margin-inline: 16px"
+ },
+ {
+   "token": "mxLg",
+   "tokenValue": "24px",
+   "deconstruction": "margin-inline: 24px"
+ },
+ {
+   "token": "mxXl",
+   "tokenValue": "32px",
+   "deconstruction": "margin-inline: 32px"
+ },
+ {
+   "token": "my2xs",
+   "tokenValue": "2px",
+   "deconstruction": "margin-block: 2px"
+ },
+ {
+   "token": "myXs",
+   "tokenValue": "4px",
+   "deconstruction": "margin-block: 4px"
+ },
+ {
+   "token": "mySm",
+   "tokenValue": "8px",
+   "deconstruction": "margin-block: 8px"
+ },
+ {
+   "token": "myBs",
+   "tokenValue": "16px",
+   "deconstruction": "margin-block: 16px"
+ },
+ {
+   "token": "myLg",
+   "tokenValue": "24px",
+   "deconstruction": "margin-block: 24px"
+ },
+ {
+   "token": "myXl",
+   "tokenValue": "32px",
+   "deconstruction": "margin-block: 32px"
+ },
+ {
+   "token": "mr2xs",
+   "tokenValue": "2px",
+   "deconstruction": "margin-right: 2px"
+ },
+ {
+   "token": "mrXs",
+   "tokenValue": "4px",
+   "deconstruction": "margin-right: 4px"
+ },
+ {
+   "token": "mrSm",
+   "tokenValue": "8px",
+   "deconstruction": "margin-right: 8px"
+ },
+ {
+   "token": "mrBs",
+   "tokenValue": "16px",
+   "deconstruction": "margin-right: 16px"
+ },
+ {
+   "token": "mrLg",
+   "tokenValue": "24px",
+   "deconstruction": "margin-right: 24px"
+ },
+ {
+   "token": "mrXl",
+   "tokenValue": "32px",
+   "deconstruction": "margin-right: 32px"
+ },
+ {
+   "token": "ml2xs",
+   "tokenValue": "2px",
+   "deconstruction": "margin-left: 2px"
+ },
+ {
+   "token": "mlXs",
+   "tokenValue": "4px",
+   "deconstruction": "margin-left: 4px"
+ },
+ {
+   "token": "mlSm",
+   "tokenValue": "8px",
+   "deconstruction": "margin-left: 8px"
+ },
+ {
+   "token": "mlBs",
+   "tokenValue": "16px",
+   "deconstruction": "margin-left: 16px"
+ },
+ {
+   "token": "mlLg",
+   "tokenValue": "24px",
+   "deconstruction": "margin-left: 24px"
+ },
+ {
+   "token": "mlXl",
+   "tokenValue": "32px",
+   "deconstruction": "margin-left: 32px"
+ },
+ {
+   "token": "mt2xs",
+   "tokenValue": "2px",
+   "deconstruction": "margin-top: 2px"
+ },
+ {
+   "token": "mtXs",
+   "tokenValue": "4px",
+   "deconstruction": "margin-top: 4px"
+ },
+ {
+   "token": "mtSm",
+   "tokenValue": "8px",
+   "deconstruction": "margin-top: 8px"
+ },
+ {
+   "token": "mtBs",
+   "tokenValue": "16px",
+   "deconstruction": "margin-top: 16px"
+ },
+ {
+   "token": "mtLg",
+   "tokenValue": "24px",
+   "deconstruction": "margin-top: 24px"
+ },
+ {
+   "token": "mtXl",
+   "tokenValue": "32px",
+   "deconstruction": "margin-top: 32px"
+ },
+ {
+   "token": "mb2xs",
+   "tokenValue": "2px",
+   "deconstruction": "margin-bottom: 2px"
+ },
+ {
+   "token": "mbXs",
+   "tokenValue": "4px",
+   "deconstruction": "margin-bottom: 4px"
+ },
+ {
+   "token": "mbSm",
+   "tokenValue": "8px",
+   "deconstruction": "margin-bottom: 8px"
+ },
+ {
+   "token": "mbBs",
+   "tokenValue": "16px",
+   "deconstruction": "margin-bottom: 16px"
+ },
+ {
+   "token": "mbLg",
+   "tokenValue": "24px",
+   "deconstruction": "margin-bottom: 24px"
+ },
+ {
+   "token": "mbXl",
+   "tokenValue": "32px",
+   "deconstruction": "margin-bottom: 32px"
+ },
+ {
+   "token": "mar0",
+   "tokenValue": "0",
+   "deconstruction": "margin: 0"
+ },
+ {
+   "token": "mx0",
+   "tokenValue": "0",
+   "deconstruction": "margin-inline: 0"
+ },
+ {
+   "token": "my0",
+   "tokenValue": "0",
+   "deconstruction": "margin-block: 0"
+ },
+ {
+   "token": "mr0",
+   "tokenValue": "0",
+   "deconstruction": "margin-right: 0"
+ },
+ {
+   "token": "ml0",
+   "tokenValue": "0",
+   "deconstruction": "margin-left: 0"
+ },
+ {
+   "token": "mt0",
+   "tokenValue": "0",
+   "deconstruction": "margin-top: 0"
+ },
+ {
+   "token": "mb0",
+   "tokenValue": "0",
+   "deconstruction": "margin-bottom: 0"
+ },
+ {
+   "token": "text10",
+   "tokenValue": "10px",
+   "deconstruction": "rem: 10px"
+ },
+ {
+   "token": "text11",
+   "tokenValue": "11px",
+   "deconstruction": "font-size: 11px"
+ },
+ {
+   "token": "text12",
+   "tokenValue": "12px",
+   "deconstruction": "font-size: 12px"
+ },
+ {
+   "token": "text13",
+   "tokenValue": "13px",
+   "deconstruction": "font-size: 13px"
+ },
+ {
+   "token": "text14",
+   "tokenValue": "14px",
+   "deconstruction": "font-size: 14px"
+ },
+ {
+   "token": "text15",
+   "tokenValue": "15px",
+   "deconstruction": "font-size: 15px"
+ },
+ {
+   "token": "text16",
+   "tokenValue": "16px",
+   "deconstruction": "font-size: 16px"
+ },
+ {
+   "token": "text17",
+   "tokenValue": "17px",
+   "deconstruction": "font-size: 17px"
+ },
+ {
+   "token": "text18",
+   "tokenValue": "18px",
+   "deconstruction": "font-size: 18px"
+ },
+ {
+   "token": "text19",
+   "tokenValue": "19px",
+   "deconstruction": "font-size: 19px"
+ },
+ {
+   "token": "text20",
+   "tokenValue": "20px",
+   "deconstruction": "font-size: 20px"
+ },
+ {
+   "token": "text21",
+   "tokenValue": "21px",
+   "deconstruction": "font-size: 21px"
+ },
+ {
+   "token": "text22",
+   "tokenValue": "22px",
+   "deconstruction": "font-size: 22px"
+ },
+ {
+   "token": "text23",
+   "tokenValue": "23px",
+   "deconstruction": "font-size: 23px"
+ },
+ {
+   "token": "text24",
+   "tokenValue": "24px",
+   "deconstruction": "font-size: 24px"
+ },
+ {
+   "token": "text25",
+   "tokenValue": "25px",
+   "deconstruction": "font-size: 25px"
+ },
+ {
+   "token": "text26",
+   "tokenValue": "26px",
+   "deconstruction": "font-size: 26px"
+ },
+ {
+   "token": "text27",
+   "tokenValue": "27px",
+   "deconstruction": "font-size: 27px"
+ },
+ {
+   "token": "text28",
+   "tokenValue": "28px",
+   "deconstruction": "font-size: 28px"
+ },
+ {
+   "token": "text29",
+   "tokenValue": "29px",
+   "deconstruction": "font-size: 29px"
+ },
+ {
+   "token": "text30",
+   "tokenValue": "30px",
+   "deconstruction": "font-size: 30px"
+ },
+ {
+   "token": "text31",
+   "tokenValue": "31px",
+   "deconstruction": "font-size: 31px"
+ },
+ {
+   "token": "text32",
+   "tokenValue": "32px",
+   "deconstruction": "font-size: 32px"
+ },
+ {
+   "token": "text33",
+   "tokenValue": "33px",
+   "deconstruction": "font-size: 33px"
+ },
+ {
+   "token": "text34",
+   "tokenValue": "34px",
+   "deconstruction": "font-size: 34px"
+ },
+ {
+   "token": "text35",
+   "tokenValue": "35px",
+   "deconstruction": "font-size: 35px"
+ },
+ {
+   "token": "text36",
+   "tokenValue": "36px",
+   "deconstruction": "font-size: 36px"
+ },
+ {
+   "token": "text37",
+   "tokenValue": "37px",
+   "deconstruction": "font-size: 37px"
+ },
+ {
+   "token": "text38",
+   "tokenValue": "38px",
+   "deconstruction": "font-size: 38px"
+ },
+ {
+   "token": "text39",
+   "tokenValue": "39px",
+   "deconstruction": "font-size: 39px"
+ },
+ {
+   "token": "text40",
+   "tokenValue": "40px",
+   "deconstruction": "font-size: 40px"
+ },
+ {
+   "token": "text41",
+   "tokenValue": "41px",
+   "deconstruction": "font-size: 41px"
+ },
+ {
+   "token": "text42",
+   "tokenValue": "42px",
+   "deconstruction": "font-size: 42px"
+ },
+ {
+   "token": "text43",
+   "tokenValue": "43px",
+   "deconstruction": "font-size: 43px"
+ },
+ {
+   "token": "text44",
+   "tokenValue": "44px",
+   "deconstruction": "font-size: 44px"
+ },
+ {
+   "token": "text45",
+   "tokenValue": "45px",
+   "deconstruction": "font-size: 45px"
+ },
+ {
+   "token": "text46",
+   "tokenValue": "46px",
+   "deconstruction": "font-size: 46px"
+ },
+ {
+   "token": "text47",
+   "tokenValue": "47px",
+   "deconstruction": "font-size: 47px"
+ },
+ {
+   "token": "text48",
+   "tokenValue": "48px",
+   "deconstruction": "font-size: 48px"
+ },
+ {
+   "token": "pad1",
+   "tokenValue": "1px",
+   "deconstruction": "padding: 1px"
+ },
+ {
+   "token": "pad2",
+   "tokenValue": "2px",
+   "deconstruction": "padding: 2px"
+ },
+ {
+   "token": "pad3",
+   "tokenValue": "3px",
+   "deconstruction": "padding: 3px"
+ },
+ {
+   "token": "pad4",
+   "tokenValue": "4px",
+   "deconstruction": "padding: 4px"
+ },
+ {
+   "token": "pad5",
+   "tokenValue": "5px",
+   "deconstruction": "padding: 5px"
+ },
+ {
+   "token": "pad6",
+   "tokenValue": "6px",
+   "deconstruction": "padding: 6px"
+ },
+ {
+   "token": "pad7",
+   "tokenValue": "7px",
+   "deconstruction": "padding: 7px"
+ },
+ {
+   "token": "pad8",
+   "tokenValue": "8px",
+   "deconstruction": "padding: 8px"
+ },
+ {
+   "token": "pad9",
+   "tokenValue": "9px",
+   "deconstruction": "padding: 9px"
+ },
+ {
+   "token": "pad10",
+   "tokenValue": "10px",
+   "deconstruction": "padding: 10px"
+ },
+ {
+   "token": "pad11",
+   "tokenValue": "11px",
+   "deconstruction": "padding: 11px"
+ },
+ {
+   "token": "pad12",
+   "tokenValue": "12px",
+   "deconstruction": "padding: 12px"
+ },
+ {
+   "token": "pad13",
+   "tokenValue": "13px",
+   "deconstruction": "padding: 13px"
+ },
+ {
+   "token": "pad14",
+   "tokenValue": "14px",
+   "deconstruction": "padding: 14px"
+ },
+ {
+   "token": "pad15",
+   "tokenValue": "15px",
+   "deconstruction": "padding: 15px"
+ },
+ {
+   "token": "pad16",
+   "tokenValue": "16px",
+   "deconstruction": "padding: 16px"
+ },
+ {
+   "token": "pad17",
+   "tokenValue": "17px",
+   "deconstruction": "padding: 17px"
+ },
+ {
+   "token": "pad18",
+   "tokenValue": "18px",
+   "deconstruction": "padding: 18px"
+ },
+ {
+   "token": "pad19",
+   "tokenValue": "19px",
+   "deconstruction": "padding: 19px"
+ },
+ {
+   "token": "pad20",
+   "tokenValue": "20px",
+   "deconstruction": "padding: 20px"
+ },
+ {
+   "token": "pad21",
+   "tokenValue": "21px",
+   "deconstruction": "padding: 21px"
+ },
+ {
+   "token": "pad22",
+   "tokenValue": "22px",
+   "deconstruction": "padding: 22px"
+ },
+ {
+   "token": "pad23",
+   "tokenValue": "23px",
+   "deconstruction": "padding: 23px"
+ },
+ {
+   "token": "pad24",
+   "tokenValue": "24px",
+   "deconstruction": "padding: 24px"
+ },
+ {
+   "token": "pad25",
+   "tokenValue": "25px",
+   "deconstruction": "padding: 25px"
+ },
+ {
+   "token": "pad26",
+   "tokenValue": "26px",
+   "deconstruction": "padding: 26px"
+ },
+ {
+   "token": "pad27",
+   "tokenValue": "27px",
+   "deconstruction": "padding: 27px"
+ },
+ {
+   "token": "pad28",
+   "tokenValue": "28px",
+   "deconstruction": "padding: 28px"
+ },
+ {
+   "token": "pad29",
+   "tokenValue": "29px",
+   "deconstruction": "padding: 29px"
+ },
+ {
+   "token": "pad30",
+   "tokenValue": "30px",
+   "deconstruction": "padding: 30px"
+ },
+ {
+   "token": "pad31",
+   "tokenValue": "31px",
+   "deconstruction": "padding: 31px"
+ },
+ {
+   "token": "pad32",
+   "tokenValue": "32px",
+   "deconstruction": "padding: 32px"
+ },
+ {
+   "token": "px1",
+   "tokenValue": "1px",
+   "deconstruction": "padding-inline: 1px"
+ },
+ {
+   "token": "px2",
+   "tokenValue": "2px",
+   "deconstruction": "padding-inline: 2px"
+ },
+ {
+   "token": "px3",
+   "tokenValue": "3px",
+   "deconstruction": "padding-inline: 3px"
+ },
+ {
+   "token": "px4",
+   "tokenValue": "4px",
+   "deconstruction": "padding-inline: 4px"
+ },
+ {
+   "token": "px5",
+   "tokenValue": "5px",
+   "deconstruction": "padding-inline: 5px"
+ },
+ {
+   "token": "px6",
+   "tokenValue": "6px",
+   "deconstruction": "padding-inline: 6px"
+ },
+ {
+   "token": "px7",
+   "tokenValue": "7px",
+   "deconstruction": "padding-inline: 7px"
+ },
+ {
+   "token": "px8",
+   "tokenValue": "8px",
+   "deconstruction": "padding-inline: 8px"
+ },
+ {
+   "token": "px9",
+   "tokenValue": "9px",
+   "deconstruction": "padding-inline: 9px"
+ },
+ {
+   "token": "px10",
+   "tokenValue": "10px",
+   "deconstruction": "padding-inline: 10px"
+ },
+ {
+   "token": "px11",
+   "tokenValue": "11px",
+   "deconstruction": "padding-inline: 11px"
+ },
+ {
+   "token": "px12",
+   "tokenValue": "12px",
+   "deconstruction": "padding-inline: 12px"
+ },
+ {
+   "token": "px13",
+   "tokenValue": "13px",
+   "deconstruction": "padding-inline: 13px"
+ },
+ {
+   "token": "px14",
+   "tokenValue": "14px",
+   "deconstruction": "padding-inline: 14px"
+ },
+ {
+   "token": "px15",
+   "tokenValue": "15px",
+   "deconstruction": "padding-inline: 15px"
+ },
+ {
+   "token": "px16",
+   "tokenValue": "16px",
+   "deconstruction": "padding-inline: 16px"
+ },
+ {
+   "token": "px17",
+   "tokenValue": "17px",
+   "deconstruction": "padding-inline: 17px"
+ },
+ {
+   "token": "px18",
+   "tokenValue": "18px",
+   "deconstruction": "padding-inline: 18px"
+ },
+ {
+   "token": "px19",
+   "tokenValue": "19px",
+   "deconstruction": "padding-inline: 19px"
+ },
+ {
+   "token": "px20",
+   "tokenValue": "20px",
+   "deconstruction": "padding-inline: 20px"
+ },
+ {
+   "token": "px21",
+   "tokenValue": "21px",
+   "deconstruction": "padding-inline: 21px"
+ },
+ {
+   "token": "px22",
+   "tokenValue": "22px",
+   "deconstruction": "padding-inline: 22px"
+ },
+ {
+   "token": "px23",
+   "tokenValue": "23px",
+   "deconstruction": "padding-inline: 23px"
+ },
+ {
+   "token": "px24",
+   "tokenValue": "24px",
+   "deconstruction": "padding-inline: 24px"
+ },
+ {
+   "token": "px25",
+   "tokenValue": "25px",
+   "deconstruction": "padding-inline: 25px"
+ },
+ {
+   "token": "px26",
+   "tokenValue": "26px",
+   "deconstruction": "padding-inline: 26px"
+ },
+ {
+   "token": "px27",
+   "tokenValue": "27px",
+   "deconstruction": "padding-inline: 27px"
+ },
+ {
+   "token": "px28",
+   "tokenValue": "28px",
+   "deconstruction": "padding-inline: 28px"
+ },
+ {
+   "token": "px29",
+   "tokenValue": "29px",
+   "deconstruction": "padding-inline: 29px"
+ },
+ {
+   "token": "px30",
+   "tokenValue": "30px",
+   "deconstruction": "padding-inline: 30px"
+ },
+ {
+   "token": "px31",
+   "tokenValue": "31px",
+   "deconstruction": "padding-inline: 31px"
+ },
+ {
+   "token": "px32",
+   "tokenValue": "32px",
+   "deconstruction": "padding-inline: 32px"
+ },
+ {
+   "token": "py1",
+   "tokenValue": "1px",
+   "deconstruction": "padding-block: 1px"
+ },
+ {
+   "token": "py2",
+   "tokenValue": "2px",
+   "deconstruction": "padding-block: 2px"
+ },
+ {
+   "token": "py3",
+   "tokenValue": "3px",
+   "deconstruction": "padding-block: 3px"
+ },
+ {
+   "token": "py4",
+   "tokenValue": "4px",
+   "deconstruction": "padding-block: 4px"
+ },
+ {
+   "token": "py5",
+   "tokenValue": "5px",
+   "deconstruction": "padding-block: 5px"
+ },
+ {
+   "token": "py6",
+   "tokenValue": "6px",
+   "deconstruction": "padding-block: 6px"
+ },
+ {
+   "token": "py7",
+   "tokenValue": "7px",
+   "deconstruction": "padding-block: 7px"
+ },
+ {
+   "token": "py8",
+   "tokenValue": "8px",
+   "deconstruction": "padding-block: 8px"
+ },
+ {
+   "token": "py9",
+   "tokenValue": "9px",
+   "deconstruction": "padding-block: 9px"
+ },
+ {
+   "token": "py10",
+   "tokenValue": "10px",
+   "deconstruction": "padding-block: 10px"
+ },
+ {
+   "token": "py11",
+   "tokenValue": "11px",
+   "deconstruction": "padding-block: 11px"
+ },
+ {
+   "token": "py12",
+   "tokenValue": "12px",
+   "deconstruction": "padding-block: 12px"
+ },
+ {
+   "token": "py13",
+   "tokenValue": "13px",
+   "deconstruction": "padding-block: 13px"
+ },
+ {
+   "token": "py14",
+   "tokenValue": "14px",
+   "deconstruction": "padding-block: 14px"
+ },
+ {
+   "token": "py15",
+   "tokenValue": "15px",
+   "deconstruction": "padding-block: 15px"
+ },
+ {
+   "token": "py16",
+   "tokenValue": "16px",
+   "deconstruction": "padding-block: 16px"
+ },
+ {
+   "token": "py17",
+   "tokenValue": "17px",
+   "deconstruction": "padding-block: 17px"
+ },
+ {
+   "token": "py18",
+   "tokenValue": "18px",
+   "deconstruction": "padding-block: 18px"
+ },
+ {
+   "token": "py19",
+   "tokenValue": "19px",
+   "deconstruction": "padding-block: 19px"
+ },
+ {
+   "token": "py20",
+   "tokenValue": "20px",
+   "deconstruction": "padding-block: 20px"
+ },
+ {
+   "token": "py21",
+   "tokenValue": "21px",
+   "deconstruction": "padding-block: 21px"
+ },
+ {
+   "token": "py22",
+   "tokenValue": "22px",
+   "deconstruction": "padding-block: 22px"
+ },
+ {
+   "token": "py23",
+   "tokenValue": "23px",
+   "deconstruction": "padding-block: 23px"
+ },
+ {
+   "token": "py24",
+   "tokenValue": "24px",
+   "deconstruction": "padding-block: 24px"
+ },
+ {
+   "token": "py25",
+   "tokenValue": "25px",
+   "deconstruction": "padding-block: 25px"
+ },
+ {
+   "token": "py26",
+   "tokenValue": "26px",
+   "deconstruction": "padding-block: 26px"
+ },
+ {
+   "token": "py27",
+   "tokenValue": "27px",
+   "deconstruction": "padding-block: 27px"
+ },
+ {
+   "token": "py28",
+   "tokenValue": "28px",
+   "deconstruction": "padding-block: 28px"
+ },
+ {
+   "token": "py29",
+   "tokenValue": "29px",
+   "deconstruction": "padding-block: 29px"
+ },
+ {
+   "token": "py30",
+   "tokenValue": "30px",
+   "deconstruction": "padding-block: 30px"
+ },
+ {
+   "token": "py31",
+   "tokenValue": "31px",
+   "deconstruction": "padding-block: 31px"
+ },
+ {
+   "token": "py32",
+   "tokenValue": "32px",
+   "deconstruction": "padding-block: 32px"
+ },
+ {
+   "token": "pr1",
+   "tokenValue": "1px",
+   "deconstruction": "padding-right: 1px"
+ },
+ {
+   "token": "pr2",
+   "tokenValue": "2px",
+   "deconstruction": "padding-right: 2px"
+ },
+ {
+   "token": "pr3",
+   "tokenValue": "3px",
+   "deconstruction": "padding-right: 3px"
+ },
+ {
+   "token": "pr4",
+   "tokenValue": "4px",
+   "deconstruction": "padding-right: 4px"
+ },
+ {
+   "token": "pr5",
+   "tokenValue": "5px",
+   "deconstruction": "padding-right: 5px"
+ },
+ {
+   "token": "pr6",
+   "tokenValue": "6px",
+   "deconstruction": "padding-right: 6px"
+ },
+ {
+   "token": "pr7",
+   "tokenValue": "7px",
+   "deconstruction": "padding-right: 7px"
+ },
+ {
+   "token": "pr8",
+   "tokenValue": "8px",
+   "deconstruction": "padding-right: 8px"
+ },
+ {
+   "token": "pr9",
+   "tokenValue": "9px",
+   "deconstruction": "padding-right: 9px"
+ },
+ {
+   "token": "pr10",
+   "tokenValue": "10px",
+   "deconstruction": "padding-right: 10px"
+ },
+ {
+   "token": "pr11",
+   "tokenValue": "11px",
+   "deconstruction": "padding-right: 11px"
+ },
+ {
+   "token": "pr12",
+   "tokenValue": "12px",
+   "deconstruction": "padding-right: 12px"
+ },
+ {
+   "token": "pr13",
+   "tokenValue": "13px",
+   "deconstruction": "padding-right: 13px"
+ },
+ {
+   "token": "pr14",
+   "tokenValue": "14px",
+   "deconstruction": "padding-right: 14px"
+ },
+ {
+   "token": "pr15",
+   "tokenValue": "15px",
+   "deconstruction": "padding-right: 15px"
+ },
+ {
+   "token": "pr16",
+   "tokenValue": "16px",
+   "deconstruction": "padding-right: 16px"
+ },
+ {
+   "token": "pr17",
+   "tokenValue": "17px",
+   "deconstruction": "padding-right: 17px"
+ },
+ {
+   "token": "pr18",
+   "tokenValue": "18px",
+   "deconstruction": "padding-right: 18px"
+ },
+ {
+   "token": "pr19",
+   "tokenValue": "19px",
+   "deconstruction": "padding-right: 19px"
+ },
+ {
+   "token": "pr20",
+   "tokenValue": "20px",
+   "deconstruction": "padding-right: 20px"
+ },
+ {
+   "token": "pr21",
+   "tokenValue": "21px",
+   "deconstruction": "padding-right: 21px"
+ },
+ {
+   "token": "pr22",
+   "tokenValue": "22px",
+   "deconstruction": "padding-right: 22px"
+ },
+ {
+   "token": "pr23",
+   "tokenValue": "23px",
+   "deconstruction": "padding-right: 23px"
+ },
+ {
+   "token": "pr24",
+   "tokenValue": "24px",
+   "deconstruction": "padding-right: 24px"
+ },
+ {
+   "token": "pr25",
+   "tokenValue": "25px",
+   "deconstruction": "padding-right: 25px"
+ },
+ {
+   "token": "pr26",
+   "tokenValue": "26px",
+   "deconstruction": "padding-right: 26px"
+ },
+ {
+   "token": "pr27",
+   "tokenValue": "27px",
+   "deconstruction": "padding-right: 27px"
+ },
+ {
+   "token": "pr28",
+   "tokenValue": "28px",
+   "deconstruction": "padding-right: 28px"
+ },
+ {
+   "token": "pr29",
+   "tokenValue": "29px",
+   "deconstruction": "padding-right: 29px"
+ },
+ {
+   "token": "pr30",
+   "tokenValue": "30px",
+   "deconstruction": "padding-right: 30px"
+ },
+ {
+   "token": "pr31",
+   "tokenValue": "31px",
+   "deconstruction": "padding-right: 31px"
+ },
+ {
+   "token": "pr32",
+   "tokenValue": "32px",
+   "deconstruction": "padding-right: 32px"
+ },
+ {
+   "token": "pl1",
+   "tokenValue": "1px",
+   "deconstruction": "padding-left: 1px"
+ },
+ {
+   "token": "pl2",
+   "tokenValue": "2px",
+   "deconstruction": "padding-left: 2px"
+ },
+ {
+   "token": "pl3",
+   "tokenValue": "3px",
+   "deconstruction": "padding-left: 3px"
+ },
+ {
+   "token": "pl4",
+   "tokenValue": "4px",
+   "deconstruction": "padding-left: 4px"
+ },
+ {
+   "token": "pl5",
+   "tokenValue": "5px",
+   "deconstruction": "padding-left: 5px"
+ },
+ {
+   "token": "pl6",
+   "tokenValue": "6px",
+   "deconstruction": "padding-left: 6px"
+ },
+ {
+   "token": "pl7",
+   "tokenValue": "7px",
+   "deconstruction": "padding-left: 7px"
+ },
+ {
+   "token": "pl8",
+   "tokenValue": "8px",
+   "deconstruction": "padding-left: 8px"
+ },
+ {
+   "token": "pl9",
+   "tokenValue": "9px",
+   "deconstruction": "padding-left: 9px"
+ },
+ {
+   "token": "pl10",
+   "tokenValue": "10px",
+   "deconstruction": "padding-left: 10px"
+ },
+ {
+   "token": "pl11",
+   "tokenValue": "11px",
+   "deconstruction": "padding-left: 11px"
+ },
+ {
+   "token": "pl12",
+   "tokenValue": "12px",
+   "deconstruction": "padding-left: 12px"
+ },
+ {
+   "token": "pl13",
+   "tokenValue": "13px",
+   "deconstruction": "padding-left: 13px"
+ },
+ {
+   "token": "pl14",
+   "tokenValue": "14px",
+   "deconstruction": "padding-left: 14px"
+ },
+ {
+   "token": "pl15",
+   "tokenValue": "15px",
+   "deconstruction": "padding-left: 15px"
+ },
+ {
+   "token": "pl16",
+   "tokenValue": "16px",
+   "deconstruction": "padding-left: 16px"
+ },
+ {
+   "token": "pl17",
+   "tokenValue": "17px",
+   "deconstruction": "padding-left: 17px"
+ },
+ {
+   "token": "pl18",
+   "tokenValue": "18px",
+   "deconstruction": "padding-left: 18px"
+ },
+ {
+   "token": "pl19",
+   "tokenValue": "19px",
+   "deconstruction": "padding-left: 19px"
+ },
+ {
+   "token": "pl20",
+   "tokenValue": "20px",
+   "deconstruction": "padding-left: 20px"
+ },
+ {
+   "token": "pl21",
+   "tokenValue": "21px",
+   "deconstruction": "padding-left: 21px"
+ },
+ {
+   "token": "pl22",
+   "tokenValue": "22px",
+   "deconstruction": "padding-left: 22px"
+ },
+ {
+   "token": "pl23",
+   "tokenValue": "23px",
+   "deconstruction": "padding-left: 23px"
+ },
+ {
+   "token": "pl24",
+   "tokenValue": "24px",
+   "deconstruction": "padding-left: 24px"
+ },
+ {
+   "token": "pl25",
+   "tokenValue": "25px",
+   "deconstruction": "padding-left: 25px"
+ },
+ {
+   "token": "pl26",
+   "tokenValue": "26px",
+   "deconstruction": "padding-left: 26px"
+ },
+ {
+   "token": "pl27",
+   "tokenValue": "27px",
+   "deconstruction": "padding-left: 27px"
+ },
+ {
+   "token": "pl28",
+   "tokenValue": "28px",
+   "deconstruction": "padding-left: 28px"
+ },
+ {
+   "token": "pl29",
+   "tokenValue": "29px",
+   "deconstruction": "padding-left: 29px"
+ },
+ {
+   "token": "pl30",
+   "tokenValue": "30px",
+   "deconstruction": "padding-left: 30px"
+ },
+ {
+   "token": "pl31",
+   "tokenValue": "31px",
+   "deconstruction": "padding-left: 31px"
+ },
+ {
+   "token": "pl32",
+   "tokenValue": "32px",
+   "deconstruction": "padding-left: 32px"
+ },
+ {
+   "token": "pt1",
+   "tokenValue": "1px",
+   "deconstruction": "padding-top: 1px"
+ },
+ {
+   "token": "pt2",
+   "tokenValue": "2px",
+   "deconstruction": "padding-top: 2px"
+ },
+ {
+   "token": "pt3",
+   "tokenValue": "3px",
+   "deconstruction": "padding-top: 3px"
+ },
+ {
+   "token": "pt4",
+   "tokenValue": "4px",
+   "deconstruction": "padding-top: 4px"
+ },
+ {
+   "token": "pt5",
+   "tokenValue": "5px",
+   "deconstruction": "padding-top: 5px"
+ },
+ {
+   "token": "pt6",
+   "tokenValue": "6px",
+   "deconstruction": "padding-top: 6px"
+ },
+ {
+   "token": "pt7",
+   "tokenValue": "7px",
+   "deconstruction": "padding-top: 7px"
+ },
+ {
+   "token": "pt8",
+   "tokenValue": "8px",
+   "deconstruction": "padding-top: 8px"
+ },
+ {
+   "token": "pt9",
+   "tokenValue": "9px",
+   "deconstruction": "padding-top: 9px"
+ },
+ {
+   "token": "pt10",
+   "tokenValue": "10px",
+   "deconstruction": "padding-top: 10px"
+ },
+ {
+   "token": "pt11",
+   "tokenValue": "11px",
+   "deconstruction": "padding-top: 11px"
+ },
+ {
+   "token": "pt12",
+   "tokenValue": "12px",
+   "deconstruction": "padding-top: 12px"
+ },
+ {
+   "token": "pt13",
+   "tokenValue": "13px",
+   "deconstruction": "padding-top: 13px"
+ },
+ {
+   "token": "pt14",
+   "tokenValue": "14px",
+   "deconstruction": "padding-top: 14px"
+ },
+ {
+   "token": "pt15",
+   "tokenValue": "15px",
+   "deconstruction": "padding-top: 15px"
+ },
+ {
+   "token": "pt16",
+   "tokenValue": "16px",
+   "deconstruction": "padding-top: 16px"
+ },
+ {
+   "token": "pt17",
+   "tokenValue": "17px",
+   "deconstruction": "padding-top: 17px"
+ },
+ {
+   "token": "pt18",
+   "tokenValue": "18px",
+   "deconstruction": "padding-top: 18px"
+ },
+ {
+   "token": "pt19",
+   "tokenValue": "19px",
+   "deconstruction": "padding-top: 19px"
+ },
+ {
+   "token": "pt20",
+   "tokenValue": "20px",
+   "deconstruction": "padding-top: 20px"
+ },
+ {
+   "token": "pt21",
+   "tokenValue": "21px",
+   "deconstruction": "padding-top: 21px"
+ },
+ {
+   "token": "pt22",
+   "tokenValue": "22px",
+   "deconstruction": "padding-top: 22px"
+ },
+ {
+   "token": "pt23",
+   "tokenValue": "23px",
+   "deconstruction": "padding-top: 23px"
+ },
+ {
+   "token": "pt24",
+   "tokenValue": "24px",
+   "deconstruction": "padding-top: 24px"
+ },
+ {
+   "token": "pt25",
+   "tokenValue": "25px",
+   "deconstruction": "padding-top: 25px"
+ },
+ {
+   "token": "pt26",
+   "tokenValue": "26px",
+   "deconstruction": "padding-top: 26px"
+ },
+ {
+   "token": "pt27",
+   "tokenValue": "27px",
+   "deconstruction": "padding-top: 27px"
+ },
+ {
+   "token": "pt28",
+   "tokenValue": "28px",
+   "deconstruction": "padding-top: 28px"
+ },
+ {
+   "token": "pt29",
+   "tokenValue": "29px",
+   "deconstruction": "padding-top: 29px"
+ },
+ {
+   "token": "pt30",
+   "tokenValue": "30px",
+   "deconstruction": "padding-top: 30px"
+ },
+ {
+   "token": "pt31",
+   "tokenValue": "31px",
+   "deconstruction": "padding-top: 31px"
+ },
+ {
+   "token": "pt32",
+   "tokenValue": "32px",
+   "deconstruction": "padding-top: 32px"
+ },
+ {
+   "token": "pb1",
+   "tokenValue": "1px",
+   "deconstruction": "padding-bottom: 1px"
+ },
+ {
+   "token": "pb2",
+   "tokenValue": "2px",
+   "deconstruction": "padding-bottom: 2px"
+ },
+ {
+   "token": "pb3",
+   "tokenValue": "3px",
+   "deconstruction": "padding-bottom: 3px"
+ },
+ {
+   "token": "pb4",
+   "tokenValue": "4px",
+   "deconstruction": "padding-bottom: 4px"
+ },
+ {
+   "token": "pb5",
+   "tokenValue": "5px",
+   "deconstruction": "padding-bottom: 5px"
+ },
+ {
+   "token": "pb6",
+   "tokenValue": "6px",
+   "deconstruction": "padding-bottom: 6px"
+ },
+ {
+   "token": "pb7",
+   "tokenValue": "7px",
+   "deconstruction": "padding-bottom: 7px"
+ },
+ {
+   "token": "pb8",
+   "tokenValue": "8px",
+   "deconstruction": "padding-bottom: 8px"
+ },
+ {
+   "token": "pb9",
+   "tokenValue": "9px",
+   "deconstruction": "padding-bottom: 9px"
+ },
+ {
+   "token": "pb10",
+   "tokenValue": "10px",
+   "deconstruction": "padding-bottom: 10px"
+ },
+ {
+   "token": "pb11",
+   "tokenValue": "11px",
+   "deconstruction": "padding-bottom: 11px"
+ },
+ {
+   "token": "pb12",
+   "tokenValue": "12px",
+   "deconstruction": "padding-bottom: 12px"
+ },
+ {
+   "token": "pb13",
+   "tokenValue": "13px",
+   "deconstruction": "padding-bottom: 13px"
+ },
+ {
+   "token": "pb14",
+   "tokenValue": "14px",
+   "deconstruction": "padding-bottom: 14px"
+ },
+ {
+   "token": "pb15",
+   "tokenValue": "15px",
+   "deconstruction": "padding-bottom: 15px"
+ },
+ {
+   "token": "pb16",
+   "tokenValue": "16px",
+   "deconstruction": "padding-bottom: 16px"
+ },
+ {
+   "token": "pb17",
+   "tokenValue": "17px",
+   "deconstruction": "padding-bottom: 17px"
+ },
+ {
+   "token": "pb18",
+   "tokenValue": "18px",
+   "deconstruction": "padding-bottom: 18px"
+ },
+ {
+   "token": "pb19",
+   "tokenValue": "19px",
+   "deconstruction": "padding-bottom: 19px"
+ },
+ {
+   "token": "pb20",
+   "tokenValue": "20px",
+   "deconstruction": "padding-bottom: 20px"
+ },
+ {
+   "token": "pb21",
+   "tokenValue": "21px",
+   "deconstruction": "padding-bottom: 21px"
+ },
+ {
+   "token": "pb22",
+   "tokenValue": "22px",
+   "deconstruction": "padding-bottom: 22px"
+ },
+ {
+   "token": "pb23",
+   "tokenValue": "23px",
+   "deconstruction": "padding-bottom: 23px"
+ },
+ {
+   "token": "pb24",
+   "tokenValue": "24px",
+   "deconstruction": "padding-bottom: 24px"
+ },
+ {
+   "token": "pb25",
+   "tokenValue": "25px",
+   "deconstruction": "padding-bottom: 25px"
+ },
+ {
+   "token": "pb26",
+   "tokenValue": "26px",
+   "deconstruction": "padding-bottom: 26px"
+ },
+ {
+   "token": "pb27",
+   "tokenValue": "27px",
+   "deconstruction": "padding-bottom: 27px"
+ },
+ {
+   "token": "pb28",
+   "tokenValue": "28px",
+   "deconstruction": "padding-bottom: 28px"
+ },
+ {
+   "token": "pb29",
+   "tokenValue": "29px",
+   "deconstruction": "padding-bottom: 29px"
+ },
+ {
+   "token": "pb30",
+   "tokenValue": "30px",
+   "deconstruction": "padding-bottom: 30px"
+ },
+ {
+   "token": "pb31",
+   "tokenValue": "31px",
+   "deconstruction": "padding-bottom: 31px"
+ },
+ {
+   "token": "pb32",
+   "tokenValue": "32px",
+   "deconstruction": "padding-bottom: 32px"
+ },
+ {
+   "token": "mar1",
+   "tokenValue": "1px",
+   "deconstruction": "margin: 1px"
+ },
+ {
+   "token": "mar2",
+   "tokenValue": "2px",
+   "deconstruction": "margin: 2px"
+ },
+ {
+   "token": "mar3",
+   "tokenValue": "3px",
+   "deconstruction": "margin: 3px"
+ },
+ {
+   "token": "mar4",
+   "tokenValue": "4px",
+   "deconstruction": "margin: 4px"
+ },
+ {
+   "token": "mar5",
+   "tokenValue": "5px",
+   "deconstruction": "margin: 5px"
+ },
+ {
+   "token": "mar6",
+   "tokenValue": "6px",
+   "deconstruction": "margin: 6px"
+ },
+ {
+   "token": "mar7",
+   "tokenValue": "7px",
+   "deconstruction": "margin: 7px"
+ },
+ {
+   "token": "mar8",
+   "tokenValue": "8px",
+   "deconstruction": "margin: 8px"
+ },
+ {
+   "token": "mar9",
+   "tokenValue": "9px",
+   "deconstruction": "margin: 9px"
+ },
+ {
+   "token": "mar10",
+   "tokenValue": "10px",
+   "deconstruction": "margin: 10px"
+ },
+ {
+   "token": "mar11",
+   "tokenValue": "11px",
+   "deconstruction": "margin: 11px"
+ },
+ {
+   "token": "mar12",
+   "tokenValue": "12px",
+   "deconstruction": "margin: 12px"
+ },
+ {
+   "token": "mar13",
+   "tokenValue": "13px",
+   "deconstruction": "margin: 13px"
+ },
+ {
+   "token": "mar14",
+   "tokenValue": "14px",
+   "deconstruction": "margin: 14px"
+ },
+ {
+   "token": "mar15",
+   "tokenValue": "15px",
+   "deconstruction": "margin: 15px"
+ },
+ {
+   "token": "mar16",
+   "tokenValue": "16px",
+   "deconstruction": "margin: 16px"
+ },
+ {
+   "token": "mar17",
+   "tokenValue": "17px",
+   "deconstruction": "margin: 17px"
+ },
+ {
+   "token": "mar18",
+   "tokenValue": "18px",
+   "deconstruction": "margin: 18px"
+ },
+ {
+   "token": "mar19",
+   "tokenValue": "19px",
+   "deconstruction": "margin: 19px"
+ },
+ {
+   "token": "mar20",
+   "tokenValue": "20px",
+   "deconstruction": "margin: 20px"
+ },
+ {
+   "token": "mar21",
+   "tokenValue": "21px",
+   "deconstruction": "margin: 21px"
+ },
+ {
+   "token": "mar22",
+   "tokenValue": "22px",
+   "deconstruction": "margin: 22px"
+ },
+ {
+   "token": "mar23",
+   "tokenValue": "23px",
+   "deconstruction": "margin: 23px"
+ },
+ {
+   "token": "mar24",
+   "tokenValue": "24px",
+   "deconstruction": "margin: 24px"
+ },
+ {
+   "token": "mar25",
+   "tokenValue": "25px",
+   "deconstruction": "margin: 25px"
+ },
+ {
+   "token": "mar26",
+   "tokenValue": "26px",
+   "deconstruction": "margin: 26px"
+ },
+ {
+   "token": "mar27",
+   "tokenValue": "27px",
+   "deconstruction": "margin: 27px"
+ },
+ {
+   "token": "mar28",
+   "tokenValue": "28px",
+   "deconstruction": "margin: 28px"
+ },
+ {
+   "token": "mar29",
+   "tokenValue": "29px",
+   "deconstruction": "margin: 29px"
+ },
+ {
+   "token": "mar30",
+   "tokenValue": "30px",
+   "deconstruction": "margin: 30px"
+ },
+ {
+   "token": "mar31",
+   "tokenValue": "31px",
+   "deconstruction": "margin: 31px"
+ },
+ {
+   "token": "mar32",
+   "tokenValue": "32px",
+   "deconstruction": "margin: 32px"
+ },
+ {
+   "token": "mx1",
+   "tokenValue": "1px",
+   "deconstruction": "margin-inline: 1px"
+ },
+ {
+   "token": "mx2",
+   "tokenValue": "2px",
+   "deconstruction": "margin-inline: 2px"
+ },
+ {
+   "token": "mx3",
+   "tokenValue": "3px",
+   "deconstruction": "margin-inline: 3px"
+ },
+ {
+   "token": "mx4",
+   "tokenValue": "4px",
+   "deconstruction": "margin-inline: 4px"
+ },
+ {
+   "token": "mx5",
+   "tokenValue": "5px",
+   "deconstruction": "margin-inline: 5px"
+ },
+ {
+   "token": "mx6",
+   "tokenValue": "6px",
+   "deconstruction": "margin-inline: 6px"
+ },
+ {
+   "token": "mx7",
+   "tokenValue": "7px",
+   "deconstruction": "margin-inline: 7px"
+ },
+ {
+   "token": "mx8",
+   "tokenValue": "8px",
+   "deconstruction": "margin-inline: 8px"
+ },
+ {
+   "token": "mx9",
+   "tokenValue": "9px",
+   "deconstruction": "margin-inline: 9px"
+ },
+ {
+   "token": "mx10",
+   "tokenValue": "10px",
+   "deconstruction": "margin-inline: 10px"
+ },
+ {
+   "token": "mx11",
+   "tokenValue": "11px",
+   "deconstruction": "margin-inline: 11px"
+ },
+ {
+   "token": "mx12",
+   "tokenValue": "12px",
+   "deconstruction": "margin-inline: 12px"
+ },
+ {
+   "token": "mx13",
+   "tokenValue": "13px",
+   "deconstruction": "margin-inline: 13px"
+ },
+ {
+   "token": "mx14",
+   "tokenValue": "14px",
+   "deconstruction": "margin-inline: 14px"
+ },
+ {
+   "token": "mx15",
+   "tokenValue": "15px",
+   "deconstruction": "margin-inline: 15px"
+ },
+ {
+   "token": "mx16",
+   "tokenValue": "16px",
+   "deconstruction": "margin-inline: 16px"
+ },
+ {
+   "token": "mx17",
+   "tokenValue": "17px",
+   "deconstruction": "margin-inline: 17px"
+ },
+ {
+   "token": "mx18",
+   "tokenValue": "18px",
+   "deconstruction": "margin-inline: 18px"
+ },
+ {
+   "token": "mx19",
+   "tokenValue": "19px",
+   "deconstruction": "margin-inline: 19px"
+ },
+ {
+   "token": "mx20",
+   "tokenValue": "20px",
+   "deconstruction": "margin-inline: 20px"
+ },
+ {
+   "token": "mx21",
+   "tokenValue": "21px",
+   "deconstruction": "margin-inline: 21px"
+ },
+ {
+   "token": "mx22",
+   "tokenValue": "22px",
+   "deconstruction": "margin-inline: 22px"
+ },
+ {
+   "token": "mx23",
+   "tokenValue": "23px",
+   "deconstruction": "margin-inline: 23px"
+ },
+ {
+   "token": "mx24",
+   "tokenValue": "24px",
+   "deconstruction": "margin-inline: 24px"
+ },
+ {
+   "token": "mx25",
+   "tokenValue": "25px",
+   "deconstruction": "margin-inline: 25px"
+ },
+ {
+   "token": "mx26",
+   "tokenValue": "26px",
+   "deconstruction": "margin-inline: 26px"
+ },
+ {
+   "token": "mx27",
+   "tokenValue": "27px",
+   "deconstruction": "margin-inline: 27px"
+ },
+ {
+   "token": "mx28",
+   "tokenValue": "28px",
+   "deconstruction": "margin-inline: 28px"
+ },
+ {
+   "token": "mx29",
+   "tokenValue": "29px",
+   "deconstruction": "margin-inline: 29px"
+ },
+ {
+   "token": "mx30",
+   "tokenValue": "30px",
+   "deconstruction": "margin-inline: 30px"
+ },
+ {
+   "token": "mx31",
+   "tokenValue": "31px",
+   "deconstruction": "margin-inline: 31px"
+ },
+ {
+   "token": "mx32",
+   "tokenValue": "32px",
+   "deconstruction": "margin-inline: 32px"
+ },
+ {
+   "token": "my1",
+   "tokenValue": "1px",
+   "deconstruction": "margin-block: 1px"
+ },
+ {
+   "token": "my2",
+   "tokenValue": "2px",
+   "deconstruction": "margin-block: 2px"
+ },
+ {
+   "token": "my3",
+   "tokenValue": "3px",
+   "deconstruction": "margin-block: 3px"
+ },
+ {
+   "token": "my4",
+   "tokenValue": "4px",
+   "deconstruction": "margin-block: 4px"
+ },
+ {
+   "token": "my5",
+   "tokenValue": "5px",
+   "deconstruction": "margin-block: 5px"
+ },
+ {
+   "token": "my6",
+   "tokenValue": "6px",
+   "deconstruction": "margin-block: 6px"
+ },
+ {
+   "token": "my7",
+   "tokenValue": "7px",
+   "deconstruction": "margin-block: 7px"
+ },
+ {
+   "token": "my8",
+   "tokenValue": "8px",
+   "deconstruction": "margin-block: 8px"
+ },
+ {
+   "token": "my9",
+   "tokenValue": "9px",
+   "deconstruction": "margin-block: 9px"
+ },
+ {
+   "token": "my10",
+   "tokenValue": "10px",
+   "deconstruction": "margin-block: 10px"
+ },
+ {
+   "token": "my11",
+   "tokenValue": "11px",
+   "deconstruction": "margin-block: 11px"
+ },
+ {
+   "token": "my12",
+   "tokenValue": "12px",
+   "deconstruction": "margin-block: 12px"
+ },
+ {
+   "token": "my13",
+   "tokenValue": "13px",
+   "deconstruction": "margin-block: 13px"
+ },
+ {
+   "token": "my14",
+   "tokenValue": "14px",
+   "deconstruction": "margin-block: 14px"
+ },
+ {
+   "token": "my15",
+   "tokenValue": "15px",
+   "deconstruction": "margin-block: 15px"
+ },
+ {
+   "token": "my16",
+   "tokenValue": "16px",
+   "deconstruction": "margin-block: 16px"
+ },
+ {
+   "token": "my17",
+   "tokenValue": "17px",
+   "deconstruction": "margin-block: 17px"
+ },
+ {
+   "token": "my18",
+   "tokenValue": "18px",
+   "deconstruction": "margin-block: 18px"
+ },
+ {
+   "token": "my19",
+   "tokenValue": "19px",
+   "deconstruction": "margin-block: 19px"
+ },
+ {
+   "token": "my20",
+   "tokenValue": "20px",
+   "deconstruction": "margin-block: 20px"
+ },
+ {
+   "token": "my21",
+   "tokenValue": "21px",
+   "deconstruction": "margin-block: 21px"
+ },
+ {
+   "token": "my22",
+   "tokenValue": "22px",
+   "deconstruction": "margin-block: 22px"
+ },
+ {
+   "token": "my23",
+   "tokenValue": "23px",
+   "deconstruction": "margin-block: 23px"
+ },
+ {
+   "token": "my24",
+   "tokenValue": "24px",
+   "deconstruction": "margin-block: 24px"
+ },
+ {
+   "token": "my25",
+   "tokenValue": "25px",
+   "deconstruction": "margin-block: 25px"
+ },
+ {
+   "token": "my26",
+   "tokenValue": "26px",
+   "deconstruction": "margin-block: 26px"
+ },
+ {
+   "token": "my27",
+   "tokenValue": "27px",
+   "deconstruction": "margin-block: 27px"
+ },
+ {
+   "token": "my28",
+   "tokenValue": "28px",
+   "deconstruction": "margin-block: 28px"
+ },
+ {
+   "token": "my29",
+   "tokenValue": "29px",
+   "deconstruction": "margin-block: 29px"
+ },
+ {
+   "token": "my30",
+   "tokenValue": "30px",
+   "deconstruction": "margin-block: 30px"
+ },
+ {
+   "token": "my31",
+   "tokenValue": "31px",
+   "deconstruction": "margin-block: 31px"
+ },
+ {
+   "token": "my32",
+   "tokenValue": "32px",
+   "deconstruction": "margin-block: 32px"
+ },
+ {
+   "token": "mr1",
+   "tokenValue": "1px",
+   "deconstruction": "margin-right: 1px"
+ },
+ {
+   "token": "mr2",
+   "tokenValue": "2px",
+   "deconstruction": "margin-right: 2px"
+ },
+ {
+   "token": "mr3",
+   "tokenValue": "3px",
+   "deconstruction": "margin-right: 3px"
+ },
+ {
+   "token": "mr4",
+   "tokenValue": "4px",
+   "deconstruction": "margin-right: 4px"
+ },
+ {
+   "token": "mr5",
+   "tokenValue": "5px",
+   "deconstruction": "margin-right: 5px"
+ },
+ {
+   "token": "mr6",
+   "tokenValue": "6px",
+   "deconstruction": "margin-right: 6px"
+ },
+ {
+   "token": "mr7",
+   "tokenValue": "7px",
+   "deconstruction": "margin-right: 7px"
+ },
+ {
+   "token": "mr8",
+   "tokenValue": "8px",
+   "deconstruction": "margin-right: 8px"
+ },
+ {
+   "token": "mr9",
+   "tokenValue": "9px",
+   "deconstruction": "margin-right: 9px"
+ },
+ {
+   "token": "mr10",
+   "tokenValue": "10px",
+   "deconstruction": "margin-right: 10px"
+ },
+ {
+   "token": "mr11",
+   "tokenValue": "11px",
+   "deconstruction": "margin-right: 11px"
+ },
+ {
+   "token": "mr12",
+   "tokenValue": "12px",
+   "deconstruction": "margin-right: 12px"
+ },
+ {
+   "token": "mr13",
+   "tokenValue": "13px",
+   "deconstruction": "margin-right: 13px"
+ },
+ {
+   "token": "mr14",
+   "tokenValue": "14px",
+   "deconstruction": "margin-right: 14px"
+ },
+ {
+   "token": "mr15",
+   "tokenValue": "15px",
+   "deconstruction": "margin-right: 15px"
+ },
+ {
+   "token": "mr16",
+   "tokenValue": "16px",
+   "deconstruction": "margin-right: 16px"
+ },
+ {
+   "token": "mr17",
+   "tokenValue": "17px",
+   "deconstruction": "margin-right: 17px"
+ },
+ {
+   "token": "mr18",
+   "tokenValue": "18px",
+   "deconstruction": "margin-right: 18px"
+ },
+ {
+   "token": "mr19",
+   "tokenValue": "19px",
+   "deconstruction": "margin-right: 19px"
+ },
+ {
+   "token": "mr20",
+   "tokenValue": "20px",
+   "deconstruction": "margin-right: 20px"
+ },
+ {
+   "token": "mr21",
+   "tokenValue": "21px",
+   "deconstruction": "margin-right: 21px"
+ },
+ {
+   "token": "mr22",
+   "tokenValue": "22px",
+   "deconstruction": "margin-right: 22px"
+ },
+ {
+   "token": "mr23",
+   "tokenValue": "23px",
+   "deconstruction": "margin-right: 23px"
+ },
+ {
+   "token": "mr24",
+   "tokenValue": "24px",
+   "deconstruction": "margin-right: 24px"
+ },
+ {
+   "token": "mr25",
+   "tokenValue": "25px",
+   "deconstruction": "margin-right: 25px"
+ },
+ {
+   "token": "mr26",
+   "tokenValue": "26px",
+   "deconstruction": "margin-right: 26px"
+ },
+ {
+   "token": "mr27",
+   "tokenValue": "27px",
+   "deconstruction": "margin-right: 27px"
+ },
+ {
+   "token": "mr28",
+   "tokenValue": "28px",
+   "deconstruction": "margin-right: 28px"
+ },
+ {
+   "token": "mr29",
+   "tokenValue": "29px",
+   "deconstruction": "margin-right: 29px"
+ },
+ {
+   "token": "mr30",
+   "tokenValue": "30px",
+   "deconstruction": "margin-right: 30px"
+ },
+ {
+   "token": "mr31",
+   "tokenValue": "31px",
+   "deconstruction": "margin-right: 31px"
+ },
+ {
+   "token": "mr32",
+   "tokenValue": "32px",
+   "deconstruction": "margin-right: 32px"
+ },
+ {
+   "token": "ml1",
+   "tokenValue": "1px",
+   "deconstruction": "margin-left: 1px"
+ },
+ {
+   "token": "ml2",
+   "tokenValue": "2px",
+   "deconstruction": "margin-left: 2px"
+ },
+ {
+   "token": "ml3",
+   "tokenValue": "3px",
+   "deconstruction": "margin-left: 3px"
+ },
+ {
+   "token": "ml4",
+   "tokenValue": "4px",
+   "deconstruction": "margin-left: 4px"
+ },
+ {
+   "token": "ml5",
+   "tokenValue": "5px",
+   "deconstruction": "margin-left: 5px"
+ },
+ {
+   "token": "ml6",
+   "tokenValue": "6px",
+   "deconstruction": "margin-left: 6px"
+ },
+ {
+   "token": "ml7",
+   "tokenValue": "7px",
+   "deconstruction": "margin-left: 7px"
+ },
+ {
+   "token": "ml8",
+   "tokenValue": "8px",
+   "deconstruction": "margin-left: 8px"
+ },
+ {
+   "token": "ml9",
+   "tokenValue": "9px",
+   "deconstruction": "margin-left: 9px"
+ },
+ {
+   "token": "ml10",
+   "tokenValue": "10px",
+   "deconstruction": "margin-left: 10px"
+ },
+ {
+   "token": "ml11",
+   "tokenValue": "11px",
+   "deconstruction": "margin-left: 11px"
+ },
+ {
+   "token": "ml12",
+   "tokenValue": "12px",
+   "deconstruction": "margin-left: 12px"
+ },
+ {
+   "token": "ml13",
+   "tokenValue": "13px",
+   "deconstruction": "margin-left: 13px"
+ },
+ {
+   "token": "ml14",
+   "tokenValue": "14px",
+   "deconstruction": "margin-left: 14px"
+ },
+ {
+   "token": "ml15",
+   "tokenValue": "15px",
+   "deconstruction": "margin-left: 15px"
+ },
+ {
+   "token": "ml16",
+   "tokenValue": "16px",
+   "deconstruction": "margin-left: 16px"
+ },
+ {
+   "token": "ml17",
+   "tokenValue": "17px",
+   "deconstruction": "margin-left: 17px"
+ },
+ {
+   "token": "ml18",
+   "tokenValue": "18px",
+   "deconstruction": "margin-left: 18px"
+ },
+ {
+   "token": "ml19",
+   "tokenValue": "19px",
+   "deconstruction": "margin-left: 19px"
+ },
+ {
+   "token": "ml20",
+   "tokenValue": "20px",
+   "deconstruction": "margin-left: 20px"
+ },
+ {
+   "token": "ml21",
+   "tokenValue": "21px",
+   "deconstruction": "margin-left: 21px"
+ },
+ {
+   "token": "ml22",
+   "tokenValue": "22px",
+   "deconstruction": "margin-left: 22px"
+ },
+ {
+   "token": "ml23",
+   "tokenValue": "23px",
+   "deconstruction": "margin-left: 23px"
+ },
+ {
+   "token": "ml24",
+   "tokenValue": "24px",
+   "deconstruction": "margin-left: 24px"
+ },
+ {
+   "token": "ml25",
+   "tokenValue": "25px",
+   "deconstruction": "margin-left: 25px"
+ },
+ {
+   "token": "ml26",
+   "tokenValue": "26px",
+   "deconstruction": "margin-left: 26px"
+ },
+ {
+   "token": "ml27",
+   "tokenValue": "27px",
+   "deconstruction": "margin-left: 27px"
+ },
+ {
+   "token": "ml28",
+   "tokenValue": "28px",
+   "deconstruction": "margin-left: 28px"
+ },
+ {
+   "token": "ml29",
+   "tokenValue": "29px",
+   "deconstruction": "margin-left: 29px"
+ },
+ {
+   "token": "ml30",
+   "tokenValue": "30px",
+   "deconstruction": "margin-left: 30px"
+ },
+ {
+   "token": "ml31",
+   "tokenValue": "31px",
+   "deconstruction": "margin-left: 31px"
+ },
+ {
+   "token": "ml32",
+   "tokenValue": "32px",
+   "deconstruction": "margin-left: 32px"
+ },
+ {
+   "token": "mt1",
+   "tokenValue": "1px",
+   "deconstruction": "margin-top: 1px"
+ },
+ {
+   "token": "mt2",
+   "tokenValue": "2px",
+   "deconstruction": "margin-top: 2px"
+ },
+ {
+   "token": "mt3",
+   "tokenValue": "3px",
+   "deconstruction": "margin-top: 3px"
+ },
+ {
+   "token": "mt4",
+   "tokenValue": "4px",
+   "deconstruction": "margin-top: 4px"
+ },
+ {
+   "token": "mt5",
+   "tokenValue": "5px",
+   "deconstruction": "margin-top: 5px"
+ },
+ {
+   "token": "mt6",
+   "tokenValue": "6px",
+   "deconstruction": "margin-top: 6px"
+ },
+ {
+   "token": "mt7",
+   "tokenValue": "7px",
+   "deconstruction": "margin-top: 7px"
+ },
+ {
+   "token": "mt8",
+   "tokenValue": "8px",
+   "deconstruction": "margin-top: 8px"
+ },
+ {
+   "token": "mt9",
+   "tokenValue": "9px",
+   "deconstruction": "margin-top: 9px"
+ },
+ {
+   "token": "mt10",
+   "tokenValue": "10px",
+   "deconstruction": "margin-top: 10px"
+ },
+ {
+   "token": "mt11",
+   "tokenValue": "11px",
+   "deconstruction": "margin-top: 11px"
+ },
+ {
+   "token": "mt12",
+   "tokenValue": "12px",
+   "deconstruction": "margin-top: 12px"
+ },
+ {
+   "token": "mt13",
+   "tokenValue": "13px",
+   "deconstruction": "margin-top: 13px"
+ },
+ {
+   "token": "mt14",
+   "tokenValue": "14px",
+   "deconstruction": "margin-top: 14px"
+ },
+ {
+   "token": "mt15",
+   "tokenValue": "15px",
+   "deconstruction": "margin-top: 15px"
+ },
+ {
+   "token": "mt16",
+   "tokenValue": "16px",
+   "deconstruction": "margin-top: 16px"
+ },
+ {
+   "token": "mt17",
+   "tokenValue": "17px",
+   "deconstruction": "margin-top: 17px"
+ },
+ {
+   "token": "mt18",
+   "tokenValue": "18px",
+   "deconstruction": "margin-top: 18px"
+ },
+ {
+   "token": "mt19",
+   "tokenValue": "19px",
+   "deconstruction": "margin-top: 19px"
+ },
+ {
+   "token": "mt20",
+   "tokenValue": "20px",
+   "deconstruction": "margin-top: 20px"
+ },
+ {
+   "token": "mt21",
+   "tokenValue": "21px",
+   "deconstruction": "margin-top: 21px"
+ },
+ {
+   "token": "mt22",
+   "tokenValue": "22px",
+   "deconstruction": "margin-top: 22px"
+ },
+ {
+   "token": "mt23",
+   "tokenValue": "23px",
+   "deconstruction": "margin-top: 23px"
+ },
+ {
+   "token": "mt24",
+   "tokenValue": "24px",
+   "deconstruction": "margin-top: 24px"
+ },
+ {
+   "token": "mt25",
+   "tokenValue": "25px",
+   "deconstruction": "margin-top: 25px"
+ },
+ {
+   "token": "mt26",
+   "tokenValue": "26px",
+   "deconstruction": "margin-top: 26px"
+ },
+ {
+   "token": "mt27",
+   "tokenValue": "27px",
+   "deconstruction": "margin-top: 27px"
+ },
+ {
+   "token": "mt28",
+   "tokenValue": "28px",
+   "deconstruction": "margin-top: 28px"
+ },
+ {
+   "token": "mt29",
+   "tokenValue": "29px",
+   "deconstruction": "margin-top: 29px"
+ },
+ {
+   "token": "mt30",
+   "tokenValue": "30px",
+   "deconstruction": "margin-top: 30px"
+ },
+ {
+   "token": "mt31",
+   "tokenValue": "31px",
+   "deconstruction": "margin-top: 31px"
+ },
+ {
+   "token": "mt32",
+   "tokenValue": "32px",
+   "deconstruction": "margin-top: 32px"
+ },
+ {
+   "token": "mb1",
+   "tokenValue": "1px",
+   "deconstruction": "margin-bottom: 1px"
+ },
+ {
+   "token": "mb2",
+   "tokenValue": "2px",
+   "deconstruction": "margin-bottom: 2px"
+ },
+ {
+   "token": "mb3",
+   "tokenValue": "3px",
+   "deconstruction": "margin-bottom: 3px"
+ },
+ {
+   "token": "mb4",
+   "tokenValue": "4px",
+   "deconstruction": "margin-bottom: 4px"
+ },
+ {
+   "token": "mb5",
+   "tokenValue": "5px",
+   "deconstruction": "margin-bottom: 5px"
+ },
+ {
+   "token": "mb6",
+   "tokenValue": "6px",
+   "deconstruction": "margin-bottom: 6px"
+ },
+ {
+   "token": "mb7",
+   "tokenValue": "7px",
+   "deconstruction": "margin-bottom: 7px"
+ },
+ {
+   "token": "mb8",
+   "tokenValue": "8px",
+   "deconstruction": "margin-bottom: 8px"
+ },
+ {
+   "token": "mb9",
+   "tokenValue": "9px",
+   "deconstruction": "margin-bottom: 9px"
+ },
+ {
+   "token": "mb10",
+   "tokenValue": "10px",
+   "deconstruction": "margin-bottom: 10px"
+ },
+ {
+   "token": "mb11",
+   "tokenValue": "11px",
+   "deconstruction": "margin-bottom: 11px"
+ },
+ {
+   "token": "mb12",
+   "tokenValue": "12px",
+   "deconstruction": "margin-bottom: 12px"
+ },
+ {
+   "token": "mb13",
+   "tokenValue": "13px",
+   "deconstruction": "margin-bottom: 13px"
+ },
+ {
+   "token": "mb14",
+   "tokenValue": "14px",
+   "deconstruction": "margin-bottom: 14px"
+ },
+ {
+   "token": "mb15",
+   "tokenValue": "15px",
+   "deconstruction": "margin-bottom: 15px"
+ },
+ {
+   "token": "mb16",
+   "tokenValue": "16px",
+   "deconstruction": "margin-bottom: 16px"
+ },
+ {
+   "token": "mb17",
+   "tokenValue": "17px",
+   "deconstruction": "margin-bottom: 17px"
+ },
+ {
+   "token": "mb18",
+   "tokenValue": "18px",
+   "deconstruction": "margin-bottom: 18px"
+ },
+ {
+   "token": "mb19",
+   "tokenValue": "19px",
+   "deconstruction": "margin-bottom: 19px"
+ },
+ {
+   "token": "mb20",
+   "tokenValue": "20px",
+   "deconstruction": "margin-bottom: 20px"
+ },
+ {
+   "token": "mb21",
+   "tokenValue": "21px",
+   "deconstruction": "margin-bottom: 21px"
+ },
+ {
+   "token": "mb22",
+   "tokenValue": "22px",
+   "deconstruction": "margin-bottom: 22px"
+ },
+ {
+   "token": "mb23",
+   "tokenValue": "23px",
+   "deconstruction": "margin-bottom: 23px"
+ },
+ {
+   "token": "mb24",
+   "tokenValue": "24px",
+   "deconstruction": "margin-bottom: 24px"
+ },
+ {
+   "token": "mb25",
+   "tokenValue": "25px",
+   "deconstruction": "margin-bottom: 25px"
+ },
+ {
+   "token": "mb26",
+   "tokenValue": "26px",
+   "deconstruction": "margin-bottom: 26px"
+ },
+ {
+   "token": "mb27",
+   "tokenValue": "27px",
+   "deconstruction": "margin-bottom: 27px"
+ },
+ {
+   "token": "mb28",
+   "tokenValue": "28px",
+   "deconstruction": "margin-bottom: 28px"
+ },
+ {
+   "token": "mb29",
+   "tokenValue": "29px",
+   "deconstruction": "margin-bottom: 29px"
+ },
+ {
+   "token": "mb30",
+   "tokenValue": "30px",
+   "deconstruction": "margin-bottom: 30px"
+ },
+ {
+   "token": "mb31",
+   "tokenValue": "31px",
+   "deconstruction": "margin-bottom: 31px"
+ },
+ {
+   "token": "mb32",
+   "tokenValue": "32px",
+   "deconstruction": "margin-bottom: 32px"
+ }
+]

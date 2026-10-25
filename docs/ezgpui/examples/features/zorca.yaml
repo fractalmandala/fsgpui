@@ -1,0 +1,58 @@
+# =====================================================================
+# ezgpui features example — ZOrca
+# Pair of: ../zorca.yaml. Source: cases/zorca.md.
+# The ADE layer on a Zed hard fork. ade_session is the liftable gem: a
+# leaf crate with zero Zed deps — framing, proto, process supervision,
+# SSH with Windows job-object pinning, binary-identity deploy hashes.
+# =====================================================================
+
+app: zorca
+lineage: zed-hard-fork
+
+features:
+  agent_workspaces:             # worktree-per-agent so agents never share
+    state:                      # a checkout (the core ADE thesis)
+      rows: List<WorkspaceRow>
+      focused: WorkspaceId
+    commands:
+      spawn: { args: [agent_kind, project] }
+      focus: { args: [id] }
+      archive: { args: [id] }
+    sources: ["agent_workspaces.rows"]
+    views: ["workspace.active_surface"]
+
+  session_restore:              # everything comes back after restart
+    state: { restorable: List<Session> }
+    views: ["session.restore_list"]
+    persisted: zed-db
+
+  thread_terminals:             # agent terminals as first-class Zed
+    views:                      # terminals with thread metadata —
+      - "terminal.with_thread_metadata"   # no terminal wrapper
+    notes: thread/worktree metadata stores live beside the terminals
+
+  diff_staging:
+    commands:
+      open_diff: {}
+      stage_hunk: {}
+    views: ["workspace.diff"]
+
+  ssh_sessions:                 # ade_session — the leaf crate
+    integrations:
+      - kind: transport
+        ssh: true
+        windows_pin: job_object
+        deploy_check: binary_identity_hash   # both wire-ends compare hashes
+                                             # before trusting a remote binary
+    notes: no executor, no Zed crate — portable across hosts
+
+  agent_settings:
+    settings:
+      agents: { type: agent_kinds }   # claude, codex, …the CLIs you already use
+
+  skills:
+    state: { installed: List<Skill> }
+
+  palette:
+    commands:
+      show: { key: "cmd-shift-p" }

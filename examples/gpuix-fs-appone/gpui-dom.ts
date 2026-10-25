@@ -1,5 +1,6 @@
-import { GpuixRenderer, type EventPayload } from '@gpuix/native';
-import { parse_css_text, define_css_vars } from '../../vendor/gpuix-fractalsvelte/src/style.ts';
+import { GpuixRenderer, type EventPayload, type WindowOptions } from 'gpuix-fractalsvelte/native';
+import { build_style, define_css_vars } from 'gpuix-fractalsvelte';
+import type { ClassRule, Pseudo } from 'gpuix-fractalsvelte';
 import { createRequire } from 'node:module';
 
 // GPUI mutation tuple type
@@ -24,39 +25,60 @@ export function setEventFlush(fn: () => void) {
   onEventFlush = fn;
 }
 
-interface StoredRule {
-  selector: string;
-  classes: string[];
-  pseudo: 'hover' | 'active' | null;
-  decls: string;
-}
+type StoredRule = ClassRule & { order: number };
 
 const storedRules: StoredRule[] = [];
-export const classStyleRegistry = new Map<string, any>();
-export const hoverStyleRegistry = new Map<string, any>();
-export const activeStyleRegistry = new Map<string, any>();
+const warnedSelectors = new Set<string>();
 
-export function recomputeAllStyles() {
-  classStyleRegistry.clear();
-  hoverStyleRegistry.clear();
-  activeStyleRegistry.clear();
+const weight = (rule: StoredRule) => rule.classes.length * 2 + (rule.tag === null ? 0 : 1);
 
-  for (const r of storedRules) {
-    const parsed = parse_css_text(r.decls);
-    for (const cls of r.classes) {
-      if (r.pseudo === 'hover') {
-        const existing = hoverStyleRegistry.get(cls) || {};
-        hoverStyleRegistry.set(cls, { ...existing, ...parsed });
-      } else if (r.pseudo === 'active') {
-        const existing = activeStyleRegistry.get(cls) || {};
-        activeStyleRegistry.set(cls, { ...existing, ...parsed });
-      } else {
-        const existing = classStyleRegistry.get(cls) || {};
-        classStyleRegistry.set(cls, { ...existing, ...parsed });
-      }
-    }
+const closing = (css: string, open: number) => {
+  let depth = 0;
+  for (let i = open; i < css.length; i++) {
+    if (css[i] === '{') depth++;
+    else if (css[i] === '}' && --depth === 0) return i;
+  }
+  return -1;
+};
+
+function collect_blocks(css: string, out: Array<{ selector: string; body: string }>) {
+  let i = 0;
+  while (i < css.length) {
+    const open = css.indexOf('{', i);
+    if (open === -1) break;
+    const end = closing(css, open);
+    if (end === -1) break;
+    const pre = css.slice(i, open).trim();
+    const body = css.slice(open + 1, end);
+    if (/^@(media|supports|layer|container)\b/.test(pre)) collect_blocks(body, out);
+    else if (!pre.startsWith('@')) out.push({ selector: pre, body });
+    i = end + 1;
+  }
+}
+
+function compile_selector(selector: string): Pick<StoredRule, 'classes' | 'tag' | 'pseudo'> | null {
+  let s = selector.trim();
+  let pseudo: Pseudo = null;
+
+  const pseudo_match = /:(hover|active)$/.exec(s);
+  if (pseudo_match) {
+    pseudo = pseudo_match[1] as Pseudo;
+    s = s.slice(0, -pseudo_match[0].length);
   }
 
+  if (s === '*') return { classes: [], tag: null, pseudo };
+  if (s.includes(':') || /[>+~\s]/.test(s)) return null;
+
+  const match = /^([a-zA-Z][\w-]*)?((?:\.[\w-]+)*)$/.exec(s);
+  if (!match) return null;
+
+  const tag = match[1] ?? null;
+  const classes = (match[2].match(/\.[\w-]+/g) ?? []).map((c) => c.slice(1));
+  if (tag === null && classes.length === 0) return null;
+  return { classes, tag, pseudo };
+}
+
+export function recomputeAllStyles() {
   // Update style for every materialized element
   for (const node of nodesById.values()) {
     if (node instanceof GpuixElement && node.isMaterialized && node.nativeId !== null) {
@@ -67,28 +89,33 @@ export function recomputeAllStyles() {
 }
 
 export function registerCSS(cssCode: string) {
-  const ruleRegex = /([^{]+)\{([^}]+)\}/g;
-  let m;
-  while ((m = ruleRegex.exec(cssCode)) !== null) {
-    const rawSel = m[1].trim();
-    const decls = m[2].trim();
-    const isHover = rawSel.includes(':hover');
-    const isActive = rawSel.includes(':active');
-    const pseudo = isHover ? 'hover' : isActive ? 'active' : null;
+  const blocks: Array<{ selector: string; body: string }> = [];
+  collect_blocks(cssCode.replace(/\/\*[\s\S]*?\*\//g, ''), blocks);
 
-    const classMatches = rawSel.match(/\.([a-zA-Z0-9_-]+)/g);
-    if (classMatches) {
-      const classes: string[] = [];
-      for (const raw of classMatches) {
-        const cls = raw.slice(1);
-        if (cls.startsWith('svelte-')) continue;
-        classes.push(cls);
+  for (const block of blocks) {
+    if (block.body.includes('{')) {
+      if (!warnedSelectors.has(block.selector)) {
+        warnedSelectors.add(block.selector);
+        console.warn(`[gpui-dom] \`${block.selector}\` has nested CSS; only flat rules reach GPUI`);
       }
-      if (classes.length > 0) {
-        storedRules.push({ selector: rawSel, classes, pseudo, decls });
+      continue;
+    }
+
+    for (const part of block.selector.split(',')) {
+      const compiled = compile_selector(part);
+      if (!compiled) {
+        const selector = part.trim();
+        if (selector && !warnedSelectors.has(selector)) {
+          warnedSelectors.add(selector);
+          console.warn(`[gpui-dom] \`${selector}\` has no GPUI equivalent; only class and tag selectors, plus :hover/:active, reach GPUI`);
+        }
+        continue;
       }
+      storedRules.push({ ...compiled, css: block.body.trim(), order: storedRules.length });
     }
   }
+
+  storedRules.sort((a, b) => weight(a) - weight(b) || a.order - b.order);
   recomputeAllStyles();
 }
 
@@ -113,6 +140,32 @@ function isConnectedToRoot(node: GpuixNode | null): boolean {
     curr = curr.parentNode;
   }
   return false;
+}
+
+const PROP_ALIASES = new Map<string, string>([
+  ['objectfit', 'objectFit'],
+  ['testid', 'testId'],
+  ['minrows', 'minRows'],
+  ['maxrows', 'maxRows'],
+  ['showlinenumbers', 'showLineNumbers'],
+  ['autofocus', 'autoFocus'],
+  ['tabindex', 'tabIndex'],
+]);
+
+const prop_name = (name: string) => PROP_ALIASES.get(name.toLowerCase()) ?? name;
+
+/** Attribute names GPUI consumes itself rather than through `setCustomProp`. */
+const LOCAL_PROPS = new Set(['class', 'style', 'hover', 'active', 'hitbox', 'portal']);
+
+function apply_props(node: GpuixElement) {
+  if (node.nativeId === null) return;
+  const seen = new Set<string>();
+  for (const [key, value] of Object.entries(node.attributes)) {
+    const name = prop_name(key);
+    if (seen.has(name) || LOCAL_PROPS.has(name)) continue;
+    seen.add(name);
+    mutationQueue.push(['setCustomProp', node.nativeId, name, value]);
+  }
 }
 
 function materialize(node: GpuixNode) {
@@ -144,12 +197,8 @@ function materialize(node: GpuixNode) {
     // Apply styles
     node.updateComputedStyle();
 
-    // Apply custom properties / testId
-    for (const [k, v] of Object.entries(node.attributes)) {
-      if (k === 'testid' || k === 'testId') {
-        mutationQueue.push(['setCustomProp', node.nativeId, 'testId', v]);
-      }
-    }
+    // Forward attributes GPUI knows: img src/objectFit/alt, input value, testId, …
+    apply_props(node);
 
     // Apply listeners
     for (const evType of Object.keys(node.listeners)) {
@@ -375,7 +424,19 @@ export class GpuixElement extends GpuixNode {
     this.tagName = tagName.toUpperCase();
   }
 
+  /** Svelte's attribute setter reads `nodeName` to detect custom elements. */
+  get nodeName() {
+    return this.tagName;
+  }
+
   updateComputedStyle() {
+    const classAttr = this.attributes['class'] || '';
+    const classes = new Set(classAttr.split(/\s+/).filter(Boolean));
+    const tag = this.tagName.toLowerCase();
+    const rules = storedRules.filter(
+      (rule) => (rule.tag === null || rule.tag === tag) && rule.classes.every((cls) => classes.has(cls))
+    );
+
     let combined: any = {};
     if (this === g.document?.body) {
       combined = {
@@ -385,41 +446,8 @@ export class GpuixElement extends GpuixNode {
         position: 'relative'
       };
     }
-    const classAttr = this.attributes['class'] || '';
-    const classes = classAttr.split(/\s+/).filter(Boolean);
 
-    for (const cls of classes) {
-      if (classStyleRegistry.has(cls)) {
-        combined = { ...combined, ...classStyleRegistry.get(cls) };
-      }
-    }
-
-    let hoverCombined: any = null;
-    for (const cls of classes) {
-      if (hoverStyleRegistry.has(cls)) {
-        hoverCombined = { ...(hoverCombined || {}), ...hoverStyleRegistry.get(cls) };
-      }
-    }
-    if (hoverCombined && Object.keys(hoverCombined).length > 0) {
-      combined.hover = hoverCombined;
-    }
-
-    let activeCombined: any = null;
-    for (const cls of classes) {
-      if (activeStyleRegistry.has(cls)) {
-        activeCombined = { ...(activeCombined || {}), ...activeStyleRegistry.get(cls) };
-      }
-    }
-    if (activeCombined && Object.keys(activeCombined).length > 0) {
-      combined.active = activeCombined;
-    }
-
-    if (this.attributes['style']) {
-      const parsedInline = parse_css_text(this.attributes['style']);
-      combined = { ...combined, ...parsedInline };
-    }
-
-    this.style = combined;
+    this.style = { ...combined, ...build_style(this.attributes, rules) };
     if (this.isMaterialized && this.nativeId !== null) {
       mutationQueue.push(['setStyle', this.nativeId, this.style]);
     }
@@ -431,11 +459,9 @@ export class GpuixElement extends GpuixNode {
     if (name === 'style' || name === 'class') {
       this.updateComputedStyle();
       flushMutations();
-    } else if (name === 'testId' || name === 'testid') {
-      if (this.isMaterialized && this.nativeId !== null) {
-        mutationQueue.push(['setCustomProp', this.nativeId, 'testId', value]);
-        flushMutations();
-      }
+    } else if (this.isMaterialized && this.nativeId !== null) {
+      mutationQueue.push(['setCustomProp', this.nativeId, prop_name(name), value]);
+      flushMutations();
     }
   }
 
@@ -605,7 +631,13 @@ export async function ensureEventSymbol() {
   }
 }
 
-export function initGpuiDom(options: { width?: number; height?: number; title?: string } = {}) {
+export interface GpuiDomOptions extends WindowOptions {
+  width?: number;
+  height?: number;
+  title?: string;
+}
+
+export function initGpuiDom(options: GpuiDomOptions = {}) {
   const doc = new GpuixDocument();
 
   // Register globals before any Svelte imports execute
@@ -651,6 +683,7 @@ export function initGpuiDom(options: { width?: number; height?: number; title?: 
   });
 
   nativeRenderer.init({
+    ...options,
     title: options.title ?? 'GPUI Svelte 5',
     width: options.width ?? 640,
     height: options.height ?? 480

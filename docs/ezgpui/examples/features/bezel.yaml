@@ -1,0 +1,72 @@
+# =====================================================================
+# ezgpui features example — Bezel
+# Pair of: ../bezel.yaml. Source: cases/bezel.md.
+# Bezel is a library, not an app — its features are the gallery's:
+# mounting real components, theme machinery, and the visual-regression
+# harness. The manifest doubles as the crate map in feature form.
+# =====================================================================
+
+app: bezel
+lineage: bezel-gpui
+kind: library                  # not an app manifest — the catalog is the product
+
+features:
+  catalog:
+    state:
+      filter: String
+      active_section: SectionId
+    commands:
+      mount: { args: [section_id] }
+    sources: ["gallery.sections"]
+    views: ["gallery.section"]
+
+  theme:
+    state:
+      appearance: { enum: [light, dark] }   # light is designed, not inverted
+      brand: { tint: Color, accent: Color, radius: Px }
+    commands:
+      set_appearance: { args: [appearance] }
+      rebrand: {}              # Brand re-hue; lightness NOT a knob
+    notes: >-
+      appearance changes must cx.refresh_windows(), not notify() —
+      tokens are read imperatively at paint time.
+
+  icons:
+    settings:
+      categories: { type: multi_enum, values: [arrows, media, ui, …] }
+
+  docking:                      # ui::docking pane tiling
+    views: ["gallery.docking_demo"]
+    commands:
+      split: {}
+      drag_pane: {}
+
+  markdown:                     # flat block doc model; paintable windowless
+    settings:
+      highlighter: { default: tree_sitter, injectable: true }  # set_highlighter seam
+
+  terminal:
+    settings:
+      engine: alacritty
+      pty: host_supplied        # crate does NOT own the PTY (cydonia: portable-pty)
+
+  browser:
+    integrations: [{ kind: webview }]   # WKWebView/WebView2 above gpui; wasm → iframe
+
+  canvas:
+    settings:
+      node_kinds: registry      # canvas::Kinds — apps register their own
+
+  palette:
+    commands:
+      show: { key: "cmd-shift-p" }
+
+  visual_regression:            # apps/gallery doubles as the test harness
+    tasks:
+      run: { trigger: { manual: true }, runs: "harness.assert_frames" }
+    settings:
+      frame_count_assertions: { default: true }
+
+  web:
+    toggleable: true
+    notes: tree-sitter grammars excluded (C) — facade keeps them out on wasm

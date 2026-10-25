@@ -1,0 +1,61 @@
+# =====================================================================
+# ezgpui features example — Tailor
+# Pair of: ../tailor.yaml. Source: cases/tailor.md.
+# Interface Builder for Rust. The builder's own features, and the
+# catalog-as-single-source-of-truth rule: palette, canvas, and codegen
+# read one table. Ships an MCP server beside the executable.
+# =====================================================================
+
+app: tailor
+lineage: gpui-0.2.2
+
+features:
+  palette:
+    state: { filter: String }
+    sources: ["catalog.components"]     # from the guise/gpuikit catalog —
+    commands:                           # the same table drives canvas + codegen
+      search: { args: [query] }
+
+  canvas:
+    state:
+      document: TailorDoc       # node tree + tokens + state/actions (.tailor)
+      selection: NodeId
+    views: ["canvas.document"]
+    commands:
+      place: { args: [component_id] }   # drag seam, not a clone
+      delete: { key: "backspace" }
+
+  inspector:
+    state: { props: ComponentProps }
+    views: ["inspector.props", "inspector.state_actions", "inspector.auto_layout"]
+
+  codegen:                      # pure Rust generator; output is Tailor-free
+    state:
+      target_library: { enum: [guise, gpui_kit] }
+      preview: String
+    commands:
+      export_crate: {}
+    views: ["codegen.preview"]
+    notes: every decision comes from the catalog — a component cannot
+      render one way and generate another.
+
+  headless_build:               # tailordev --build project.tailor — CI
+    commands:
+      build: {}                 # compiles with no window
+    integrations: [{ kind: cli }]
+
+  run:
+    commands:
+      run: { key: "cmd-r" }     # compile + launch the generated crate
+
+  mcp_server:                   # the tool itself is agent-operable
+    mcp:
+      tools:
+        - "palette.list"
+        - "canvas.place"
+        - "inspector.set_prop"
+        - "codegen.export"
+    integrations: [{ kind: in_process }]
+
+  store:
+    persisted: tailor-file      # .tailor format; model crate is gpui-free

@@ -1,0 +1,209 @@
+# =====================================================================
+# ezgpui features example — MonoCode
+# Pair of: ../monocode.yaml. Source: REA of /Applications/MonoCode.app
+# 0.13.0 + monocode-main sources (react/tauri2 → gpui-kit port).
+#
+# The liftable gem: the Rust backend (monocode-lib, 58 modules) is
+# already gpui-free — sessions, checkpoints, harness spawn/SSE, PTY,
+# sqlite stores, control server, worktrees, integrations. It ports to
+# the GPUI app nearly verbatim; only tauri-runtime emissions move to
+# gpui entities/events. gpui-free core, gpui-only renderer — and here,
+# gpui-free backend too.
+#
+# Observed backend module map (demangled symbol census, 39k fns):
+#   run fs checkpoint harness azure_devops gitlab jira linear mono_chat
+#   quick_composer worktrees session_store automations notifications mono
+#   cursor_store mcp remote_ssh control chat_background notes remote
+#   reminders skills pty rate_limits search external_editor
+#   codex_mono_store mono_transcript harness_updates window macos …
+# =====================================================================
+
+app: monocode
+lineage: gpui-kit            # clean port; pinned gpui-kit = "0.7.3"
+
+features:
+  projects:                  # open folder = one project; logos; worktrees
+    state:
+      opened: List<Project>
+      active: ProjectId
+    commands:
+      open: { key: "cmd-o", menu: "File" }
+      reveal: { args: [path] }
+    tasks:
+      watch: { trigger: { event: "fs.change" }, runs: "worktree.rescan" }
+
+  sessions:                  # tabs are sessions; sqlite store
+    state:
+      list: { type: List<Session>, persisted: sqlite }   # session_store
+      active: SessionId
+      placement: PaneGrid    # split panes; window transfer moves tabs
+    commands:
+      new: { key: "cmd-t", menu: "File" }
+      close: { key: "cmd-w" }
+      close_others: { key: "cmd-shift-w" }
+      focus: { args: [id] }
+      transfer_to_window: {} # window_transfer.rs
+    views: ["pane.content", "session.restore_list"]
+    sources: ["sessions.rows", "panes.tabs", "panes.grid"]
+    persisted: sqlite
+
+  checkpoints:               # per-turn undo across the worktree
+    state: { per_session: Map<SessionId, Checkpoint> }
+    commands:
+      undo: { args: [session] }        # session_checkpoint_undo
+      apply: { args: [session, delta] }
+      file_diff: { args: [session] }
+    notes: checkpoint.rs — snapshot manifests; diffs feed the diff view
+
+  harness:                   # THE core: run installed agent CLIs
+    state:
+      available: List<Provider>        # claude, codex, cursor, grok,
+      active: ProviderId               # opencode, antigravity, pi, omp,
+                                       # fx, hermes, devin
+    commands:
+      switch_model: { key: "cmd-k" }
+      restart_session: {}
+      terminate: { args: [session] }
+    integrations:
+      - kind: child_process            # harness.rs: spawn + env login shell
+        spawn: true                    # reap_orphaned_harness_processes
+        stream: sse                    # harness_sse_open, batcher
+        which: path_probes             # fx/omp/pi/devin/claude path tables
+    tasks:
+      updates: { trigger: { interval: "6h" }, runs: "harness.check_updates" }
+    mcp:                               # claude mcp add/list/remove proxies
+      - "harness.mcp_sync"
+
+  approvals:                 # scope-based turn authorization
+    state: { pending: List<AccessRequest>, granted: Set<Scope> }
+    views: ["approvals.surface"]
+    commands:
+      authorize: { args: [scope, turn] }   # control_authorize_turn
+      deny: {}
+    notes: control.rs — local control service with scopes; /operator
+           agents request grants; ApprovalToasts + AccessPicker UI
+
+  monos:                     # experimental cross-project agents w/ memory
+    state:
+      rail: List<Mono>
+      chat: List<MonoTurn>
+      usage_limit: { persisted: sqlite }
+    commands:
+      chat: { menu: "Mono" }
+      schedule_task: { trigger: { args: [trigger] } }  # automations bridge
+    views: ["mono.rail_section"]
+    tasks:
+      session_completion: { trigger: { event: "turn.completed" } }
+    persisted: sqlite                        # codex_mono_store / transcripts
+
+  quick_composer:            # global popup capture-and-dispatch
+    state: { open: bool, mode: "prompt" | "git_branch" | "screenshot" }
+    commands:
+      toggle: { key: "shift-space", global: true }   # global-shortcut plugin
+      submit: {}                        # quick_composer_submit
+    notes: second webview window in original; multi-window L2 target
+
+  terminals:                 # project terminal dock
+    state:
+      tabs: List<TerminalTab>
+      layout: SplitGrid
+    commands:
+      new_tab: { key: "cmd-alt-t" }
+      split_right: { key: "cmd-alt-right" }
+      split_down: { key: "cmd-alt-down" }
+      focus: { args: [pane] }             # cmd-alt-up/down/left/right
+      toggle_dock: { key: "cmd-j" }
+    integrations:
+      - kind: child_process               # portable-pty vendored
+        pty: true
+    views: ["terminal.project_dock"]
+
+  search:
+    commands:
+      find_in_files: { key: "cmd-shift-f" }
+      go_to_file: { key: "cmd-p" }
+      focus: { key: "cmd-f" }
+    sources: ["search.results"]
+    views: ["search.overlay"]
+
+  inbox:                     # integration-driven task lists + CI repair
+    state: { items: List<InboxItem>, persisted: sqlite }
+    commands:
+      repair_ci: { args: [item] }         # ciRepairSessions
+      track: { args: [item] }
+    tasks:
+      sync: { trigger: { interval: "10m" }, runs: "inbox.sync" }
+    integrations:
+      - { kind: http, service: linear }
+      - { kind: http, service: jira }
+      - { kind: http, service: gitlab }
+      - { kind: http, service: azure_devops }
+
+  automations:               # scheduled runs with triggers
+    state: { list: { type: List<Automation>, persisted: sqlite } }
+    commands:
+      upsert: { args: [automation] }
+      run_now: { args: [id] }
+    tasks:
+      fire: { trigger: { event: "automation.trigger" }, runs: "automation.run" }
+
+  worktrees:                 # parallel tasks on separate checkouts
+    state: { per_project: Map<ProjectId, List<Worktree>> }
+    commands:
+      create: { args: [project, name] }
+      remove: { args: [worktree] }
+      close_others: {}                    # lifecycle on session close
+    tasks:
+      lifecycle: { trigger: { event: "session.closed" } }
+
+  reminders_notes_skills:
+    state:
+      reminders: { persisted: sqlite }
+      notes: { persisted: sqlite }
+      skills: { installed: List<Skill> }
+    commands:
+      create_reminder: {}
+      open_note: { args: [id] }
+    notes: reminders.rs timed turn dispatch; skills.rs shared with agents
+
+  remote_ssh:                # sessions on another machine
+    state: { targets: List<RemoteTarget>, connected: RemoteTarget? }
+    commands:
+      connect: { args: [target] }
+      run_script: { args: [script] }
+    integrations:
+      - kind: transport                   # remote_ssh.rs pairing/upgrade
+        ssh: true                         # scripts; installs monocode-host
+        host_binary: monocode-host        # on the remote; askpass helper
+    notes: pairing_script + upgrade_script + binary identity hashes
+
+  usage:
+    state: { meter_line: string, limits: Map<Provider, Window> }
+    tasks:
+      poll: { trigger: { interval: "5m" }, runs: "usage.refresh" }
+    notes: pi/devin/codex/claude usage + rate_limit windows; blocked-
+           account resume/switch flows surfaced in the meter
+
+  shell:                     # chrome-level parity
+    commands:
+      toggle_sidebar: { key: "cmd-b" }
+      toggle_session_sidebar: { key: "cmd-shift-b" }
+      palette: { key: "cmd-shift-p" }
+      settings: { key: "cmd-," }
+    tasks:
+      updater: { trigger: { event: "startup" }, runs: "update.check" }
+    toggleable: true
+    notes: tray icon, event hotkeys (Carbon), window state restore,
+           background blur, notification center — macos.rs family
+
+  files:                     # file editor + diff/merge in-pane
+    state: { open: Map<Path, EditorState> }
+    views: ["pane.content.diff"]
+    notes: CodeMirror 6 + merge in original → gpui editor components;
+           autosave, external editor hand-off
+
+  settings:
+    state: { schema: SettingsSchema, persisted: sqlite }
+    settings:
+      providers: { type: provider_kinds }
+      capability_toggles: { type: runtime_toggles }

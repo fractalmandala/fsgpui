@@ -1,0 +1,79 @@
+# =====================================================================
+# ezgpui features example — IDE (/Users/amrit/projectguppy/IDE-ide)
+# Pair of: ../ide.yaml. Source: the app itself.
+# A Zed-based debloated IDE: BYOK AI with direct provider connections,
+# integrated browser preview (alt-b), zero telemetry, ~/.ide config.
+# =====================================================================
+
+app: ide
+lineage: zed-hard-fork
+
+read_only_integrations: false
+
+features:
+  editor:
+    state:
+      active_tab: TabId
+      open_tabs: List<Tab>
+      cursor_position: String
+    views: ["editor.active", "editor.tabs"]
+    commands:
+      save: { key: "cmd-s" }
+      close_tab: { key: "cmd-w" }
+
+  file_tree:
+    views: ["project.tree"]
+
+  terminal:
+    views: ["dock.terminal"]
+
+  diagnostics:
+    state: { counts: String }
+    views: ["status.diagnostics"]
+
+  lsp:
+    tasks:
+      health: { trigger: { interval: 30s }, runs: "lsp.ping" }
+    views: ["status.lsp"]
+
+  git:
+    state: { branch: String }
+    views: ["status.git"]
+
+  agent_panel:                  # BYOK — the headline feature
+    state:
+      open: true
+      draft: String
+      model: ModelId
+    commands:
+      toggle: { key: "cmd-j" }
+      submit: { key: "enter" }
+    settings:                   # settings.json language_models block —
+      providers:                # the schema IS the feature surface
+        anthropic: { api_url: "https://api.anthropic.com" }
+        openai: { api_url: "https://api.openai.com/v1" }
+        ollama: { api_url: "http://localhost:11434" }
+        openrouter: {}
+        deepseek: {}
+        mistral: {}
+        bedrock: {}
+        google: {}
+      keys_via: env_or_keychain  # BYOK: user's own keys, no broker
+    views: ["agent_panel.thread"]
+
+  browser_preview:              # integrated browser tab; alt-b / cmd-k b
+    toggleable: true
+    state: { open: false, url: "http://localhost:3000" }
+    commands:
+      toggle: { key: "alt-b", args: [] }
+    views: ["preview.browser"]
+
+  palette:
+    commands:
+      show: { key: "cmd-p" }
+
+  settings:
+    settings:
+      telemetry: { default: false, locked: true }   # zero telemetry, by design
+      edit_predictions: {}
+      dir: "~/.ide"
